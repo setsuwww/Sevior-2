@@ -214,7 +214,7 @@ export default function UserActions({
             <AlertDialogDescription className="space-y-2">
               <p>Are you sure you want to delete this user?</p>
               <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
-                <p className="font-medium text-gray-900 dark:text-gray-100">{user.Name}</p>
+                <p className="font-medium text-gray-900 dark:text-gray-100">{user.FullName}</p>
                 <p className="text-sm text-gray-500 dark:text-gray-400">{user.Email}</p>
                 <p className="text-xs text-gray-400 mt-1">Role: {user.Role}</p>
               </div>
@@ -265,7 +265,7 @@ export default function UserActions({
                 Are you sure you want to {user.IsActive ? 'deactivate' : 'activate'} this user?
               </p>
               <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800">
-                <p className="font-medium text-gray-900 dark:text-gray-100">{user.Name}</p>
+                <p className="font-medium text-gray-900 dark:text-gray-100">{user.FullName}</p>
                 <p className="text-sm text-gray-500 dark:text-gray-400">{user.Email}</p>
                 <div className="flex items-center gap-2 mt-2">
                   <span className="text-xs text-gray-500">Current Status:</span>

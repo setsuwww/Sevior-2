@@ -1,59 +1,83 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { UserService } from "@/_lib/services/user_service";
-import { User } from "@/types/User";
+import { User, PlatformRole } from "@/types/User";
 import UserHeader from "./user-header";
 import UserTable from "./user-table";
 import AdminLayout from "@/_components/common/dashboard-layouts/AdminLayout";
+import { Card, CardContent } from "@/_components/ui/card";
+import { Users as UsersIcon, UserCheck, UserX } from "lucide-react";
+import { Button } from "@/_components/ui/button";
 
-export default function UsersPage() {
+interface UserPageProps {
+  role?: PlatformRole;
+  title?: string;
+  description?: string;
+}
+
+export default function UserPage({ role, title = "Users", description = "Manage all users in the system" }: UserPageProps) {
   const router = useRouter();
   const userService = new UserService();
 
   const [users, setUsers] = useState<User[]>([]);
-  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
+  
+  // Pagination & Filters
+  const [page, setPage] = useState(1);
+  const limit = 10;
   const [searchQuery, setSearchQuery] = useState("");
-  const [roleFilter, setRoleFilter] = useState("all");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 
-  const fetchUsers = async () => {
+  // Stats
+  const [stats, setStats] = useState({ total: 0, active: 0, inactive: 0 });
+
+  // Debounce search query
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+      setPage(1); // Reset page on new search
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
+  const fetchUsers = useCallback(async () => {
     setLoading(true);
-    const data = await userService.getAll();
-    setUsers(data);
-    setFilteredUsers(data);
-    setLoading(false);
-  };
+    try {
+      const res = await userService.getAll({
+        page,
+        limit,
+        role,
+        search: debouncedSearch || undefined,
+      });
+      
+      let fetchedUsers = res.data;
+      
+      // Client-side status filtering if backend doesn't support it yet
+      if (statusFilter !== "all") {
+        const isActive = statusFilter === "active";
+        fetchedUsers = fetchedUsers.filter(u => u.IsActive === isActive);
+      }
+
+      setUsers(fetchedUsers);
+      setStats({
+        total: res.meta.total || 0,
+        active: res.meta.active || 0,
+        inactive: res.meta.inactive || 0,
+      });
+    } catch (err) {
+      console.error("Failed to fetch users", err);
+    } finally {
+      setLoading(false);
+    }
+  }, [page, limit, role, debouncedSearch, statusFilter]);
 
   useEffect(() => {
     fetchUsers();
-  }, []);
-
-  useEffect(() => {
-    let filtered = [...users];
-
-    if (searchQuery) {
-      filtered = filtered.filter(
-        user =>
-          user.Name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          user.Email.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    if (roleFilter !== "all") {
-      filtered = filtered.filter(user => user.Role === roleFilter);
-    }
-
-    if (statusFilter !== "all") {
-      const isActive = statusFilter === "active";
-      filtered = filtered.filter(user => user.IsActive === isActive);
-    }
-
-    setFilteredUsers(filtered);
-  }, [searchQuery, roleFilter, statusFilter, users]);
+  }, [fetchUsers]);
 
   const toggleSelect = (id: number) => {
     setSelectedIds(prev =>
@@ -62,8 +86,8 @@ export default function UsersPage() {
   };
 
   const toggleSelectAll = () => {
-    if (selectedIds.length === filteredUsers.length) setSelectedIds([]);
-    else setSelectedIds(filteredUsers.map(u => u.ID));
+    if (selectedIds.length === users.length && users.length > 0) setSelectedIds([]);
+    else setSelectedIds(users.map(u => u.ID));
   };
 
   const handleDeleteSelected = async () => {
@@ -77,7 +101,7 @@ export default function UsersPage() {
   };
 
   const handleDeleteAll = async () => {
-    if (!confirm(`Delete all ${users.length} users?`)) return;
+    if (!confirm(`Delete all users in this view?`)) return;
 
     for (const user of users) {
       await userService.delete(user.ID);
@@ -100,40 +124,99 @@ export default function UsersPage() {
     console.log("Exporting:", dataToExport);
   };
 
-  const roleOptions = [
-    { label: "All Roles", value: "all" },
-    { label: "Super Admin", value: "SUPER_ADMIN" },
-    { label: "Admin", value: "ADMIN" },
-    { label: "Project Manager", value: "PROJECT_MANAGER" },
-    { label: "Developer", value: "DEVELOPER" },
-    { label: "Client", value: "CLIENT" },
-  ];
-
   const statusOptions = [
     { label: "All Status", value: "all" },
     { label: "Active", value: "active" },
     { label: "Inactive", value: "inactive" },
   ];
 
-  const onFilterRole = (val: string) => setRoleFilter(val);
-  const onFilterStatus = (val: string) => setStatusFilter(val);
-
   return (
     <AdminLayout>
       <div className="max-w-10xl mx-auto space-y-6">
-        <UserHeader selectedCount={selectedIds.length} totalCount={users.length}
+        
+        {/* Statistics Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <Card>
+            <CardContent className="p-6 flex items-center gap-4">
+              <div className="p-3 bg-teal-100 text-teal-700 rounded-lg">
+                <UsersIcon size={24} />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 font-medium">Total Users</p>
+                <h3 className="text-2xl font-bold">{stats.total}</h3>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-6 flex items-center gap-4">
+              <div className="p-3 bg-green-100 text-green-700 rounded-lg">
+                <UserCheck size={24} />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 font-medium">Active Users</p>
+                <h3 className="text-2xl font-bold">{stats.active}</h3>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-6 flex items-center gap-4">
+              <div className="p-3 bg-red-100 text-red-700 rounded-lg">
+                <UserX size={24} />
+              </div>
+              <div>
+                <p className="text-sm text-gray-500 font-medium">Inactive Users</p>
+                <h3 className="text-2xl font-bold">{stats.inactive}</h3>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <UserHeader 
+          title={title}
+          description={description}
+          selectedCount={selectedIds.length} 
+          totalCount={stats.total}
           onSearch={setSearchQuery}
-          roleOptions={roleOptions} roleFilter={roleFilter} onFilterRole={onFilterRole}
-          statusOptions={statusOptions} statusFilter={statusFilter} onFilterStatus={onFilterStatus}
-          onExport={handleExport} onDeleteSelected={handleDeleteSelected} onDeleteAll={handleDeleteAll}
-          onAddUser={() => router.push("/admin/users/create")}
+          statusOptions={statusOptions} 
+          statusFilter={statusFilter} 
+          onFilterStatus={setStatusFilter}
+          onExport={handleExport} 
+          onDeleteSelected={handleDeleteSelected} 
+          onDeleteAll={handleDeleteAll}
+          onAddUser={() => router.push("/dashboard/admin/users/create")}
         />
 
         <UserTable
-          users={filteredUsers} selectedIds={selectedIds} loading={loading}
+          users={users} selectedIds={selectedIds} loading={loading}
           onToggleSelect={toggleSelect} onToggleSelectAll={toggleSelectAll}
           onDelete={handleDelete}
         />
+
+        {/* Pagination Controls */}
+        <div className="flex items-center justify-between border-t pt-4">
+          <p className="text-sm text-gray-500">
+            Showing {users.length} users. Total: {stats.total}
+          </p>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={page === 1 || loading}
+              onClick={() => setPage(p => p - 1)}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={users.length < limit || loading}
+              onClick={() => setPage(p => p + 1)}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+
       </div>
     </AdminLayout>
   );

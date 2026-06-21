@@ -11,9 +11,8 @@ interface UserHeaderProps {
 
   onSearch: (query: string) => void;
 
-  roleOptions: FilterOption[];
-  roleFilter: string;
-  onFilterRole: (val: string) => void;
+  title?: string;
+  description?: string;
 
   statusOptions: FilterOption[];
   statusFilter: string;
@@ -28,7 +27,7 @@ interface UserHeaderProps {
 export default function UserHeader({
   selectedCount, totalCount,
   onSearch,
-  roleOptions, roleFilter, onFilterRole,
+  title = "Users", description = "Manage and organize your users",
   statusOptions, statusFilter, onFilterStatus,
   onExport, onDeleteSelected, onDeleteAll, onAddUser,
 }: UserHeaderProps) {
@@ -36,8 +35,8 @@ export default function UserHeader({
     <div className="space-y-4">
       <PageHeader
         icon={Users}
-        title="Users"
-        description="Manage and organize your users"
+        title={title}
+        description={description}
         action={{ label: "Add User", onClick: onAddUser }}
       />
 
@@ -45,7 +44,6 @@ export default function UserHeader({
         searchPlaceholder="Search users..."
         onSearch={onSearch}
         filters={[
-          { label: "Role", options: roleOptions, value: roleFilter, onChange: onFilterRole },
           { label: "Status", options: statusOptions, value: statusFilter, onChange: onFilterStatus },
         ]}
         actions={[

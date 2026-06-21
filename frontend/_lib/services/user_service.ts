@@ -11,12 +11,15 @@ export class UserService {
     this.apiUrl = baseUrl || process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
   }
 
-  async getAll(): Promise<User[]> {
+  async getAll(params?: { page?: number; limit?: number; role?: string; search?: string }): Promise<{ data: User[], meta: any }> {
     const res = await axios.get(`${this.apiUrl}/admin/users`, {
       headers: authService.getAuthHeader(),
+      params,
     });
-    console.log(authService.getAuthHeader())
-    return res.data.data || [];
+    return {
+      data: res.data.data || [],
+      meta: res.data.meta || {},
+    };
   }
 
   async getById(id: number): Promise<User | null> {

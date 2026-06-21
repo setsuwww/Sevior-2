@@ -20,8 +20,14 @@ const menus = [
   },
   {
     name: "Users",
-    href: "/dashboard/admin/users",
     icon: Users,
+    submenus: [
+      { name: "All Users", href: "/dashboard/admin/users" },
+      { name: "Super Admins", href: "/dashboard/admin/users/super-admins" },
+      { name: "Admins", href: "/dashboard/admin/users/admins" },
+      { name: "Developers", href: "/dashboard/admin/users/developers" },
+      { name: "Clients", href: "/dashboard/admin/users/clients" },
+    ],
   },
   {
     name: "Projects",
@@ -65,13 +71,43 @@ export default function AdminSidebar() {
       {/* Navigation */}
       <nav className="flex-1 px-3 py-4 space-y-1">
         {menus.map((menu) => {
-          const isActive = pathname === menu.href;
           const Icon = menu.icon;
+          
+          if (menu.submenus) {
+            const isAnyActive = menu.submenus.some((sub) => pathname === sub.href);
+            return (
+              <div key={menu.name} className="space-y-1">
+                <div className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium ${isAnyActive ? "text-teal-800" : "text-gray-600"}`}>
+                  <Icon size={18} className={isAnyActive ? "text-teal-600" : "text-gray-400"} />
+                  {menu.name}
+                </div>
+                <div className="pl-9 space-y-1">
+                  {menu.submenus.map((sub) => {
+                    const isSubActive = pathname === sub.href;
+                    return (
+                      <Link
+                        key={sub.href}
+                        href={sub.href}
+                        className={`block px-3 py-2 rounded-lg text-sm transition-all duration-200 ${
+                          isSubActive
+                            ? "bg-teal-50 text-teal-800 font-medium"
+                            : "text-gray-500 hover:bg-gray-100 hover:text-gray-900"
+                        }`}
+                      >
+                        {sub.name}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          }
 
+          const isActive = pathname === menu.href;
           return (
             <Link
-              key={menu.href}
-              href={menu.href}
+              key={menu.name}
+              href={menu.href as string}
               className={`
                 flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
                 transition-all duration-200

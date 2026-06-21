@@ -18,6 +18,8 @@ type UserController struct {
 func (u *UserController) GetUsers(c *gin.Context) {
 	page, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
 	limit, _ := strconv.Atoi(c.DefaultQuery("limit", "10"))
+	role := c.Query("role")
+	search := c.Query("search")
 
 	if page < 1 {
 		page = 1
@@ -28,13 +30,28 @@ func (u *UserController) GetUsers(c *gin.Context) {
 
 	offset := (page - 1) * limit
 
+	query := u.DB.Model(&models.User{})
+
+	if role != "" {
+		query = query.Where("role = ?", role)
+	}
+
+	if search != "" {
+		searchQuery := "%" + search + "%"
+		query = query.Where("full_name ILIKE ? OR email ILIKE ?", searchQuery, searchQuery)
+	}
+
+	var total, active, inactive int64
+	// PostgreSQL aggregate to get counts efficiently
+	query.Select("count(*) as total, COALESCE(sum(case when is_active = true then 1 else 0 end), 0) as active, COALESCE(sum(case when is_active = false or is_active is null then 1 else 0 end), 0) as inactive").
+		Row().Scan(&total, &active, &inactive)
+
 	var users []models.User
-	var total int64
 
-	u.DB.Model(&models.User{}).Count(&total)
+	// Reset Select because we changed it for the Count
+	query = query.Select("id", "full_name", "email", "role", "is_active", "created_at")
 
-	if err := u.DB.
-		Select("id", "full_name", "email", "role", "is_active", "created_at").
+	if err := query.
 		Limit(limit).
 		Offset(offset).
 		Order("created_at DESC").
@@ -47,9 +64,11 @@ func (u *UserController) GetUsers(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"data": users,
 		"meta": gin.H{
-			"page":  page,
-			"limit": limit,
-			"total": total,
+			"page":     page,
+			"limit":    limit,
+			"total":    total,
+			"active":   active,
+			"inactive": inactive,
 		},
 	})
 }

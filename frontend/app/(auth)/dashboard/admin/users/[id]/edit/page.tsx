@@ -25,7 +25,7 @@ export default function UserEditPage() {
 
   return (
     <div>
-      <h1>Edit User {user.Name}</h1>
+      <h1>Edit User {user.FullName}</h1>
       {/* form update */}
     </div>
   );
