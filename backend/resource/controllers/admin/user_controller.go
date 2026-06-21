@@ -49,7 +49,7 @@ func (u *UserController) GetUsers(c *gin.Context) {
 	var users []models.User
 
 	// Reset Select because we changed it for the Count
-	query = query.Select("id", "full_name", "email", "role", "is_active", "created_at")
+	query = query.Select("id", "full_name", "email", "phone", "role", "is_active", "created_at", "updated_at")
 
 	if err := query.
 		Limit(limit).
@@ -82,7 +82,7 @@ func (u *UserController) GetUser(c *gin.Context) {
 
 	var user models.User
 	if err := u.DB.
-		Select("id", "full_name", "email", "role", "is_active", "created_at", "updated_at").
+		Select("id", "full_name", "email", "phone", "role", "is_active", "created_at", "updated_at").
 		First(&user, id).Error; err != nil {
 
 		if err == gorm.ErrRecordNotFound {
@@ -103,6 +103,7 @@ func (u *UserController) CreateUser(c *gin.Context) {
 		Email    string `json:"email" binding:"required,email"`
 		Password string `json:"password" binding:"required,min=6"`
 		Role     string `json:"role"`
+		Phone    string `json:"phone"`
 	}
 
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -114,6 +115,7 @@ func (u *UserController) CreateUser(c *gin.Context) {
 	user := models.User{
 		FullName: input.FullName,
 		Email:    input.Email,
+		Phone:    input.Phone,
 		Password: utils.HashPassword(input.Password),
 		Role:     input.Role,
 		IsActive: &isActive,
@@ -154,6 +156,7 @@ func (u *UserController) UpdateUser(c *gin.Context) {
 	var input struct {
 		FullName *string `json:"full_name"`
 		Email    *string `json:"email"`
+		Phone    *string `json:"phone"`
 		Role     *string `json:"role"`
 		IsActive *bool   `json:"isActive"`
 		Password *string `json:"password"`
@@ -169,6 +172,9 @@ func (u *UserController) UpdateUser(c *gin.Context) {
 	}
 	if input.Email != nil {
 		user.Email = *input.Email
+	}
+	if input.Phone != nil {
+		user.Phone = *input.Phone
 	}
 	if input.Role != nil {
 		user.Role = *input.Role

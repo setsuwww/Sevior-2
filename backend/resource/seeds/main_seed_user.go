@@ -11,10 +11,10 @@ import (
 
 func UsersSeed(db *gorm.DB) {
 	users := []models.User{
-		{FullName: "Super Admin", Email: "superadmin@example.com", Role: models.RoleSuperAdmin, Password: "password123"},
-		{FullName: "Admin", Email: "admin@example.com", Role: models.RoleAdmin, Password: "password123"},
-		{FullName: "Developer", Email: "developer@example.com", Role: models.RoleDeveloper, Password: "password123"},
-		{FullName: "Client", Email: "client@example.com", Role: models.RoleClient, Password: "password123"},
+		{FullName: "Super Admin", Email: "superadmin@example.com", Phone: "+6280000000", Role: models.RoleSuperAdmin, Password: "password123"},
+		{FullName: "Admin", Email: "admin@example.com", Phone: "+6280000000", Role: models.RoleAdmin, Password: "password123"},
+		{FullName: "Developer", Email: "developer@example.com", Phone: "+6280000000", Role: models.RoleDeveloper, Password: "password123"},
+		{FullName: "Client", Email: "client@example.com", Phone: "+6280000000", Role: models.RoleClient, Password: "password123"},
 	}
 
 	for _, u := range users {
