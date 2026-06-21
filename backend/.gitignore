@@ -1,0 +1,7 @@
+# production
+
+/build
+
+.DS_Store
+
+.env*
