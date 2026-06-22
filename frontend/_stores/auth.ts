@@ -15,8 +15,9 @@ export interface User {
 
 interface AuthState {
   token: string | null;
+  refreshToken: string | null;
   user: User | null;
-  setAuth: (token: string, user: User) => void;
+  setAuth: (token: string, refreshToken: string, user: User) => void;
   resetAuth: () => void;
   restoreAuth: () => void;
   fetchCurrentUser: () => Promise<User | null>;
@@ -24,20 +25,23 @@ interface AuthState {
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   token: null,
+  refreshToken: null,
   user: null,
 
-  setAuth: (token, user) => {
-    set({ token, user });
+  setAuth: (token, refreshToken, user) => {
+    set({ token, refreshToken, user });
     if (typeof window !== "undefined") {
-      localStorage.setItem("token", token);
+      localStorage.setItem("accessToken", token);
+      localStorage.setItem("refreshToken", refreshToken);
       localStorage.setItem("user", JSON.stringify(user));
     }
   },
 
   resetAuth: () => {
-    set({ token: null, user: null });
+    set({ token: null, refreshToken: null, user: null });
     if (typeof window !== "undefined") {
-      localStorage.removeItem("token");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       localStorage.removeItem("user");
     }
   },
@@ -45,7 +49,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   restoreAuth: async (): Promise<User | null> => {
     if (typeof window === "undefined") return null;
 
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
     let user: User | null = null;
 
     try {
@@ -58,15 +63,15 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       localStorage.removeItem("user");
     }
 
-    if (token && user) {
-      set({ token, user });
-      return user; // <-- kembalikan User
+    if (token && refreshToken && user) {
+      set({ token, refreshToken, user });
+      return user; 
     }
     return null;
   },
 
   fetchCurrentUser: async () => {
-    const token = getToken();
+    const token = localStorage.getItem("accessToken");
     if (!token) return null;
 
     try {
@@ -77,7 +82,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       if (!res.data || !res.data.user) return null;
 
       const { ID, FullName, Email, Role } = res.data.user;
-      get().setAuth(token, { ID, FullName, Email, Role });
+      get().setAuth(token, get().refreshToken || "", { ID, FullName, Email, Role });
       return { ID, FullName, Email, Role  };
     } catch (err) {
       console.error("Failed to fetch current user:", err);
@@ -87,8 +92,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 }));
 
-// Helper untuk Authorization header
 export const getAuthHeader = () => {
-  const token = useAuthStore.getState().token;
+  if (typeof window === "undefined") return {};
+  const token = localStorage.getItem("accessToken");
   return token ? { Authorization: `Bearer ${token}` } : {};
 };

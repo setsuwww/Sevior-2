@@ -22,12 +22,15 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		AllowCredentials: true,
 	}))
 
-	r.POST("/register", func(c *gin.Context) { controllers.Register(c, db) })
-	r.POST("/login", func(c *gin.Context) { controllers.Login(c, db) })
+	authPublic := r.Group("/auth")
+	authPublic.POST("/register/client", func(c *gin.Context) { controllers.RegisterClient(c, db) })
+	authPublic.POST("/register/agency", func(c *gin.Context) { controllers.RegisterAgency(c, db) })
+	authPublic.POST("/login", func(c *gin.Context) { controllers.Login(c, db) })
+	authPublic.POST("/refresh", func(c *gin.Context) { controllers.RefreshToken(c, db) })
 
-	auth := r.Group("/auth")
-	auth.Use(middleware.AuthMiddleware(db))
-	auth.GET("/me", controllers.Me)
+	authProtected := r.Group("/auth")
+	authProtected.Use(middleware.AuthMiddleware(db))
+	authProtected.GET("/me", controllers.Me)
 
 	adminGroup := r.Group("/admin")
 	adminGroup.Use(middleware.AuthMiddleware(db), middleware.RoleMiddleware(

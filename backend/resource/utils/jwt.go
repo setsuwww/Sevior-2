@@ -12,7 +12,19 @@ func GenerateToken(userID uint, role string) (string, error) {
 	claims := jwt.MapClaims{
 		"user_id": userID,
 		"role":    role,
-		"exp":     time.Now().Add(time.Hour * 24).Unix(), // 1 hari
+		"type":    "access",
+		"exp":     time.Now().Add(time.Hour * 1).Unix(), // 1 hour
+	}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString(jwtKey)
+}
+
+func GenerateRefreshToken(userID uint, role string) (string, error) {
+	claims := jwt.MapClaims{
+		"user_id": userID,
+		"role":    role,
+		"type":    "refresh",
+		"exp":     time.Now().Add(time.Hour * 24 * 7).Unix(), // 7 days
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(jwtKey)

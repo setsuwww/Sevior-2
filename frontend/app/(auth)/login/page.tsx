@@ -21,8 +21,19 @@ export default function LoginPage() {
         e.preventDefault();
         setLoading(true);
         try {
-            await authService.login(form);
-            router.push("/dashboard");
+            const res = await authService.login(form);
+            const userRole = res.user.Role;
+            if (userRole === "SUPER_ADMIN") {
+                router.push("/dashboard/superadmin");
+            } else if (userRole === "ADMIN") {
+                router.push("/dashboard/admin");
+            } else if (userRole === "DEVELOPER") {
+                router.push("/dashboard/developer");
+            } else if (userRole === "CLIENT") {
+                router.push("/dashboard/client");
+            } else {
+                router.push("/dashboard");
+            }
         } catch (err: any) {
             alert(err.response?.data?.error || err.message);
         } finally {

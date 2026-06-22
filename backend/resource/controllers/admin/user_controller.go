@@ -122,7 +122,16 @@ func (u *UserController) CreateUser(c *gin.Context) {
 	}
 
 	if user.Role == "" {
-		user.Role = models.RoleClient
+		user.Role = models.RoleDeveloper
+	}
+
+	// Assign AgencyID from current Admin user
+	currentUserIface, exists := c.Get("currentUser")
+	if exists {
+		adminUser := currentUserIface.(models.User)
+		if adminUser.AgencyID != nil {
+			user.AgencyID = adminUser.AgencyID
+		}
 	}
 
 	if err := u.DB.Create(&user).Error; err != nil {
