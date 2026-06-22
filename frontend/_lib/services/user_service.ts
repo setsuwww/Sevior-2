@@ -1,6 +1,6 @@
 "use client";
 
-import axios from "axios";
+import { axiosInstance } from "../axiosInstance";
 import { authService } from "../auth";
 import { CreateUserPayload, UpdateUserPayload, User } from "@/types/User";
 
@@ -12,7 +12,7 @@ export class UserService {
   }
 
   async getAll(params?: { page?: number; limit?: number; role?: string; search?: string }): Promise<{ data: User[], meta: any }> {
-    const res = await axios.get(`${this.apiUrl}/admin/users`, {
+    const res = await axiosInstance.get(`/admin/users`, {
       headers: authService.getAuthHeader(),
       params,
     });
@@ -24,7 +24,7 @@ export class UserService {
 
   async getById(id: number): Promise<User | null> {
     try {
-      const res = await axios.get(`${this.apiUrl}/admin/users/${id}`, {
+      const res = await axiosInstance.get(`/admin/users/${id}`, {
         headers: authService.getAuthHeader(),
       });
       return res.data.user;
@@ -34,49 +34,34 @@ export class UserService {
     }
   }
 
-  async create(payload: CreateUserPayload): Promise<User | null> {
-    try {
-      const res = await axios.post(`${this.apiUrl}/admin/users`, payload, {
-        headers: authService.getAuthHeader(),
-      });
-      return res.data.user;
-    } catch (err) {
-      console.error("Failed to create user:", err);
-      return null;
-    }
+  async create(payload: CreateUserPayload): Promise<User> {
+    const res = await axiosInstance.post(`/admin/users`, payload, {
+      headers: authService.getAuthHeader(),
+    });
+    return res.data;
   }
 
   // Update user
-  async update(id: number, payload: UpdateUserPayload): Promise<User | null> {
-    try {
-      const res = await axios.put(`${this.apiUrl}/admin/users/${id}`, payload, {
-        headers: authService.getAuthHeader(),
-      });
-      return res.data.user;
-    } catch (err) {
-      console.error("Failed to update user:", err);
-      return null;
-    }
+  async update(id: number, payload: UpdateUserPayload): Promise<User> {
+    const res = await axiosInstance.put(`/admin/users/${id}`, payload, {
+      headers: authService.getAuthHeader(),
+    });
+    return res.data;
   }
 
   // Delete user
   async delete(id: number): Promise<boolean> {
-    try {
-      await axios.delete(`${this.apiUrl}/admin/users/${id}`, {
-        headers: authService.getAuthHeader(),
-      });
-      return true;
-    } catch (err) {
-      console.error("Failed to delete user:", err);
-      return false;
-    }
+    await axiosInstance.delete(`/admin/users/${id}`, {
+      headers: authService.getAuthHeader(),
+    });
+    return true;
   }
 
-  async activate(id: number): Promise<User | null> {
+  async activate(id: number): Promise<User> {
     return this.update(id, { isActive: true });
   }
 
-  async deactivate(id: number): Promise<User | null> {
+  async deactivate(id: number): Promise<User> {
     return this.update(id, { isActive: false });
   }
 }
