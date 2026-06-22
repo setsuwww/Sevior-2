@@ -125,7 +125,7 @@ export default function SuperAdminSidebarLayout({ children }: { children: React.
                                 </button>
 
                                 {isOpen && (
-                                    <div className="pl-12 pr-4 py-1 space-y-1">
+                                    <div className="border-l-2 border-0 pl-2 ml-12.5 pr-4 py-1 space-y-1">
                                         {item.child.map((subItem) => {
                                             const isSubActive = pathname === subItem.link || pathname.startsWith(subItem.link + '/');
                                             return (

@@ -67,7 +67,7 @@ export const superadminLink = [
             },
             {
                 link: "/dashboard/superadmin/settings/subscription",
-                label: "Subscription & Payments",
+                label: "Subscription",
             }
         ],
         icon: Settings

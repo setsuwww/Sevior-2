@@ -1,7 +1,7 @@
 "use client";
 
-import { axiosInstance } from "../axiosInstance";
-import { authService } from "../auth";
+import { axiosInstance } from "../../axiosInstance";
+import { authService } from "../../auth";
 import { CreateUserPayload, UpdateUserPayload, User } from "@/types/User";
 
 export class UserService {
