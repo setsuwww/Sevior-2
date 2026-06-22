@@ -32,6 +32,15 @@ func (u *UserController) GetUsers(c *gin.Context) {
 
 	query := u.DB.Model(&models.User{})
 
+	// Agency Isolation: Admins can only view users in their own agency
+	currentUserIface, exists := c.Get("currentUser")
+	if exists {
+		currentUser := currentUserIface.(models.User)
+		if currentUser.Role == models.RoleAdmin && currentUser.AgencyID != nil {
+			query = query.Where("agency_id = ?", currentUser.AgencyID)
+		}
+	}
+
 	if role != "" {
 		query = query.Where("role = ?", role)
 	}
@@ -81,9 +90,18 @@ func (u *UserController) GetUser(c *gin.Context) {
 	}
 
 	var user models.User
-	if err := u.DB.
-		Select("id", "full_name", "email", "phone", "role", "is_active", "created_at", "updated_at").
-		First(&user, id).Error; err != nil {
+	query := u.DB.Select("id", "full_name", "email", "phone", "role", "is_active", "created_at", "updated_at")
+
+	// Agency Isolation
+	currentUserIface, exists := c.Get("currentUser")
+	if exists {
+		currentUser := currentUserIface.(models.User)
+		if currentUser.Role == models.RoleAdmin && currentUser.AgencyID != nil {
+			query = query.Where("agency_id = ?", currentUser.AgencyID)
+		}
+	}
+
+	if err := query.First(&user, id).Error; err != nil {
 
 		if err == gorm.ErrRecordNotFound {
 			c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
@@ -157,8 +175,19 @@ func (u *UserController) UpdateUser(c *gin.Context) {
 	}
 
 	var user models.User
-	if err := u.DB.First(&user, id).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+	query := u.DB.Model(&models.User{})
+
+	// Agency Isolation
+	currentUserIface, exists := c.Get("currentUser")
+	if exists {
+		currentUser := currentUserIface.(models.User)
+		if currentUser.Role == models.RoleAdmin && currentUser.AgencyID != nil {
+			query = query.Where("agency_id = ?", currentUser.AgencyID)
+		}
+	}
+
+	if err := query.First(&user, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found or unauthorized"})
 		return
 	}
 
@@ -212,7 +241,25 @@ func (u *UserController) DeleteUser(c *gin.Context) {
 		return
 	}
 
-	if err := u.DB.Delete(&models.User{}, id).Error; err != nil {
+	query := u.DB.Model(&models.User{})
+
+	// Agency Isolation
+	currentUserIface, exists := c.Get("currentUser")
+	if exists {
+		currentUser := currentUserIface.(models.User)
+		if currentUser.Role == models.RoleAdmin && currentUser.AgencyID != nil {
+			query = query.Where("agency_id = ?", currentUser.AgencyID)
+		}
+	}
+
+	// Make sure the user actually exists and belongs to the agency before deleting
+	var user models.User
+	if err := query.First(&user, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found or unauthorized"})
+		return
+	}
+
+	if err := u.DB.Delete(&user).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
