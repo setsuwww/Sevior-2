@@ -6,11 +6,13 @@ export const metadata: Metadata = {
   description: "Delivery Inteligence Software-as-a-Service",
 };
 
+import { TooltipProvider } from "@/_components/ui/tooltip";
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body className="antialiased">
-        {children}
+        <TooltipProvider>{children}</TooltipProvider>
       </body>
     </html>
   );

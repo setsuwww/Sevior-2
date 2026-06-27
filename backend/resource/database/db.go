@@ -42,6 +42,9 @@ func RunMigrations(db *gorm.DB) {
 		&models.Invoice{},
 		&models.Notification{},
 		&models.ActivityLog{},
+		&models.Subscription{},
+		&models.Payment{},
+		&models.Announcement{},
 	); err != nil {
 		log.Fatal("Migration failed:", err)
 	}

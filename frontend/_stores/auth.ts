@@ -3,7 +3,7 @@
 import { create } from "zustand";
 import axios from "axios";
 
-import { getToken } from "@/_lib/auth";
+
 import { PlatformRole } from "@/types/User";
 
 export interface User {
@@ -19,7 +19,7 @@ interface AuthState {
   user: User | null;
   setAuth: (token: string, refreshToken: string, user: User) => void;
   resetAuth: () => void;
-  restoreAuth: () => void;
+  restoreAuth: () => Promise<User | null>;
   fetchCurrentUser: () => Promise<User | null>;
 }
 

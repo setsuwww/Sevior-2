@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 const (
 	RoleSuperAdmin = "SUPER_ADMIN"
@@ -18,10 +22,12 @@ type User struct {
 	Role         string `gorm:"type:varchar"`
 	Phone        string `gorm:"type:varchar"`
 	ProfileImage string `gorm:"type:text"`
+	Biography    string `gorm:"type:text"`
 	IsActive     *bool
 	LastLogin    *time.Time
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
+	DeletedAt    gorm.DeletedAt `gorm:"index"`
 
 	Agency Agency `gorm:"foreignKey:AgencyID;constraint:OnDelete:CASCADE"`
 
