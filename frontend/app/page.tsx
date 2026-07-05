@@ -2,6 +2,7 @@ import { Navbar } from "@/_components/landing/Navbar";
 import { Hero } from "@/_components/landing/Hero";
 import { About } from "@/_components/landing/About";
 import { Services } from "@/_components/landing/Services";
+import { Pricing } from "@/_components/landing/Pricing";
 import { Testimonials } from "@/_components/landing/Testimonials";
 import { Contact } from "@/_components/landing/Contact";
 import { Footer } from "@/_components/landing/Footer";
@@ -15,6 +16,7 @@ export default function Home() {
         <Hero />
         <About />
         <Services />
+        <Pricing />
         <Testimonials />
         <Contact />
       </main>

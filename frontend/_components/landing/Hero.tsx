@@ -13,7 +13,7 @@ export function Hero() {
 
           {/* Text Content */}
           <div className="flex-1 text-center lg:text-left animate-in fade-in slide-in-from-bottom-8 duration-700">
-            <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-teal-100/80 via-transparent to-transparent text-teal-600 px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-teal-300">
+            <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-teal-100/80 via-teal-100/40 to-transparent text-teal-600 px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-teal-300">
               <Sparkles className="w-4 h-4" />
               <span className="text-teal-600">The Next Generation SaaS Platform</span>
             </div>
