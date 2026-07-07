@@ -1,42 +1,42 @@
-import { CheckCircle2 } from "lucide-react";
+import { Building2, CheckCircle2, HeartHandshake, Users2 } from "lucide-react";
 
 export function About() {
   return (
     <section id="about" className="py-24 bg-white dark:bg-black relative overflow-hidden">
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="flex flex-col lg:flex-row items-center gap-16">
-          
+
           {/* Visual Side */}
           <div className="flex-1 relative w-full max-w-2xl lg:max-w-none">
             {/* Background blob */}
             <div className="absolute inset-0 bg-teal-100 dark:bg-teal-900/20 rounded-full blur-3xl opacity-50 transform -translate-x-12 translate-y-12"></div>
-            
+
             <div className="relative grid grid-cols-2 gap-4">
               <div className="space-y-4 translate-y-8">
-                <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm">
-                  <div className="w-12 h-12 bg-teal-100 dark:bg-teal-900/50 rounded-xl mb-4 flex items-center justify-center">
-                    <span className="text-2xl">🏢</span>
+                <div className="bg-white p-6 rounded-2xl border border-gray-300 shadow-xs">
+                  <div className="w-12 h-12 bg-rose-100 rounded-xl mb-4 flex items-center justify-center">
+                    <Building2 className="text-rose-600" />
                   </div>
                   <h3 className="font-bold text-gray-900 dark:text-white mb-2">Agency Control</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Manage multiple client projects under one roof.</p>
                 </div>
-                <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm">
-                  <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 rounded-xl mb-4 flex items-center justify-center">
-                    <span className="text-2xl">👩‍💻</span>
+                <div className="bg-white p-6 rounded-2xl border border-gray-300 shadow-xs">
+                  <div className="w-12 h-12 bg-sky-100 rounded-xl mb-4 flex items-center justify-center">
+                    <Users2 className="text-sky-600" />
                   </div>
-                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">Dev Teams</h3>
+                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">Team-Up</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Assign tasks and track developer progress in real-time.</p>
                 </div>
               </div>
               <div className="space-y-4">
-                <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm">
-                  <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/50 rounded-xl mb-4 flex items-center justify-center">
-                    <span className="text-2xl">🤝</span>
+                <div className="bg-white p-6 rounded-2xl border border-gray-300 shadow-xs">
+                  <div className="w-12 h-12 bg-green-100 rounded-xl mb-4 flex items-center justify-center">
+                    <HeartHandshake className="text-green-600" />
                   </div>
-                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">Client Portal</h3>
+                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">Collaboration</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Give clients transparent access to their project's status.</p>
                 </div>
-                <div className="bg-teal-600 p-6 rounded-2xl shadow-xl flex flex-col justify-center text-white">
+                <div className="bg-gradient-to-r from-slate-800 to-teal-800 p-6 rounded-2xl shadow-xl flex flex-col justify-center text-white">
                   <h3 className="text-3xl font-extrabold mb-2">10x</h3>
                   <p className="text-sm font-medium text-teal-100">Faster project delivery times across the board.</p>
                 </div>
@@ -53,7 +53,7 @@ export function About() {
             <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
               We understood that generic project management tools were not enough for development agencies. Sevior bridges the gap between your developers, your management team, and your clients.
             </p>
-            
+
             <ul className="space-y-5">
               {[
                 "Centralized multi-tenant architecture.",
@@ -68,7 +68,7 @@ export function About() {
               ))}
             </ul>
           </div>
-          
+
         </div>
       </div>
     </section>
