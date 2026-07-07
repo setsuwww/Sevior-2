@@ -5,37 +5,43 @@ const services = [
     title: "Multi-Tenant Architecture",
     description: "Safely isolate client data while managing hundreds of projects.",
     icon: <BrickWallShield className="w-6 h-6 text-rose-600" />,
-    color: "bg-rose-50",
+    color: "bg-rose-50 group-hover:bg-rose-100",
+    colorHover: "hover:bg-gradient-to-tr from-rose-50 via-white to-white",
   },
   {
     title: "Role-Based Access Control",
     description: "Assign Super Admin, Admin, Developer, and Client roles with granular permission levels.",
     icon: <ShieldCheck className="w-6 h-6 text-green-600" />,
-    color: "bg-green-50",
+    color: "bg-green-50 group-hover:bg-green-100",
+    colorHover: "hover:bg-gradient-to-tr from-green-50 via-white to-white",
   },
   {
     title: "Real-Time Analytics",
     description: "Visualize agency performance, project budgets, and task completion rates instantly.",
     icon: <BarChart3 className="w-6 h-6 text-purple-600" />,
-    color: "bg-purple-50",
+    color: "bg-purple-50 group-hover:bg-purple-100",
+    colorHover: "hover:bg-gradient-to-tr from-purple-50 via-white to-white",
   },
   {
     title: "Automated Billing",
     description: "Track subscriptions, generate invoices, and handle recurring payments effortlessly.",
     icon: <CreditCard className="w-6 h-6 text-blue-600" />,
-    color: "bg-blue-50",
+    color: "bg-blue-50 group-hover:bg-blue-100",
+    colorHover: "hover:bg-gradient-to-tr from-blue-50 via-white to-white",
   },
   {
     title: "Visibility Access",
     description: "Offering clients a way to view the project progress made by developers.",
     icon: <Eye className="w-6 h-6 text-orange-600" />,
-    color: "bg-orange-50",
+    color: "bg-orange-50 group-hover:bg-orange-100",
+    colorHover: "hover:bg-gradient-to-tr from-orange-50 via-white to-white",
   },
   {
     title: "High Performance",
     description: "Powered by Golang and Next.js, experience sub-millisecond response times.",
     icon: <Zap className="w-6 h-6 text-yellow-600" />,
-    color: "bg-yellow-50",
+    color: "bg-yellow-50 group-hover:bg-yellow-100",
+    colorHover: "hover:bg-gradient-to-tr from-yellow-50 via-white to-white",
   },
 ];
 
@@ -57,7 +63,7 @@ export function Services() {
           {services.map((service, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl p-8 border border-gray-400 ring ring-offset-4 ring-gray-200 dark:border-gray-800 shadow-xs hover:shadow-sm hover:-translate-y-1 transition-all duration-300 group"
+              className={`${service.colorHover} bg-white rounded-2xl p-8 border border-gray-400 ring ring-offset-4 ring-gray-200 dark:border-gray-800 shadow-xs hover:shadow-sm hover:-translate-y-1 transition-all duration-300 group`}
             >
               <div className={`w-14 h-14 rounded-xl ${service.color} flex items-center justify-center mb-6 transform group-hover:scale-120 transition-transform duration-300`}>
                 {service.icon}
