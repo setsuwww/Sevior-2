@@ -1,41 +1,41 @@
-import { LayoutDashboard, Users, ShieldCheck, Zap, BarChart3, CreditCard } from "lucide-react";
+import { ShieldCheck, Zap, BarChart3, CreditCard, BrickWallShield, Eye } from "lucide-react";
 
 const services = [
   {
     title: "Multi-Tenant Architecture",
-    description: "Safely isolate client data while managing hundreds of projects from a single unified dashboard.",
-    icon: <Users className="w-6 h-6 text-teal-600" />,
-    color: "bg-teal-50 dark:bg-teal-900/30",
+    description: "Safely isolate client data while managing hundreds of projects.",
+    icon: <BrickWallShield className="w-6 h-6 text-rose-600" />,
+    color: "bg-rose-50",
   },
   {
     title: "Role-Based Access Control",
     description: "Assign Super Admin, Admin, Developer, and Client roles with granular permission levels.",
-    icon: <ShieldCheck className="w-6 h-6 text-blue-600" />,
-    color: "bg-blue-50 dark:bg-blue-900/30",
+    icon: <ShieldCheck className="w-6 h-6 text-green-600" />,
+    color: "bg-green-50",
   },
   {
     title: "Real-Time Analytics",
     description: "Visualize agency performance, project budgets, and task completion rates instantly.",
     icon: <BarChart3 className="w-6 h-6 text-purple-600" />,
-    color: "bg-purple-50 dark:bg-purple-900/30",
+    color: "bg-purple-50",
   },
   {
     title: "Automated Billing",
     description: "Track subscriptions, generate invoices, and handle recurring payments effortlessly.",
-    icon: <CreditCard className="w-6 h-6 text-emerald-600" />,
-    color: "bg-emerald-50 dark:bg-emerald-900/30",
+    icon: <CreditCard className="w-6 h-6 text-blue-600" />,
+    color: "bg-blue-50",
   },
   {
-    title: "Client Portals",
-    description: "Provide clients with white-labeled access to view project progress and leave feedback.",
-    icon: <LayoutDashboard className="w-6 h-6 text-rose-600" />,
-    color: "bg-rose-50 dark:bg-rose-900/30",
+    title: "Visibility Access",
+    description: "Offering clients a way to view the project progress made by developers.",
+    icon: <Eye className="w-6 h-6 text-orange-600" />,
+    color: "bg-orange-50",
   },
   {
-    title: "Lightning Fast API",
+    title: "High Performance",
     description: "Powered by Golang and Next.js, experience sub-millisecond response times.",
     icon: <Zap className="w-6 h-6 text-yellow-600" />,
-    color: "bg-yellow-50 dark:bg-yellow-900/30",
+    color: "bg-yellow-50",
   },
 ];
 
@@ -55,11 +55,11 @@ export function Services() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <div 
-              key={index} 
-              className="bg-white dark:bg-gray-900 rounded-2xl p-8 border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+            <div
+              key={index}
+              className="bg-white rounded-2xl p-8 border border-gray-400 ring ring-offset-4 ring-gray-200 dark:border-gray-800 shadow-xs hover:shadow-sm hover:-translate-y-1 transition-all duration-300 group"
             >
-              <div className={`w-14 h-14 rounded-xl ${service.color} flex items-center justify-center mb-6 transform group-hover:scale-110 transition-transform duration-300`}>
+              <div className={`w-14 h-14 rounded-xl ${service.color} flex items-center justify-center mb-6 transform group-hover:scale-120 transition-transform duration-300`}>
                 {service.icon}
               </div>
               <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
