@@ -1,0 +1,51 @@
+export const plans = [
+    {
+        name: "Free",
+        price: "$0",
+        period: "/month",
+        description: "Perfect for freelancers and small teams just getting started.",
+        features: [
+            { name: "Up to 6 Projects", included: true },
+            { name: "5 Team Members", included: true },
+            { name: "Basic Analytics", included: true },
+            { name: "Email Support", included: true },
+            { name: "White-label Client Portal", included: false },
+        ],
+        buttonText: "Start for Free",
+        buttonVariant: "outline",
+        popular: false,
+    },
+    {
+        name: "Pro",
+        price: "$49",
+        period: "/month",
+        description: "Ideal for growing agencies that need more power and flexibility.",
+        features: [
+            { name: "Up to 18 Projects", included: true },
+            { name: "15 Team Members", included: true },
+            { name: "Basic Analytics", included: true },
+            { name: "Email & Phone Support", included: true },
+            { name: "White-label Client Portal", included: false },
+        ],
+        buttonText: "Get Pro",
+        buttonVariant: "default",
+        popular: true,
+    },
+    {
+        name: "Executive",
+        price: "$199",
+        period: "/month",
+        description: "For large agencies requiring enterprise-grade features and scaling.",
+        features: [
+            { name: "Unlimited Projects", included: true },
+            { name: "Unlimited Team Members", included: true },
+            { name: "Real-time Advance Analytics", included: true },
+            { name: "Custom Reporting", included: true },
+            { name: "24/7 Dedicated Support", included: true },
+            { name: "White-label Client Portal", included: true },
+        ],
+        buttonText: "Get Executive",
+        buttonVariant: "outline",
+        popular: false,
+    }
+];

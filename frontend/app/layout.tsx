@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MTPM-Web",
+  title: "Sevior | SaaS Platform",
   description: "Delivery Inteligence Software-as-a-Service",
 };
 

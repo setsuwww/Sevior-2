@@ -24,13 +24,13 @@ export default function LoginPage() {
             const res = await authService.login(form);
             const userRole = res.user.Role;
             if (userRole === "SUPER_ADMIN") {
-                router.push("/superadmin/dashboard");
+                router.push("/dashboard/superadmin");
             } else if (userRole === "ADMIN") {
-                router.push("/admin/dashboard");
+                router.push("/dashboard/admin");
             } else if (userRole === "DEVELOPER") {
-                router.push("/developer/dashboard");
+                router.push("/dashboard/developer");
             } else if (userRole === "CLIENT") {
-                router.push("/client/dashboard");
+                router.push("/dashboard/client");
             } else {
                 router.push("/dashboard");
             }
