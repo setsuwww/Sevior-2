@@ -73,18 +73,17 @@ export const MOCK_CHART_STATS = {
 };
 
 export const MOCK_RECENT_PROJECTS = [
-    { id: "PRJ-101", name: "E-commerce Redesign", client: "Acme Corp", developer: "John Doe", status: "In Progress", deadline: "Oct 24", progress: 65 },
-    { id: "PRJ-102", name: "Mobile App V2", client: "Globex UI", developer: "Jane Smith", status: "Pending", deadline: "Nov 02", progress: 10 },
-    { id: "PRJ-103", name: "Marketing Site", client: "Soylent", developer: "Mike Johnson", status: "Completed", deadline: "Sep 15", progress: 100 },
-    { id: "PRJ-104", name: "Admin Dashboard", client: "Initech", developer: "Sarah Williams", status: "Cancelled", deadline: "Dec 10", progress: 30 },
-    { id: "PRJ-105", name: "API Integration", client: "Stark Ind", developer: "Bruce Banner", status: "Failed", deadline: "Aug 20", progress: 85 },
+    { id: 1, name: "Nexus Design System", client: "Acme Corp", budget: 12500, progress: 85, status: "In Progress" },
+    { id: 2, name: "E-commerce App", client: "Globex UI", budget: 24000, progress: 30, status: "Pending" },
+    { id: 3, name: "Marketing Site V2", client: "Soylent", budget: 8000, progress: 100, status: "Success" },
+    { id: 4, name: "API Gateway", client: "Initech", budget: 35000, progress: 15, status: "In Progress" },
 ];
 
 export const MOCK_RECENT_PAYMENTS = [
     { id: "INV-2023-001", client: "Acme Corp", amount: 4500, date: "Today, 10:42 AM", status: "Paid", avatar: "A" },
     { id: "INV-2023-002", client: "Globex UI", amount: 2800, date: "Yesterday", status: "Pending", avatar: "G" },
-    { id: "INV-2023-003", client: "Soylent", amount: 1500, date: "Oct 12", status: "Overdue", avatar: "S" },
-    { id: "INV-2023-004", client: "Initech", amount: 8200, date: "Oct 10", status: "Paid", avatar: "I" },
+    { id: "INV-2023-003", client: "Soylent", amount: 1500, date: "Oct 12", status: "Paid", avatar: "S" },
+    { id: "INV-2023-004", client: "Initech", amount: 8200, date: "Oct 10", status: "Overdue", avatar: "I" },
 ];
 
 export const MOCK_TOP_DEVELOPERS = [

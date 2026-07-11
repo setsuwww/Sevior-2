@@ -24,7 +24,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     };
 
     const daysRemaining = getDaysRemaining(project.endDate);
-    const isOverdue = daysRemaining < 0 && project.status !== "Completed" && project.status !== "Cancelled" && project.status !== "Failed";
+    const isOverdue = daysRemaining < 0 && project.status !== "Success" && project.status !== "Cancelled" && project.status !== "Failed";
 
     return (
         <div className="bg-white rounded-sm p-5 border border-gray-400 shadow-xs hover:shadow-sm transition-all duration-300 flex flex-col h-full group relative overflow-hidden">

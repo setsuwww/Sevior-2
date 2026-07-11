@@ -35,7 +35,7 @@ func (s *dashboardService) GetDashboardSummary() (*DashboardResponse, error) {
 	devs, _ := s.repo.GetTotalUsersByRole(models.RoleDeveloper)
 	clients, _ := s.repo.GetTotalUsersByRole(models.RoleClient)
 	activeProj, _ := s.repo.GetTotalProjectsByStatus("In Progress")
-	completedProj, _ := s.repo.GetTotalProjectsByStatus("Completed")
+	completedProj, _ := s.repo.GetTotalProjectsByStatus("Success")
 	revenue, _ := s.repo.GetMonthlyRevenue()
 	subs, _ := s.repo.GetActiveSubscriptions()
 	activities, _ := s.repo.GetRecentActivities(10)

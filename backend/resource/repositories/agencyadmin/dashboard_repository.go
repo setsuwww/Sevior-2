@@ -45,17 +45,19 @@ func (r *DashboardRepository) GetStats(agencyID uint) (*DashboardStats, error) {
 		return nil, err
 	}
 
-	err = r.DB.Model(&models.Project{}).Where("agency_id = ? AND status = ?", agencyID, "ACTIVE").Count(&stats.ActiveProjects).Error
+	err = r.DB.Model(&models.Project{}).Where("agency_id = ? AND status = ?", agencyID, "In Progress").Count(&stats.ActiveProjects).Error
 	if err != nil {
 		return nil, err
 	}
 
-	err = r.DB.Model(&models.Project{}).Where("agency_id = ? AND status = ?", agencyID, "COMPLETED").Count(&stats.CompletedProjects).Error
-	if err != nil {
+	// Completed Projects
+	var completedProjects int64
+	if err := r.DB.Model(&models.Project{}).Where("agency_id = ? AND status = ?", agencyID, "Success").Count(&completedProjects).Error; err != nil {
 		return nil, err
 	}
+	stats.CompletedProjects = completedProjects
 
-	err = r.DB.Model(&models.Project{}).Where("agency_id = ? AND status = ?", agencyID, "PENDING").Count(&stats.PendingProjects).Error
+	err = r.DB.Model(&models.Project{}).Where("agency_id = ? AND status = ?", agencyID, "Pending").Count(&stats.PendingProjects).Error
 	if err != nil {
 		return nil, err
 	}

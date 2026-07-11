@@ -9,7 +9,7 @@ export function ProjectStatusBadge({ status }: ProjectStatusBadgeProps) {
     let colorClass = "";
     
     switch (status) {
-        case "Completed":
+        case "Success":
             colorClass = "bg-emerald-50 text-emerald-700 border-emerald-100";
             break;
         case "In Progress":

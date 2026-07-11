@@ -34,13 +34,13 @@ export function useProjects(initialData: Project[]) {
     const stats = useMemo(() => {
         const active = initialData.filter(p => p.status === "In Progress").length;
         const pending = initialData.filter(p => p.status === "Pending").length;
-        const completed = initialData.filter(p => p.status === "Completed").length;
+        const success = initialData.filter(p => p.status === "Success").length;
         const overdue = initialData.filter(p => {
-            if (p.status === "Completed" || p.status === "Cancelled" || p.status === "Failed") return false;
+            if (p.status === "Success" || p.status === "Cancelled" || p.status === "Failed") return false;
             return new Date(p.endDate).getTime() < new Date().getTime();
         }).length;
 
-        return { active, pending, completed, overdue };
+        return { active, pending, success, overdue };
     }, [initialData]);
 
     return {

@@ -1,4 +1,4 @@
-export type ProjectStatus = "Pending" | "In Progress" | "Completed" | "Failed" | "Cancelled";
+export type ProjectStatus = "Pending" | "In Progress" | "Success" | "Failed" | "Cancelled";
 
 export interface Developer {
     id: string;

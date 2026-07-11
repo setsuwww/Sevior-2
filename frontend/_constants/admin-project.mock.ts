@@ -50,7 +50,7 @@ export const MOCK_PROJECTS: Project[] = [
         progress: 100,
         startDate: daysAgo(60),
         endDate: daysAgo(2),
-        status: "Completed",
+        status: "Success",
         client: { id: "client-3", name: "Soylent" },
         developers: [DEV_POOL[0]]
     },

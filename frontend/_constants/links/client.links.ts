@@ -3,6 +3,9 @@ import {
     FolderKanban,
     Receipt,
     Settings,
+    Store,
+    Send,
+    Star
 } from "lucide-react";
 
 export const clientLinks = [
@@ -15,9 +18,29 @@ export const clientLinks = [
                 href: "/dashboard/client"
             },
             {
+                title: "Agencies",
+                icon: Store,
+                href: "/dashboard/client/agencies"
+            },
+            {
                 title: "Projects",
                 icon: FolderKanban,
-                href: "/client/projects"
+                href: "/dashboard/client/projects"
+            }
+        ]
+    },
+    {
+        section: "COMMUNICATION",
+        items: [
+            {
+                title: "My Requests",
+                icon: Send,
+                href: "/dashboard/client/requests"
+            },
+            {
+                title: "Reviews",
+                icon: Star,
+                href: "/dashboard/client/reviews"
             }
         ]
     },
@@ -27,7 +50,7 @@ export const clientLinks = [
             {
                 title: "Invoices",
                 icon: Receipt,
-                href: "/client/invoices"
+                href: "/dashboard/client/invoices"
             }
         ]
     },
@@ -37,7 +60,7 @@ export const clientLinks = [
             {
                 title: "Settings",
                 icon: Settings,
-                href: "/client/settings"
+                href: "/dashboard/client/settings"
             }
         ]
     }

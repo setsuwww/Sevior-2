@@ -10,7 +10,7 @@ interface ProjectFiltersProps {
 }
 
 export function ProjectFilters({ searchQuery, setSearchQuery, statusFilter, setStatusFilter }: ProjectFiltersProps) {
-    const statuses: (ProjectStatus | "All")[] = ["All", "Pending", "In Progress", "Completed", "Failed", "Cancelled"];
+    const statuses: (ProjectStatus | "All")[] = ["All", "Pending", "In Progress", "Success", "Failed", "Cancelled"];
 
     return (
         <div className="flex flex-col sm:flex-row sm:items-center justify-end gap-3 w-full sm:w-auto">

@@ -5,7 +5,7 @@ import { ProjectFilters } from "./ProjectFilters";
 import { ProjectStatus } from "../types";
 
 interface HeaderProps {
-    stats: { active: number; pending: number; completed: number; overdue: number };
+    stats: { active: number; pending: number; success: number; overdue: number };
     searchQuery: string;
     setSearchQuery: (query: string) => void;
     statusFilter: ProjectStatus | "All";
@@ -40,8 +40,8 @@ export function Header({ stats, searchQuery, setSearchQuery, statusFilter, setSt
                     </div>
                     <div className="flex items-center space-x-2">
                         <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                        <span className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Completed</span>
-                        <span className="text-sm font-bold text-slate-900">{stats.completed}</span>
+                        <span className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Success</span>
+                        <span className="text-sm font-bold text-slate-900">{stats.success}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                         <span className="w-2 h-2 rounded-full bg-rose-500"></span>
