@@ -1,5 +1,56 @@
 import { Building2, CheckCircle2, HeartHandshake, Users2 } from "lucide-react";
 
+export const aboutCards = [
+  {
+    title: "Agency Control",
+    description: "Manage multiple client projects under one roof.",
+    icon: Building2,
+    iconBg: "bg-rose-100",
+    iconColor: "text-rose-600",
+  },
+  {
+    title: "Team-Up",
+    description: "Assign tasks and track developer progress in real-time.",
+    icon: Users2,
+    iconBg: "bg-sky-100",
+    iconColor: "text-sky-600",
+  }
+];
+
+interface AboutCardProps {
+  title: string;
+  description: string;
+  icon: React.ElementType;
+  iconBg: string;
+  iconColor: string;
+}
+
+export function AboutCard({
+  title,
+  description,
+  icon: Icon,
+  iconBg,
+  iconColor,
+}: AboutCardProps) {
+  return (
+    <div className="bg-white p-6 rounded-sm border border-gray-300 shadow-xs">
+      <div
+        className={`w-12 h-12 rounded-xl mb-4 flex items-center justify-center ${iconBg}`}
+      >
+        <Icon className={iconColor} />
+      </div>
+
+      <h3 className="font-bold mb-2">
+        {title}
+      </h3>
+
+      <p className="text-sm text-gray-600">
+        {description}
+      </p>
+    </div>
+  );
+}
+
 export function About() {
   return (
     <section id="about" className="py-24 bg-white dark:bg-black relative overflow-hidden">
@@ -13,30 +64,22 @@ export function About() {
 
             <div className="relative grid grid-cols-2 gap-4">
               <div className="space-y-4 translate-y-8">
-                <div className="bg-white p-6 rounded-2xl border border-gray-300 shadow-xs">
-                  <div className="w-12 h-12 bg-rose-100 rounded-xl mb-4 flex items-center justify-center">
-                    <Building2 className="text-rose-600" />
-                  </div>
-                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">Agency Control</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Manage multiple client projects under one roof.</p>
-                </div>
-                <div className="bg-white p-6 rounded-2xl border border-gray-300 shadow-xs">
-                  <div className="w-12 h-12 bg-sky-100 rounded-xl mb-4 flex items-center justify-center">
-                    <Users2 className="text-sky-600" />
-                  </div>
-                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">Team-Up</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Assign tasks and track developer progress in real-time.</p>
-                </div>
+                {aboutCards.map((card) => (
+                  <AboutCard
+                    key={card.title}
+                    {...card}
+                  />
+                ))}
               </div>
               <div className="space-y-4">
-                <div className="bg-white p-6 rounded-2xl border border-gray-300 shadow-xs">
+                <div className="bg-white p-6 rounded-sm border border-gray-300 shadow-xs">
                   <div className="w-12 h-12 bg-green-100 rounded-xl mb-4 flex items-center justify-center">
                     <HeartHandshake className="text-green-600" />
                   </div>
                   <h3 className="font-bold text-gray-900 dark:text-white mb-2">Collaboration</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">Give clients transparent access to their project's status.</p>
                 </div>
-                <div className="bg-gradient-to-r from-slate-800 to-teal-800 p-6 rounded-2xl shadow-xl flex flex-col justify-center text-white">
+                <div className="bg-gradient-to-r from-slate-800 to-teal-800 p-6 rounded-sm shadow-xl flex flex-col justify-center text-white">
                   <h3 className="text-3xl font-extrabold mb-2">10x</h3>
                   <p className="text-sm font-medium text-teal-100">Faster project delivery times across the board.</p>
                 </div>
@@ -44,7 +87,6 @@ export function About() {
             </div>
           </div>
 
-          {/* Text Content */}
           <div className="flex-1 lg:pl-10">
             <h2 className="text-sm font-bold text-teal-600 uppercase tracking-widest mb-3">About Sevior</h2>
             <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
