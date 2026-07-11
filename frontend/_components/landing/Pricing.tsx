@@ -55,15 +55,15 @@ const plans = [
 
 export function Pricing() {
   return (
-    <section id="pricing" className="py-24 bg-white dark:bg-black relative overflow-hidden">
+    <section id="pricing" className="py-24 bg-white relative overflow-hidden">
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="text-center max-w-3xl mx-auto mb-20">
           <h2 className="text-sm font-bold text-teal-600 uppercase tracking-widest mb-3">Pricing Plans</h2>
-          <h3 className="text-3xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
+          <h3 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
             Create your own agencies.<br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-500">Scale without limits.</span>
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 text-lg">
+          <p className="text-gray-600 text-lg">
             Choose the perfect plan for your agency. Whether you are a solo developer or an enterprise, we have got you covered.
           </p>
         </div>
@@ -79,9 +79,9 @@ export function Pricing() {
                 key={index}
                 className={`
                   relative flex flex-col w-full md:w-1/3 transition-all duration-300
-                  ${isFree ? 'bg-white dark:bg-zinc-900 border border-gray-200 dark:border-gray-800 rounded-3xl md:rounded-r-none md:border-r-0 z-10 hover:-translate-y-1' : ''}
-                  ${isPro ? 'bg-gradient-to-tr from-slate-800 to-teal-800 text-white shadow-2xl shadow-slate-900/40 dark:shadow-teal-900/20 border-0 rounded-3xl md:rounded-xl z-20 md:scale-[1.06] md:min-h-[600px] hover:-translate-y-2 hover:shadow-slate-900/60' : ''}
-                  ${isExec ? 'bg-white dark:bg-zinc-900 border border-yellow-500/60 dark:border-amber-400/70 shadow-sm rounded-3xl md:rounded-l-none md:border-l-0 z-10 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(234,179,8,0.15)]' : ''}
+                  ${isFree ? 'bg-white border border-gray-200 rounded-3xl md:rounded-r-none md:border-r-0 z-10 hover:-translate-y-1' : ''}
+                  ${isPro ? 'bg-gradient-to-tr from-slate-800 to-teal-800 text-white shadow-2xl shadow-slate-900/40 border-0 rounded-3xl md:rounded-xl z-20 md:scale-[1.06] md:min-h-[600px] hover:-translate-y-2 hover:shadow-slate-900/60' : ''}
+                  ${isExec ? 'bg-white border border-yellow-500 shadow-sm rounded-3xl md:rounded-l-none md:border-l-0 z-10 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(234,179,8,0.15)]' : ''}
                   p-8
                 `}
               >
@@ -92,16 +92,16 @@ export function Pricing() {
                 )}
 
                 <div className="mb-8">
-                  <h4 className={`text-2xl font-bold mb-2 ${isPro ? "text-white" : "text-gray-900 dark:text-white"}`}>
+                  <h4 className={`text-2xl font-bold mb-2 ${isPro ? "text-white" : "text-gray-900"}`}>
                     {plan.name}
                   </h4>
-                  <p className={`text-sm h-10 ${isPro ? "text-teal-100" : "text-gray-500 dark:text-gray-400"}`}>
+                  <p className={`text-sm h-10 ${isPro ? "text-teal-100" : "text-gray-500"}`}>
                     {plan.description}
                   </p>
                 </div>
 
                 <div className="mb-8 flex items-baseline text-5xl font-extrabold">
-                  <span className={isPro ? "text-white" : "text-gray-900 dark:text-white"}>{plan.price}</span>
+                  <span className={isPro ? "text-white" : "text-gray-900"}>{plan.price}</span>
                   <span className={`text-lg font-medium ml-2 ${isPro ? "text-teal-200" : "text-gray-500"}`}>{plan.period}</span>
                 </div>
 
@@ -109,13 +109,13 @@ export function Pricing() {
                   {plan.features.map((feature, idx) => (
                     <div key={idx} className="flex items-center space-x-3">
                       {feature.included ? (
-                        <CheckCircle2 className={`w-5 h-5 shrink-0 ${isPro ? "text-teal-400" : (isExec ? "text-yellow-600 dark:text-amber-500" : "text-teal-600")}`} />
+                        <CheckCircle2 className={`w-5 h-5 shrink-0 ${isPro ? "text-teal-400" : (isExec ? "text-yellow-600" : "text-teal-600")}`} />
                       ) : (
-                        <XCircle className={`w-5 h-5 shrink-0 ${isPro ? "text-slate-500" : "text-gray-300 dark:text-gray-700"}`} />
+                        <XCircle className={`w-5 h-5 shrink-0 ${isPro ? "text-slate-500" : "text-gray-300"}`} />
                       )}
                       <span className={`text-sm font-medium ${feature.included
-                        ? (isPro ? "text-white" : "text-gray-700 dark:text-gray-300")
-                        : (isPro ? "text-slate-400" : "text-gray-400 dark:text-gray-500")
+                        ? (isPro ? "text-white" : "text-gray-700")
+                        : (isPro ? "text-slate-400" : "text-gray-400")
                         }`}>
                         {feature.name}
                       </span>
@@ -127,8 +127,8 @@ export function Pricing() {
                   className={`w-full h-12 rounded-xl text-md font-bold transition-all duration-300 mt-auto ${isPro
                     ? "bg-white text-slate-900 hover:bg-gray-100 shadow-md hover:shadow-lg"
                     : (isExec
-                      ? "bg-gray-900 text-white hover:bg-gray-800 dark:bg-yellow-600 dark:hover:bg-yellow-700"
-                      : "bg-gray-900 text-white hover:bg-gray-800 dark:bg-teal-600 dark:hover:bg-teal-700"
+                      ? "bg-gray-900 text-white hover:text-white hover:bg-gray-800"
+                      : "bg-gray-900 text-white hover:text-white hover:bg-gray-800"
                     )
                     }`}
                   variant={plan.buttonVariant as any}

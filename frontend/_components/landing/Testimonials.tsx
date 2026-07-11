@@ -32,28 +32,28 @@ export function Testimonials() {
     <section id="testimonials" className="py-24 bg-white dark:bg-black relative overflow-hidden">
       {/* Decorative background */}
       <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-[600px] h-[600px] bg-teal-50 dark:bg-teal-900/10 rounded-full blur-3xl opacity-60"></div>
-      
+
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-sm font-bold text-teal-600 uppercase tracking-widest mb-3">Testimonials</h2>
-          <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
+          <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">
             Trusted by modern agencies.
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 text-lg">
+          <p className="text-slate-600 dark:text-slate-400 text-lg">
             Don't just take our word for it. Here's what agency leaders and developers are saying about Sevior.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((testimonial, idx) => (
-            <div key={idx} className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg shadow-gray-200/40 dark:shadow-black/40 border border-gray-100 dark:border-gray-800 flex flex-col justify-between hover:-translate-y-2 transition-transform duration-300">
+            <div key={idx} className="bg-white rounded-sm p-8 shadow-md shadow-slate-200/40 border border-slate-300 flex flex-col justify-between hover:-translate-y-2 transition-transform duration-300">
               <div>
                 <div className="flex space-x-1 mb-6">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                    <Star key={i} className="w-5 h-5 text-orange-500 fill-current" />
                   ))}
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 mb-8 italic leading-relaxed">
+                <p className="text-slate-700 dark:text-slate-300 mb-8 italic leading-relaxed">
                   "{testimonial.content}"
                 </p>
               </div>
@@ -62,8 +62,8 @@ export function Testimonials() {
                   {testimonial.avatar}
                 </div>
                 <div>
-                  <h4 className="font-bold text-gray-900 dark:text-white">{testimonial.name}</h4>
-                  <p className="text-sm text-gray-500">{testimonial.role}</p>
+                  <h4 className="font-bold text-slate-900 dark:text-white">{testimonial.name}</h4>
+                  <p className="text-sm text-slate-500">{testimonial.role}</p>
                 </div>
               </div>
             </div>

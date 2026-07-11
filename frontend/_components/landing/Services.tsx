@@ -18,16 +18,16 @@ const services = [
   {
     title: "Real-Time Analytics",
     description: "Visualize agency performance, project budgets, and task completion rates instantly.",
-    icon: <BarChart3 className="w-6 h-6 text-purple-600" />,
-    color: "bg-purple-50 group-hover:bg-purple-100",
-    colorHover: "hover:bg-gradient-to-tr from-purple-50 via-white to-white",
+    icon: <BarChart3 className="w-6 h-6 text-sky-600" />,
+    color: "bg-sky-50 group-hover:bg-sky-100",
+    colorHover: "hover:bg-gradient-to-tr from-sky-50 via-white to-white",
   },
   {
     title: "Automated Billing",
     description: "Track subscriptions, generate invoices, and handle recurring payments effortlessly.",
-    icon: <CreditCard className="w-6 h-6 text-blue-600" />,
-    color: "bg-blue-50 group-hover:bg-blue-100",
-    colorHover: "hover:bg-gradient-to-tr from-blue-50 via-white to-white",
+    icon: <CreditCard className="w-6 h-6 text-purple-600" />,
+    color: "bg-purple-50 group-hover:bg-purple-100",
+    colorHover: "hover:bg-gradient-to-tr from-purple-50 via-white to-white",
   },
   {
     title: "Visibility Access",
@@ -68,7 +68,7 @@ export function Services() {
               <div className={`w-14 h-14 rounded-xl ${service.color} flex items-center justify-center mb-6 transform group-hover:scale-120 transition-transform duration-300`}>
                 {service.icon}
               </div>
-              <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+              <h4 className="text-xl font-bold text-gray-600 dark:text-white mb-3">
                 {service.title}
               </h4>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
