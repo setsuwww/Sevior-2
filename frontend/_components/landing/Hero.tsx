@@ -51,9 +51,9 @@ export function Hero() {
             <div className="relative rounded-2xl bg-white border border-slate-300 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] overflow-hidden transform transition-transform duration-500">
               {/* Window Header */}
               <div className="bg-slate-100 border-b border-slate-300 px-4 py-3 flex items-center space-x-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                <div className="w-3 h-3 rounded-full bg-red-400 border border-red-500"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-400 border border-yellow-500"></div>
+                <div className="w-3 h-3 rounded-full bg-green-400 border border-green-500"></div>
               </div>
               {/* Window Body Mockup */}
               <div className="p-6 bg-slate-200">
