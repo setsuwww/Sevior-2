@@ -65,7 +65,7 @@ export function Services() {
               key={index}
               className={`${service.colorHover} bg-white rounded-sm p-8 border border-gray-400 ring ring-offset-4 ring-gray-200 dark:border-gray-800 shadow-xs hover:shadow-sm hover:-translate-y-1 transition-all duration-300 group`}
             >
-              <div className={`w-14 h-14 rounded-xl ${service.color} flex items-center justify-center mb-6 transform group-hover:scale-120 transition-transform duration-300`}>
+              <div className={`w-14 h-14 rounded-sm group-hover:rounded-full ${service.color} flex items-center justify-center mb-6 transform group-hover:scale-120 transition-transform duration-300`}>
                 {service.icon}
               </div>
               <h4 className="text-xl font-bold text-gray-600 dark:text-white mb-3">

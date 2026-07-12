@@ -120,7 +120,7 @@ export function Testimonials() {
                   </p>
                 </div>
                 <div className="flex items-center space-x-4 mt-auto">
-                  <div className={`w-12 h-12 rounded-full ${testimonial.color} flex items-center justify-center font-bold text-xl`}>
+                  <div className={`w-12 h-12 rounded-md ${testimonial.color} flex items-center justify-center font-bold text-xl`}>
                     {testimonial.avatar}
                   </div>
                   <div>
