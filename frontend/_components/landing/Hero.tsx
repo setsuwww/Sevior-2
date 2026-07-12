@@ -48,30 +48,30 @@ export function Hero() {
           {/* Graphic / Mockup */}
           <div className="flex-1 w-full max-w-2xl lg:max-w-none relative animate-in fade-in slide-in-from-right-8 duration-600 delay-200">
             {/* Main Mockup Window */}
-            <div className="relative rounded-2xl bg-white border border-slate-300 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] overflow-hidden transform transition-transform duration-500">
+            <div className="group relative rounded-2xl bg-white border border-slate-300 hover:border-slate-600 hover:scale-105 duration-500 shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] overflow-hidden transform transition-transform duration-500">
               {/* Window Header */}
               <div className="bg-slate-100 border-b border-slate-300 px-4 py-3 flex items-center space-x-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-400 border border-red-500"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-400 border border-yellow-500"></div>
-                <div className="w-3 h-3 rounded-full bg-green-400 border border-green-500"></div>
+                <div className="w-3 h-3 rounded-full bg-red-400 group-hover:bg-red-600 transition-colors duration-500 border border-red-500"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-400 group-hover:bg-yellow-600 transition-colors duration-500 border border-yellow-500"></div>
+                <div className="w-3 h-3 rounded-full bg-green-400 group-hover:bg-green-600 transition-colors duration-500 border border-green-500"></div>
               </div>
               {/* Window Body Mockup */}
               <div className="p-6 bg-slate-200">
                 <div className="flex items-center justify-between mb-6">
                   <div>
-                    <div className="h-4 w-32 bg-slate-300 rounded-full mb-2"></div>
-                    <div className="h-8 w-48 bg-slate-300 rounded-lg"></div>
+                    <div className="h-4 w-32 bg-slate-300 group-hover:bg-teal-500/40 transition-colors duration-500 rounded-full mb-2"></div>
+                    <div className="h-8 w-48 bg-slate-300 group-hover:bg-teal-500/40 transition-colors duration-500 rounded-lg"></div>
                   </div>
                 </div>
                 <div className="grid grid-cols-3 gap-4 mb-6">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="h-24 rounded-xl bg-slate-300 p-4 flex flex-col justify-between">
-                      <div className="w-8 h-8 rounded-full bg-slate-400"></div>
-                      <div className="h-2 w-16 bg-slate-400 rounded-full"></div>
+                    <div key={i} className="h-24 rounded-xl bg-slate-300 p-4 flex flex-col justify-between group-hover:bg-teal-600/20 transition-colors duration-500">
+                      <div className="w-8 h-8 rounded-full bg-slate-400 group-hover:bg-teal-600/40 transition-colors duration-500"></div>
+                      <div className="h-2 w-16 bg-slate-400 group-hover:bg-teal-600/40 transition-colors duration-500 rounded-full"></div>
                     </div>
                   ))}
                 </div>
-                <div className="h-48 rounded-xl bg-gradient-to-r from-slate-300 to-slate-400/40 border border-slate-300 relative overflow-hidden">
+                <div className="h-48 rounded-xl bg-gradient-to-r from-slate-300 to-slate-400/40 group-hover:from-teal-600/30 group-hover:to-teal-600/20 transition-colors duration-500 border border-slate-300 relative overflow-hidden">
                   {/* Mock graph line */}
                   <svg className="absolute bottom-0 w-full h-24 text-teal-500/20 dark:text-teal-500/10" viewBox="0 0 100 100" preserveAspectRatio="none">
                     <path d="M0,100 C20,80 40,90 60,40 C80,10 90,30 100,20 L100,100 Z" fill="currentColor" />
@@ -84,8 +84,8 @@ export function Hero() {
             </div>
 
             {/* Floating Element */}
-            <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-lg border border-slate-400 flex items-center space-x-4 z-10" style={{ animationDuration: '3s' }}>
-              <div className="w-12 h-12 rounded-full bg-radial from-emerald-400/40 to-emerald-200/5 flex items-center justify-center">
+            <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-sm shadow-lg border border-slate-400 flex items-center space-x-4 z-10" style={{ animationDuration: '3s' }}>
+              <div className="w-12 h-12 rounded-full bg-radial from-emerald-400/20 to-emerald-200/5 flex items-center justify-center">
                 <ShieldCheck className="w-6 h-6 text-emerald-500" />
               </div>
               <div>
