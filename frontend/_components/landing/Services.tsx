@@ -50,9 +50,9 @@ export function Services() {
     <section id="services" className="py-24 bg-gray-50 dark:bg-gray-950">
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="text-center max-w-2xl mx-auto mb-16">
-          <h2 className="text-sm font-bold text-teal-600 uppercase tracking-widest mb-3">Our Services</h2>
+          <h2 className="text-sm font-bold text-teal-600 uppercase tracking-widest mb-3">Sevior's Services</h2>
           <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
-            Everything you need to run your agency.
+            Everything you need to run your Agency.
           </h3>
           <p className="text-gray-600 dark:text-gray-400 text-lg">
             Powerful features designed to automate the boring stuff so you can focus on writing great code and delivering value.
