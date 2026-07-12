@@ -35,7 +35,7 @@ export function AboutCard({
   return (
     <div className="bg-white p-6 rounded-sm border border-gray-300 shadow-xs hover:scale-105 transition-all duration-200 cursor-pointer">
       <div
-        className={`w-12 h-12 rounded-xl mb-4 flex items-center justify-center ${iconBg}`}
+        className={`w-12 h-12 rounded-sm mb-4 flex items-center justify-center ${iconBg}`}
       >
         <Icon className={iconColor} />
       </div>
@@ -73,7 +73,7 @@ export function About() {
               </div>
               <div className="space-y-4">
                 <div className="bg-white p-6 rounded-sm border border-gray-300 shadow-xs hover:scale-105 transition-all duration-200 cursor-pointer">
-                  <div className="w-12 h-12 bg-green-100 rounded-xl mb-4 flex items-center justify-center">
+                  <div className="w-12 h-12 bg-green-100 rounded-sm mb-4 flex items-center justify-center">
                     <HeartHandshake className="text-green-600" />
                   </div>
                   <h3 className="font-bold text-gray-900 dark:text-white mb-2">Collaboration</h3>
