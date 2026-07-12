@@ -33,7 +33,7 @@ export function AboutCard({
   iconColor,
 }: AboutCardProps) {
   return (
-    <div className="bg-white p-6 rounded-sm border border-gray-300 shadow-xs">
+    <div className="bg-white p-6 rounded-sm border border-gray-300 shadow-xs hover:scale-105 transition-all duration-200 cursor-pointer">
       <div
         className={`w-12 h-12 rounded-xl mb-4 flex items-center justify-center ${iconBg}`}
       >
@@ -72,7 +72,7 @@ export function About() {
                 ))}
               </div>
               <div className="space-y-4">
-                <div className="bg-white p-6 rounded-sm border border-gray-300 shadow-xs">
+                <div className="bg-white p-6 rounded-sm border border-gray-300 shadow-xs hover:scale-105 transition-all duration-200 cursor-pointer">
                   <div className="w-12 h-12 bg-green-100 rounded-xl mb-4 flex items-center justify-center">
                     <HeartHandshake className="text-green-600" />
                   </div>
