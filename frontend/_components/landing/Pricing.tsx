@@ -10,7 +10,7 @@ export function Pricing() {
           <h2 className="text-sm font-bold text-teal-600 uppercase tracking-widest mb-3">Pricing Plans</h2>
           <h3 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
             Create your own agencies.<br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-blue-500">Scale without limits.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-800 via-teal-600 to-sky-400">Scale without limits.</span>
           </h3>
           <p className="text-gray-600 text-lg">
             Choose the perfect plan for your agency. Whether you are a solo developer or an enterprise, we have got you covered.
@@ -28,14 +28,14 @@ export function Pricing() {
                 key={index}
                 className={`
                   relative flex flex-col w-full md:w-1/3 transition-all duration-300
-                  ${isFree ? 'bg-white border border-gray-200 rounded-3xl md:rounded-r-none md:border-r-0 z-10 hover:-translate-y-1' : ''}
+                  ${isFree ? 'bg-white border border-gray-300 shadow-xs rounded-3xl md:rounded-r-none md:border-r-0 z-10 hover:-translate-y-1' : ''}
                   ${isPro ? 'bg-gradient-to-tr from-slate-800 to-teal-800 text-white shadow-2xl shadow-slate-900/40 border-0 rounded-3xl md:rounded-xl z-20 md:scale-[1.06] md:min-h-[600px] hover:-translate-y-2 hover:shadow-slate-900/60' : ''}
-                  ${isExec ? 'bg-white border border-yellow-500 shadow-sm rounded-3xl md:rounded-l-none md:border-l-0 z-10 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(234,179,8,0.15)]' : ''}
+                  ${isExec ? 'bg-white border border-yellow-500 shadow-sm rounded-3xl ring ring-offset-4 ring-yellow-600 md:rounded-l-none md:border-l-0 z-10 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(234,179,8,0.15)]' : ''}
                   p-8
                 `}
               >
                 {isPro && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-teal-400 to-teal-600 text-white text-xs font-bold uppercase tracking-wider py-1.5 px-5 rounded-full shadow-lg shadow-teal-500/30">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-teal-600 to-sky-600 border-2 border-white text-white text-xs font-bold uppercase tracking-wide py-1.5 px-5 rounded-full shadow-xs shadow-teal-500/30">
                     Most Popular
                   </div>
                 )}
@@ -58,7 +58,7 @@ export function Pricing() {
                   {plan.features.map((feature, idx) => (
                     <div key={idx} className="flex items-center space-x-3">
                       {feature.included ? (
-                        <CheckCircle2 className={`w-5 h-5 shrink-0 ${isPro ? "text-teal-400" : (isExec ? "text-yellow-600" : "text-teal-600")}`} />
+                        <CheckCircle2 className={`w-5 h-5 shrink-0 ${isPro ? "text-teal-400" : (isExec ? "text-yellow-600" : "text-green-500")}`} />
                       ) : (
                         <XCircle className={`w-5 h-5 shrink-0 ${isPro ? "text-slate-500" : "text-gray-300"}`} />
                       )}
