@@ -58,14 +58,14 @@ export function Navbar() {
           </nav>
 
           {/* Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-3">
             <Link href="/login">
-              <Button variant="ghost" className="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
-                Log in
+              <Button variant="ghost" className="bg-slate-200 hover:bg-slate-300 hover:text-slate-900 text-slate-700">
+                Sign In
               </Button>
             </Link>
             <Link href="/login?tab=register">
-              <Button className="bg-teal-600 hover:bg-teal-700 text-white rounded-full px-6 font-semibold shadow-md hover:shadow-lg transition-all">
+              <Button className="bg-gradient-to-r from-slate-800 hover:from-slate-700 to-teal-600 hover:to-teal-500">
                 Register
               </Button>
             </Link>
