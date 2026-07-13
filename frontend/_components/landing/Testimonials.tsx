@@ -83,7 +83,7 @@ export function Testimonials() {
                   <div className="relative z-10">
                     <div className="flex space-x-1 mb-6">
                       {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 text-amber-400 fill-current" />
+                        <Star key={i} className="w-5 h-5 text-amber-500 fill-current" />
                       ))}
                     </div>
                     <p className="text-slate-200 mb-8 italic leading-relaxed text-md font-medium">
@@ -112,7 +112,7 @@ export function Testimonials() {
                 <div>
                   <div className="flex space-x-1 mb-6">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-amber-400 fill-current" />
+                      <Star key={i} className={`w-5 h-5 text-amber-400 fill-current`} />
                     ))}
                   </div>
                   <p className="text-slate-600 dark:text-slate-300 mb-8 italic leading-relaxed">

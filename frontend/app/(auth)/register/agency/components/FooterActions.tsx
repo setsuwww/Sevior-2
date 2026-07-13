@@ -8,7 +8,7 @@ export function FooterActions() {
     const router = useRouter();
 
     return (
-        <div className="dark:bg-zinc-900 border-t border-gray-100 dark:border-gray-800 p-6 md:px-10 flex items-center justify-between">
+        <div className="dark:bg-zinc-900 border-t border-gray-100 dark:border-gray-800 p-8 flex items-center justify-between">
             <Button
                 type="button"
                 variant="ghost"

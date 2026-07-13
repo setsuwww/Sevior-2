@@ -1,4 +1,3 @@
-import React from "react";
 import { CheckCircle2 } from "lucide-react";
 import { useAgencyOnboarding } from "./logic/useAgencyOnboarding";
 import { plans } from "@/_constants/template/plans";
