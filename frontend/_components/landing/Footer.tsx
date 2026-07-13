@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Twitter, Linkedin, Github, LayoutDashboard } from "lucide-react";
 
 export function Footer() {
@@ -8,12 +9,12 @@ export function Footer() {
     <footer className="bg-white dark:bg-black border-t border-gray-200 dark:border-gray-900 pt-16 pb-8">
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          
+
           {/* Brand Info */}
           <div className="md:col-span-1">
-            <Link href="/" className="flex items-center space-x-2 group mb-4">
-              <div className="w-8 h-8 rounded-lg bg-teal-600 flex items-center justify-center">
-                <span className="text-white font-bold text-lg leading-none">S</span>
+            <Link href="/" className="flex items-center group mb-4">
+              <div className="relative w-14 h-14 rotate-[2deg] rounded-lg flex items-center justify-center overflow-hidden">
+                <Image src="/1.png" alt="Sevior Logo" fill className="object-cover" />
               </div>
               <span className="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">
                 Sevior<span className="text-teal-600">.</span>

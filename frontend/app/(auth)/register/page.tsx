@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import Link from "next/link";
 import { Building2, User, Star, Check } from "lucide-react";
 
@@ -8,8 +10,8 @@ export default function RegisterSelectionPage() {
         <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50/50 dark:bg-zinc-950 p-4 sm:p-6 lg:p-8 selection:bg-teal-500/30">
             {/* Top Section */}
             <div className="text-center mb-12 flex flex-col items-center">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-2xl sm:rounded-3xl flex items-center justify-center shadow-sm mb-6">
-                    <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 px-2 text-center leading-tight">Sevior<br />Logo</span>
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl sm:rounded-3xl flex items-center justify-center mb-6 overflow-hidden">
+                    <Image src="/1.png" alt="Sevior Logo" fill className="object-cover" />
                 </div>
                 <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">Join Sevior</h1>
                 <p className="text-slate-500 dark:text-slate-400 mt-3 text-lg">Choose your account type to get started.</p>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/_components/ui/button";
 import { Menu, X, ArrowRight } from "lucide-react";
@@ -35,9 +36,9 @@ export function Navbar() {
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 group">
-            <div className="w-8 h-8 rounded-lg bg-teal-600 flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300">
-              <span className="text-white font-bold text-lg leading-none">S</span>
+          <Link href="/" className="flex items-center group">
+            <div className="relative w-12 h-12 rotate-[2deg] rounded-lg flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300 overflow-hidden">
+              <Image src="/1.png" alt="Sevior Logo" fill className="object-cover" />
             </div>
             <span className="text-xl font-extrabold tracking-tight text-gray-900 dark:text-white">
               Sevior<span className="text-teal-600">.</span>
