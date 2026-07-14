@@ -3,17 +3,29 @@
 import Image from "next/image";
 
 import Link from "next/link";
-import { Building2, User, Star, Check } from "lucide-react";
+import { Building2, User, Star, Check, ArrowLeft } from "lucide-react";
 
 export default function RegisterSelectionPage() {
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50/50 dark:bg-zinc-950 p-4 sm:p-6 lg:p-8 selection:bg-teal-500/30">
+        <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50/50 dark:bg-slate-950 p-4 sm:p-6 lg:p-8 selection:bg-teal-500/30">
+            {/* Back Navigation */}
+            <div className="w-full max-w-4xl mx-auto mb-8 sm:mb-10">
+                <Link 
+                    href="/" 
+                    className="inline-flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded-md p-1 -ml-1"
+                    aria-label="Return to homepage"
+                >
+                    <ArrowLeft className="w-4 h-4 mr-2 transition-transform duration-300 group-hover:-translate-x-1" />
+                    Back to Home
+                </Link>
+            </div>
+
             {/* Top Section */}
             <div className="text-center mb-12 flex flex-col items-center">
-                <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl sm:rounded-3xl flex items-center justify-center mb-6 overflow-hidden">
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl sm:rounded-3xl flex items-center justify-center mb-2 overflow-hidden">
                     <Image src="/1.png" alt="Sevior Logo" fill className="object-cover" />
                 </div>
-                <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">Join Sevior</h1>
+                <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">Join Sevior.</h1>
                 <p className="text-slate-500 dark:text-slate-400 mt-3 text-lg">Choose your account type to get started.</p>
             </div>
 
@@ -56,7 +68,7 @@ export default function RegisterSelectionPage() {
 
                 {/* Client Card */}
                 <Link href="/register/client" className="group relative block w-full outline-none">
-                    <div className="bg-white dark:bg-zinc-900 border border-slate-400 dark:border-zinc-800 rounded-r-3xl p-8 flex flex-col shadow-sm transition-all duration-300 md:group-hover:-translate-y-1 md:group-hover:shadow-md ring-2 ring-transparent group-focus:ring-blue-500">
+                    <div className="bg-white dark:bg-slate-900 border border-slate-400 dark:border-slate-800 rounded-r-3xl p-8 flex flex-col shadow-sm transition-all duration-300 md:group-hover:-translate-y-1 md:group-hover:shadow-md ring-2 ring-transparent group-focus:ring-blue-500">
 
                         <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-sm flex items-center justify-center mb-8">
                             <User className="w-7 h-7" />
