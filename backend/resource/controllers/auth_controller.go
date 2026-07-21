@@ -2,19 +2,45 @@ package controllers
 
 import (
 	"backend/resource/models"
+	"backend/resource/services"
 	"backend/resource/utils"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
-// Register Client
-func RegisterClient(c *gin.Context, db *gorm.DB) {
+var authService = services.NewAuthService()
+
+func setTokenCookie(c *gin.Context, token string, expires time.Time) {
+	// Set HttpOnly cookie for Refresh Token
+	c.SetCookie(
+		"refresh_token",
+		token,
+		int(time.Until(expires).Seconds()),
+		"/",
+		"",    // domain
+		false, // secure (should be true in prod HTTPS)
+		true,  // httpOnly
+	)
+}
+
+func clearTokenCookie(c *gin.Context) {
+	c.SetCookie(
+		"refresh_token",
+		"",
+		-1,
+		"/",
+		"",
+		false,
+		true,
+	)
+}
+
+func RegisterClient(c *gin.Context) {
 	var input struct {
 		FullName string `json:"full_name" binding:"required"`
 		Email    string `json:"email" binding:"required,email"`
-		Phone    string `json:"phone"`
 		Password string `json:"password" binding:"required,min=6"`
 	}
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -22,180 +48,114 @@ func RegisterClient(c *gin.Context, db *gorm.DB) {
 		return
 	}
 
-	// Check if email exists
-	var existing models.User
-	if err := db.Where("email = ?", input.Email).First(&existing).Error; err == nil {
-		c.JSON(http.StatusConflict, gin.H{"error": "Email already registered"})
-		return
-	}
-
-	isActive := true
-	user := models.User{
-		FullName: input.FullName,
-		Email:    input.Email,
-		Phone:    input.Phone,
-		Password: utils.HashPassword(input.Password),
-		Role:     models.RoleClient,
-		IsActive: &isActive,
-	}
-
-	if err := db.Create(&user).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
+	user, err := authService.RegisterClient(input.FullName, input.Email, input.Password)
+	if err != nil {
+		status := http.StatusInternalServerError
+		if err.Error() == "email already in use" {
+			status = http.StatusConflict
+		}
+		c.JSON(status, gin.H{"error": err.Error()})
 		return
 	}
 
 	accessToken, _ := utils.GenerateToken(user.ID, user.Role)
 	refreshToken, _ := utils.GenerateRefreshToken(user.ID, user.Role)
+	authService.StoreRefreshToken(user.ID, refreshToken)
+
+	setTokenCookie(c, refreshToken, time.Now().Add(time.Hour*24*7))
 
 	c.JSON(http.StatusCreated, gin.H{
-		"user":         user,
-		"accessToken":  accessToken,
-		"refreshToken": refreshToken,
+		"user":        user,
+		"accessToken": accessToken,
 	})
 }
 
-// Register Agency
-func RegisterAgency(c *gin.Context, db *gorm.DB) {
+func RegisterAgency(c *gin.Context) {
 	var input struct {
-		// User Info
-		FullName string `json:"full_name" binding:"required"`
-		Email    string `json:"email" binding:"required,email"`
-		Phone    string `json:"phone"`
-		Password string `json:"password" binding:"required,min=6"`
-		
-		// Agency Info
+		FullName          string `json:"full_name" binding:"required"`
+		Email             string `json:"email" binding:"required,email"`
+		Password          string `json:"password" binding:"required,min=6"`
 		AgencyName        string `json:"agency_name" binding:"required"`
-		AgencyDescription string `json:"agency_description"`
-		Location          string `json:"location"`
-		Website           string `json:"website"`
-		SubscriptionPlan  string `json:"subscription_plan" binding:"required"` // free, team, company
 	}
-	
+
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Validate Plan
-	if input.SubscriptionPlan != "free" && input.SubscriptionPlan != "team" && input.SubscriptionPlan != "company" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid subscription plan"})
+	user, err := authService.RegisterAgencyOwner(input.FullName, input.Email, input.Password, input.AgencyName)
+	if err != nil {
+		status := http.StatusInternalServerError
+		if err.Error() == "email already in use" {
+			status = http.StatusConflict
+		}
+		c.JSON(status, gin.H{"error": err.Error()})
 		return
 	}
-
-	// Check if email exists
-	var existing models.User
-	if err := db.Where("email = ?", input.Email).First(&existing).Error; err == nil {
-		c.JSON(http.StatusConflict, gin.H{"error": "Email already registered"})
-		return
-	}
-
-	// Start Transaction
-	tx := db.Begin()
-
-	// Determine status
-	status := "active"
-	if input.SubscriptionPlan != "free" {
-		status = "pending"
-	}
-
-	agency := models.Agency{
-		AgencyName:         input.AgencyName,
-		Description:        input.AgencyDescription,
-		OwnerName:          input.FullName,
-		Email:              input.Email,
-		Contact:            input.Phone,
-		Location:           input.Location,
-		Website:            input.Website,
-		SubscriptionPlan:   input.SubscriptionPlan,
-		SubscriptionStatus: status,
-		Status:             "active",
-	}
-
-	if err := tx.Create(&agency).Error; err != nil {
-		tx.Rollback()
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create agency"})
-		return
-	}
-
-	isActive := true
-	user := models.User{
-		FullName: input.FullName,
-		Email:    input.Email,
-		Phone:    input.Phone,
-		Password: utils.HashPassword(input.Password),
-		Role:     models.RoleAdmin, // Agency owner is Admin
-		AgencyID: &agency.ID,
-		IsActive: &isActive,
-	}
-
-	if err := tx.Create(&user).Error; err != nil {
-		tx.Rollback()
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
-		return
-	}
-
-	tx.Commit()
 
 	accessToken, _ := utils.GenerateToken(user.ID, user.Role)
 	refreshToken, _ := utils.GenerateRefreshToken(user.ID, user.Role)
+	authService.StoreRefreshToken(user.ID, refreshToken)
+
+	setTokenCookie(c, refreshToken, time.Now().Add(time.Hour*24*7))
 
 	c.JSON(http.StatusCreated, gin.H{
-		"user":         user,
-		"agency":       agency,
-		"accessToken":  accessToken,
-		"refreshToken": refreshToken,
-		"message":      "Agency and Admin created successfully",
+		"user":        user,
+		"accessToken": accessToken,
+		"message":     "Agency and Admin created successfully",
 	})
 }
 
-// Login user
-func Login(c *gin.Context, db *gorm.DB) {
+func Login(c *gin.Context) {
 	var input struct {
-		Email    string `json:"email" binding:"required,email"`
-		Password string `json:"password" binding:"required"`
+		Email      string `json:"email" binding:"required,email"`
+		Password   string `json:"password" binding:"required"`
+		RememberMe bool   `json:"rememberMe"`
 	}
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	var user models.User
-	if err := db.Where("email = ?", input.Email).First(&user).Error; err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
-		return
-	}
-
-	if !utils.CheckPassword(user.Password, input.Password) {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
-		return
-	}
-
-	if user.IsActive != nil && !*user.IsActive {
-		c.JSON(http.StatusForbidden, gin.H{"error": "Account is deactivated"})
+	user, err := authService.Login(input.Email, input.Password)
+	if err != nil {
+		status := http.StatusUnauthorized
+		if err.Error() == "your account has been suspended" {
+			status = http.StatusForbidden
+		}
+		c.JSON(status, gin.H{"error": err.Error()})
 		return
 	}
 
 	accessToken, _ := utils.GenerateToken(user.ID, user.Role)
-	refreshToken, _ := utils.GenerateRefreshToken(user.ID, user.Role)
+	
+	if input.RememberMe {
+		refreshToken, _ := utils.GenerateRefreshToken(user.ID, user.Role)
+		authService.StoreRefreshToken(user.ID, refreshToken)
+		setTokenCookie(c, refreshToken, time.Now().Add(time.Hour*24*7))
+	} else {
+		// If not remember me, we can issue a session cookie or no refresh token at all.
+		// For simplicity, we just issue a session cookie (expires when browser closes)
+		refreshToken, _ := utils.GenerateRefreshToken(user.ID, user.Role)
+		authService.StoreRefreshToken(user.ID, refreshToken)
+		c.SetCookie("refresh_token", refreshToken, 0, "/", "", false, true)
+	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"user":         user,
-		"accessToken":  accessToken,
-		"refreshToken": refreshToken,
+		"user":        user,
+		"accessToken": accessToken,
 	})
 }
 
-// Refresh Token
-func RefreshToken(c *gin.Context, db *gorm.DB) {
-	var input struct {
-		RefreshToken string `json:"refreshToken" binding:"required"`
-	}
-	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+func RefreshToken(c *gin.Context) {
+	// Read from HttpOnly cookie
+	tokenStr, err := c.Cookie("refresh_token")
+	if err != nil || tokenStr == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "No refresh token found"})
 		return
 	}
 
-	claims, err := utils.ParseToken(input.RefreshToken)
+	claims, err := utils.ParseToken(tokenStr)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired refresh token"})
 		return
@@ -219,26 +179,74 @@ func RefreshToken(c *gin.Context, db *gorm.DB) {
 		return
 	}
 
-	// Ensure user still exists and is active
-	var user models.User
-	if err := db.First(&user, userID).Error; err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found"})
-		return
-	}
-	if user.IsActive != nil && !*user.IsActive {
-		c.JSON(http.StatusForbidden, gin.H{"error": "Account is deactivated"})
-		return
-	}
-
 	// Generate new access token
-	newAccessToken, _ := utils.GenerateToken(user.ID, role)
+	newAccessToken, _ := utils.GenerateToken(userID, role)
 	
+	// Option to rotate refresh token here
+	newRefreshToken, _ := utils.GenerateRefreshToken(userID, role)
+	authService.DeleteRefreshToken(tokenStr)
+	authService.StoreRefreshToken(userID, newRefreshToken)
+	setTokenCookie(c, newRefreshToken, time.Now().Add(time.Hour*24*7))
+
 	c.JSON(http.StatusOK, gin.H{
 		"accessToken": newAccessToken,
 	})
 }
 
-// Get Current User
+func Logout(c *gin.Context) {
+	tokenStr, _ := c.Cookie("refresh_token")
+	if tokenStr != "" {
+		authService.DeleteRefreshToken(tokenStr)
+	}
+	clearTokenCookie(c)
+	c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully"})
+}
+
+func ForgotPassword(c *gin.Context) {
+	var input struct {
+		Email string `json:"email" binding:"required,email"`
+	}
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	token, err := authService.GeneratePasswordResetToken(input.Email)
+	if err != nil {
+		// Do not leak existence of email. Just return 200 OK.
+		c.JSON(http.StatusOK, gin.H{"message": "If that email is in our database, we will send a password reset link."})
+		return
+	}
+
+	// In a real app, send email here. For now, print to console.
+	// fmt.Println("Password reset link: http://localhost:3000/reset-password?token=" + token)
+	_ = token
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "If that email is in our database, we will send a password reset link.",
+		"token": token, // FOR TESTING ONLY
+	})
+}
+
+func ResetPassword(c *gin.Context) {
+	var input struct {
+		Token    string `json:"token" binding:"required"`
+		Password string `json:"password" binding:"required,min=6"`
+	}
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	err := authService.ResetPassword(input.Token, input.Password)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Password reset successfully. You can now log in."})
+}
+
 func Me(c *gin.Context) {
 	userIface, exists := c.Get("currentUser")
 	if !exists {

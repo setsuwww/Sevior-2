@@ -27,10 +27,13 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	}))
 
 	authPublic := r.Group("/auth")
-	authPublic.POST("/register/client", func(c *gin.Context) { controllers.RegisterClient(c, db) })
-	authPublic.POST("/register/agency", func(c *gin.Context) { controllers.RegisterAgency(c, db) })
-	authPublic.POST("/login", func(c *gin.Context) { controllers.Login(c, db) })
-	authPublic.POST("/refresh", func(c *gin.Context) { controllers.RefreshToken(c, db) })
+	authPublic.POST("/register/client", controllers.RegisterClient)
+	authPublic.POST("/register/agency", controllers.RegisterAgency)
+	authPublic.POST("/login", controllers.Login)
+	authPublic.POST("/refresh", controllers.RefreshToken)
+	authPublic.POST("/logout", controllers.Logout)
+	authPublic.POST("/forgot-password", controllers.ForgotPassword)
+	authPublic.POST("/reset-password", controllers.ResetPassword)
 
 	authProtected := r.Group("/auth")
 	authProtected.Use(middleware.AuthMiddleware(db))

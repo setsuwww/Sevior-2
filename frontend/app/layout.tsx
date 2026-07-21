@@ -7,12 +7,15 @@ export const metadata: Metadata = {
 };
 
 import { TooltipProvider } from "@/_components/ui/tooltip";
+import { AuthProvider } from "@/features/auth/providers/AuthProvider";
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body className="antialiased">
-        <TooltipProvider>{children}</TooltipProvider>
+        <AuthProvider>
+          <TooltipProvider>{children}</TooltipProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -45,6 +45,8 @@ func RunMigrations(db *gorm.DB) {
 		&models.Subscription{},
 		&models.Payment{},
 		&models.Announcement{},
+		&models.RefreshToken{},
+		&models.PasswordResetToken{},
 	); err != nil {
 		log.Fatal("Migration failed:", err)
 	}
