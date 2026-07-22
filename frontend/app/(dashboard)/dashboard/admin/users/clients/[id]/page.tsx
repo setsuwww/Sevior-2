@@ -6,10 +6,10 @@ import { ArrowLeft, Mail, Phone, Calendar, Globe, Building, Edit2, Trash2, Check
 import { Button } from "@/_components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/_components/ui/avatar";
 import { Skeleton } from "@/_components/ui/skeleton";
-import { clientService } from "../../../../../../services/client.service";
-import { Client } from "../../../../../../types/client";
-import { ClientFormModal } from "../../../../../../_components/client/ClientFormModal";
-import { DeleteConfirmDialog } from "../../../../../../_components/client/DeleteConfirmDialog";
+import { clientService } from "../../../../../../../services/client.service";
+import { Client } from "../../../../../../../types/client";
+import { ClientFormModal } from "../../../../../../../_components/client/ClientFormModal";
+import { DeleteConfirmDialog } from "../../../../../../../_components/client/DeleteConfirmDialog";
 
 export default function ClientProfilePage() {
     const params = useParams();
@@ -81,7 +81,7 @@ export default function ClientProfilePage() {
 
     return (
         <div className="p-6 md:p-8 max-w-5xl mx-auto min-h-screen pb-20">
-            <button 
+            <button
                 onClick={() => router.back()}
                 className="flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors mb-8 group"
             >
@@ -93,7 +93,7 @@ export default function ClientProfilePage() {
             <div className="bg-white dark:bg-gray-900 rounded-3xl p-8 border border-gray-100 dark:border-gray-800 shadow-sm relative overflow-hidden mb-8">
                 {/* Background decorative gradient */}
                 <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 dark:from-blue-900/20 dark:to-indigo-900/20" />
-                
+
                 <div className="relative flex flex-col md:flex-row gap-8 items-start">
                     <Avatar className="w-32 h-32 border-4 border-white dark:border-gray-900 shadow-lg bg-gray-50 dark:bg-gray-800">
                         <AvatarImage src={client.logoUrl} className="object-contain p-2" />
@@ -130,7 +130,7 @@ export default function ClientProfilePage() {
                             </div>
                             {client.website && (
                                 <div className="flex items-center">
-                                    <Globe className="w-4 h-4 mr-3 shrink-0" /> 
+                                    <Globe className="w-4 h-4 mr-3 shrink-0" />
                                     <a href={client.website} target="_blank" rel="noopener noreferrer" className="hover:text-teal-600 hover:underline">
                                         {client.website.replace(/^https?:\/\//, '')}
                                     </a>
@@ -166,7 +166,7 @@ export default function ClientProfilePage() {
                         <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
                             <TrendingUp className="w-5 h-5 mr-2 text-teal-500" /> Account Overview
                         </h3>
-                        
+
                         <div className="space-y-6">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center text-gray-500 dark:text-gray-400">
@@ -174,7 +174,7 @@ export default function ClientProfilePage() {
                                 </div>
                                 <span className="font-bold text-lg text-gray-900 dark:text-gray-100">{client.totalProjects}</span>
                             </div>
-                            
+
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center text-gray-500 dark:text-gray-400">
                                     <CheckCircle2 className="w-4 h-4 mr-2 text-green-500" /> Completed
@@ -188,7 +188,7 @@ export default function ClientProfilePage() {
                                 </div>
                                 <span className="font-bold text-lg text-gray-900 dark:text-gray-100">{client.invoicesCount || 0}</span>
                             </div>
-                            
+
                             <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
                                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Total Revenue Generated</p>
                                 <p className="text-3xl font-bold text-green-600 dark:text-green-500">{formatCurrency(client.revenue)}</p>

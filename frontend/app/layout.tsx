@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 import { TooltipProvider } from "@/_components/ui/tooltip";
-import { AuthProvider } from "@/features/auth/providers/AuthProvider";
+import { AuthProvider } from "@/providers/AuthProvider";
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

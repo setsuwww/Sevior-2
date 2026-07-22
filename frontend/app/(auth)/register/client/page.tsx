@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { authService } from "@/features/auth/services/auth.service";
-import { useAuth } from "@/features/auth/providers/AuthProvider";
+import { authService } from "@/services/auth.service";
+import { useAuth } from "@/app/providers/AuthProvider";
 
 import { Input } from "@/_components/ui/input";
 import { Label } from "@/_components/ui/label";
@@ -19,7 +19,7 @@ export default function ClientRegistrationPage() {
         password: "",
         confirm_password: "",
     });
-    
+
     // Status states
     const [status, setStatus] = useState<"idle" | "creating" | "signing_in">("idle");
     const [error, setError] = useState<string | null>(null);
@@ -42,7 +42,7 @@ export default function ClientRegistrationPage() {
         }
 
         setStatus("creating");
-        
+
         try {
             // Step 1: Create Account
             const res = await authService.registerClient({
@@ -54,7 +54,7 @@ export default function ClientRegistrationPage() {
 
             // Step 2: Automatically Sign In
             setStatus("signing_in");
-            
+
             // Wait slightly for smooth UX transition
             await new Promise((resolve) => setTimeout(resolve, 800));
 
@@ -63,7 +63,7 @@ export default function ClientRegistrationPage() {
 
             // Notify & Redirect
             toast.success("Welcome to Sevior!", { duration: 3000 });
-            
+
             const userRole = res.user.Role;
             if (userRole === "SUPER_ADMIN") {
                 router.push("/dashboard/superadmin");

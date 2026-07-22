@@ -1,22 +1,22 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { User } from "../types/auth.types";
-import { authService, setAccessToken } from "../services/auth.service";
+import { UserAuth } from "@/types/Auth";
+import { authService, setAccessToken } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {
-  user: User | null;
+  user: UserAuth | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (token: string, userData: User) => void;
+  login: (token: string, userData: UserAuth) => void;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserAuth | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         // Attempt to silently refresh token using the HttpOnly cookie
         const { accessToken } = await authService.refresh();
         setAccessToken(accessToken);
-        
+
         // Fetch current user details
         const { user: userData } = await authService.getMe();
         setUser(userData);
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, [router]);
 
-  const login = (token: string, userData: User) => {
+  const login = (token: string, userData: UserAuth) => {
     setAccessToken(token);
     setUser(userData);
   };

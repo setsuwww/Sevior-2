@@ -8,7 +8,7 @@ import { ArrowLeft, Loader2, MailCheck } from "lucide-react";
 import Image from "next/image";
 
 import { forgotPasswordSchema, ForgotPasswordFormValues } from "@/features/auth/validators/auth.validator";
-import { authService } from "@/features/auth/services/auth.service";
+import { authService } from "@/services/auth.service";
 
 import { Button } from "@/_components/ui/button";
 import { Input } from "@/_components/ui/input";
@@ -43,8 +43,8 @@ export default function ForgotPasswordPage() {
         <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 p-4 selection:bg-teal-500/30 relative">
             {/* Back Navigation */}
             <div className="absolute top-6 left-6 md:top-8 md:left-10">
-                <Link 
-                    href="/login" 
+                <Link
+                    href="/login"
                     className="inline-flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded-md p-1 -ml-1"
                 >
                     <ArrowLeft className="w-4 h-4 mr-2 transition-transform duration-300 group-hover:-translate-x-1" />
@@ -104,9 +104,9 @@ export default function ForgotPasswordPage() {
                                     )}
                                 </div>
 
-                                <Button 
-                                    type="submit" 
-                                    disabled={isSubmitting} 
+                                <Button
+                                    type="submit"
+                                    disabled={isSubmitting}
                                     className="w-full h-11 text-base font-semibold bg-teal-600 hover:bg-teal-700 text-white transition-all shadow-md shadow-teal-500/20"
                                 >
                                     {isSubmitting ? (

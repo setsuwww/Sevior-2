@@ -10,7 +10,7 @@ import Image from "next/image";
 import toast from "react-hot-toast";
 
 import { resetPasswordSchema, ResetPasswordFormValues } from "@/features/auth/validators/auth.validator";
-import { authService } from "@/features/auth/services/auth.service";
+import { authService } from "@/services/auth.service";
 
 import { Button } from "@/_components/ui/button";
 import { Input } from "@/_components/ui/input";
@@ -145,9 +145,9 @@ function ResetPasswordForm() {
                 </div>
             )}
 
-            <Button 
-                type="submit" 
-                disabled={isSubmitting} 
+            <Button
+                type="submit"
+                disabled={isSubmitting}
                 className="w-full h-11 text-base font-semibold bg-teal-600 hover:bg-teal-700 text-white transition-all shadow-md shadow-teal-500/20"
             >
                 {isSubmitting ? (

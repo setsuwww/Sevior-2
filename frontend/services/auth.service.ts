@@ -1,10 +1,9 @@
 import axios, { AxiosInstance } from "axios";
-import { AuthResponse, RefreshResponse } from "../types/auth.types";
-import { LoginFormValues, ForgotPasswordFormValues } from "../validators/auth.validator";
+import { AuthResponse, RefreshResponse } from "@/types/Auth"
+import { LoginFormValues, ForgotPasswordFormValues } from "@/validators/auth.validators";
 
 const API_URL = "http://localhost:8080/auth";
 
-// Base axios instance for auth requests
 export const authApi: AxiosInstance = axios.create({
   baseURL: API_URL,
   withCredentials: true, // IMPORTANT: Allows HttpOnly cookies to be sent
@@ -15,7 +14,6 @@ export const api: AxiosInstance = axios.create({
   withCredentials: true,
 });
 
-// Flag to prevent multiple refresh token requests
 let isRefreshing = false;
 let failedQueue: any[] = [];
 
@@ -30,12 +28,11 @@ const processQueue = (error: any, token: string | null = null) => {
   failedQueue = [];
 };
 
-// Interceptor for API requests to automatically attach access token
 api.interceptors.request.use((config) => {
   // In a real app, you might use Zustand or a similar store to get the token,
   // but since we want this modular, we can rely on a global state or let the hook handle it.
   // For simplicity, we can get it from localStorage (only access token, not refresh token).
-  // Wait, the user specifically requested not to use localStorage for tokens. 
+  // Wait, the user specifically requested not to use localStorage for tokens.
   // We'll manage it in memory via AuthProvider.
   // We'll export a function to set the token on the API instance.
   return config;

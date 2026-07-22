@@ -4,8 +4,8 @@ import React, { createContext, useContext, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { AgencyForm, EntryPoint, Step, ValidationErrors } from "../../types";
 import { validateAgencyProfile, validatePasswords, validatePlanSelection } from "../../types"
-import { authService } from "@/features/auth/services/auth.service";
-import { useAuth } from "@/features/auth/providers/AuthProvider";
+import { authService } from "@/services/auth.service";
+import { useAuth } from "@/app/providers/AuthProvider";
 import toast from "react-hot-toast";
 
 interface AgencyOnboardingContextType {
@@ -117,7 +117,7 @@ export function AgencyOnboardingProvider({ children }: { children: React.ReactNo
             };
 
             const res = await authService.registerAgency(payload);
-            
+
             setSubmittingStatus("signing_in");
             // Wait slightly for smooth UX transition
             await new Promise((resolve) => setTimeout(resolve, 800));

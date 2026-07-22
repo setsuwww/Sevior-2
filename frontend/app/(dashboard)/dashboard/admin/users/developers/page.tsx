@@ -1,21 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { useClients } from "@/hooks/use-clients";
-import { ClientsHeader } from "@/_components/client/ClientsHeader";
-import { ClientsStats } from "@/_components/client/ClientsStats";
-import { ClientCard } from "@/_components/client/ClientCard";
-import { ClientFormModal } from "@/_components/client/ClientFormModal";
-import { DeleteConfirmDialog } from "@/_components/client/DeleteConfirmDialog";
-import { ClientsGridSkeleton, ClientsStatsSkeleton } from "@/_components/client/ClientsSkeleton";
-import { ClientsEmptyState } from "@/_components/client/ClientsEmptyState";
-import { Client } from "@/types/client";
+import { useDevelopers } from "../../../../../../_hooks/use-developers";
+import { DevelopersHeader } from "../../../../../../_components/developer/DevelopersHeader";
+import { DevelopersStats } from "../../../../../../_components/developer/DevelopersStats";
+import { DeveloperCard } from "../../../../../../_components/developer/DeveloperCard";
+import { DeveloperFormModal } from "../../../../../../_components/developer/DeveloperFormModal";
+import { DeleteConfirmDialog } from "../../../../../../_components/developer/DeleteConfirmDialog";
+import { DevelopersGridSkeleton, DevelopersStatsSkeleton } from "../../../../../../_components/developer/DevelopersSkeleton";
+import { DevelopersEmptyState } from "../../../../../../_components/developer/DevelopersEmptyState";
+import { Developer } from "../../../../../../types/developer";
 import { Button } from "@/_components/ui/button";
 import { ChevronLeft, ChevronRight, AlertCircle } from "lucide-react";
 
-export default function ClientsManagementPage() {
+export default function DevelopersManagementPage() {
     const {
-        clients,
+        developers,
         stats,
         total,
         loading,
@@ -30,46 +30,46 @@ export default function ClientsManagementPage() {
         setSortBy,
         limit,
         refetch,
-        addClient,
-        updateClient,
-        deleteClient
-    } = useClients();
+        addDeveloper,
+        updateDeveloper,
+        deleteDeveloper
+    } = useDevelopers();
 
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-    const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+    const [selectedDeveloper, setSelectedDeveloper] = useState<Developer | null>(null);
     const [isDeleting, setIsDeleting] = useState(false);
 
     const handleAddClick = () => {
-        setSelectedClient(null);
+        setSelectedDeveloper(null);
         setIsFormOpen(true);
     };
 
-    const handleEditClick = (client: Client) => {
-        setSelectedClient(client);
+    const handleEditClick = (dev: Developer) => {
+        setSelectedDeveloper(dev);
         setIsFormOpen(true);
     };
 
-    const handleDeleteClick = (client: Client) => {
-        setSelectedClient(client);
+    const handleDeleteClick = (dev: Developer) => {
+        setSelectedDeveloper(dev);
         setIsDeleteOpen(true);
     };
 
-    const handleFormSubmit = async (data: Partial<Client>) => {
-        if (selectedClient) {
-            await updateClient(selectedClient.id, data);
+    const handleFormSubmit = async (data: Partial<Developer>) => {
+        if (selectedDeveloper) {
+            await updateDeveloper(selectedDeveloper.id, data);
         } else {
-            await addClient(data);
+            await addDeveloper(data);
         }
     };
 
     const handleConfirmDelete = async () => {
-        if (!selectedClient) return;
+        if (!selectedDeveloper) return;
         setIsDeleting(true);
         try {
-            await deleteClient(selectedClient.id);
+            await deleteDeveloper(selectedDeveloper.id);
             setIsDeleteOpen(false);
-            setSelectedClient(null);
+            setSelectedDeveloper(null);
         } catch (err) {
             // Error handled in hook
         } finally {
@@ -83,7 +83,7 @@ export default function ClientsManagementPage() {
         return (
             <div className="p-8 flex flex-col items-center justify-center min-h-[60vh]">
                 <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
-                <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Failed to load clients</h3>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">Failed to load developers</h3>
                 <p className="text-gray-500 mb-6">{error}</p>
                 <Button onClick={refetch} variant="outline">Try Again</Button>
             </div>
@@ -92,7 +92,7 @@ export default function ClientsManagementPage() {
 
     return (
         <div className="p-6 md:p-8 max-w-7xl mx-auto min-h-screen">
-            <ClientsHeader
+            <DevelopersHeader
                 search={search}
                 setSearch={setSearch}
                 statusFilter={statusFilter}
@@ -102,17 +102,17 @@ export default function ClientsManagementPage() {
                 onAddClick={handleAddClick}
             />
 
-            {loading && !stats ? <ClientsStatsSkeleton /> : <ClientsStats stats={stats} />}
+            {loading && !stats ? <DevelopersStatsSkeleton /> : <DevelopersStats stats={stats} />}
 
             {loading ? (
-                <ClientsGridSkeleton />
-            ) : clients.length > 0 ? (
+                <DevelopersGridSkeleton />
+            ) : developers.length > 0 ? (
                 <>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                        {clients.map(client => (
-                            <ClientCard
-                                key={client.id}
-                                client={client}
+                        {developers.map(dev => (
+                            <DeveloperCard
+                                key={dev.id}
+                                developer={dev}
                                 onEdit={handleEditClick}
                                 onDelete={handleDeleteClick}
                             />
@@ -147,13 +147,13 @@ export default function ClientsManagementPage() {
                     )}
                 </>
             ) : (
-                <ClientsEmptyState onAddClick={handleAddClick} />
+                <DevelopersEmptyState onAddClick={handleAddClick} />
             )}
 
-            <ClientFormModal
+            <DeveloperFormModal
                 isOpen={isFormOpen}
                 onClose={() => setIsFormOpen(false)}
-                client={selectedClient}
+                developer={selectedDeveloper}
                 onSubmit={handleFormSubmit}
             />
 
@@ -161,12 +161,12 @@ export default function ClientsManagementPage() {
                 isOpen={isDeleteOpen}
                 onClose={() => setIsDeleteOpen(false)}
                 onConfirm={handleConfirmDelete}
-                title="Delete Client"
-                description={`Are you sure you want to remove ${selectedClient?.companyName}? This action cannot be undone and will permanently delete this client from your agency.`}
-                itemDetails={selectedClient ? {
-                    name: selectedClient.companyName,
-                    roleOrCompany: selectedClient.industry,
-                    avatarUrl: selectedClient.logoUrl
+                title="Delete Developer"
+                description={`Are you sure you want to remove ${selectedDeveloper?.fullName}? This action cannot be undone and will permanently delete this developer from your agency.`}
+                itemDetails={selectedDeveloper ? {
+                    name: selectedDeveloper.fullName,
+                    roleOrCompany: selectedDeveloper.role,
+                    avatarUrl: selectedDeveloper.avatarUrl
                 } : undefined}
                 isDeleting={isDeleting}
             />

@@ -7,10 +7,10 @@ import { Button } from "@/_components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/_components/ui/avatar";
 import { Badge } from "@/_components/ui/badge";
 import { Skeleton } from "@/_components/ui/skeleton";
-import { developerService } from "../../../../../../services/developer.service";
-import { Developer } from "../../../../../../types/developer";
-import { DeveloperFormModal } from "../../../../../../_components/developer/DeveloperFormModal";
-import { DeleteConfirmDialog } from "../../../../../../_components/developer/DeleteConfirmDialog";
+import { developerService } from "../../../../../../../services/developer.service";
+import { Developer } from "../../../../../../../types/developer";
+import { DeveloperFormModal } from "../../../../../../../_components/developer/DeveloperFormModal";
+import { DeleteConfirmDialog } from "../../../../../../../_components/developer/DeleteConfirmDialog";
 
 export default function DeveloperProfilePage() {
     const params = useParams();
@@ -74,7 +74,7 @@ export default function DeveloperProfilePage() {
 
     return (
         <div className="p-6 md:p-8 max-w-5xl mx-auto min-h-screen pb-20">
-            <button 
+            <button
                 onClick={() => router.back()}
                 className="flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors mb-8 group"
             >
@@ -86,7 +86,7 @@ export default function DeveloperProfilePage() {
             <div className="bg-white dark:bg-gray-900 rounded-3xl p-8 border border-gray-100 dark:border-gray-800 shadow-sm relative overflow-hidden mb-8">
                 {/* Background decorative gradient */}
                 <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-teal-500/10 to-blue-500/10 dark:from-teal-900/20 dark:to-blue-900/20" />
-                
+
                 <div className="relative flex flex-col md:flex-row gap-8 items-start">
                     <Avatar className="w-32 h-32 border-4 border-white dark:border-gray-900 shadow-lg">
                         <AvatarImage src={developer.avatarUrl} />
@@ -157,7 +157,7 @@ export default function DeveloperProfilePage() {
                         <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
                             <TrendingUp className="w-5 h-5 mr-2 text-teal-500" /> Performance Overview
                         </h3>
-                        
+
                         <div className="space-y-6">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center text-gray-500 dark:text-gray-400">
@@ -165,7 +165,7 @@ export default function DeveloperProfilePage() {
                                 </div>
                                 <span className="font-bold text-lg text-gray-900 dark:text-gray-100">{developer.performanceRating.toFixed(1)}</span>
                             </div>
-                            
+
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center text-gray-500 dark:text-gray-400">
                                     <CheckCircle2 className="w-4 h-4 mr-2 text-green-500" /> Completion Rate
@@ -179,7 +179,7 @@ export default function DeveloperProfilePage() {
                                 </div>
                                 <span className="font-bold text-lg text-gray-900 dark:text-gray-100">{developer.currentProjects}</span>
                             </div>
-                            
+
                             <div className="pt-4 border-t border-gray-100 dark:border-gray-800">
                                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Total Completed Projects</p>
                                 <p className="text-3xl font-bold text-gray-900 dark:text-gray-100">{developer.completedProjects}</p>

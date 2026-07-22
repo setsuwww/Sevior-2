@@ -8,9 +8,9 @@ import Link from "next/link";
 import { Eye, EyeOff, AlertCircle, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 
-import { loginSchema, LoginFormValues } from "@/features/auth/validators/auth.validator";
-import { authService, setAccessToken } from "@/features/auth/services/auth.service";
-import { useAuth } from "@/features/auth/providers/AuthProvider";
+import { loginSchema, LoginFormValues } from "@/validators/auth.validators";
+import { authService, setAccessToken } from "@/services/auth.service";
+import { useAuth } from "@/providers/AuthProvider";
 
 import { Button } from "@/_components/ui/button";
 import { Input } from "@/_components/ui/input";
