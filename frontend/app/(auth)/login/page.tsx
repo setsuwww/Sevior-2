@@ -22,7 +22,7 @@ import Image from "next/image";
 export default function LoginPage() {
     const router = useRouter();
     const { login } = useAuth();
-    
+
     const [showPassword, setShowPassword] = useState(false);
     const [authError, setAuthError] = useState<string | null>(null);
 
@@ -48,9 +48,9 @@ export default function LoginPage() {
         try {
             const res = await authService.login(data);
             login(res.accessToken, res.user);
-            
+
             toast.success("Welcome back!", { duration: 3000 });
-            
+
             const userRole = res.user.Role;
             if (userRole === "SUPER_ADMIN") {
                 router.push("/dashboard/superadmin");
@@ -71,7 +71,7 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 p-4 selection:bg-teal-500/30">
             <div className="w-full max-w-md">
-                
+
                 {/* Logo */}
                 <div className="flex justify-center mb-8">
                     <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl sm:rounded-3xl flex items-center justify-center overflow-hidden">
@@ -79,15 +79,15 @@ export default function LoginPage() {
                     </div>
                 </div>
 
-                <Card className="shadow-xl border-slate-200/60 dark:border-slate-800">
+                <Card className="shadow-xl border-slate-300">
                     <CardHeader className="text-center pb-6">
                         <CardTitle className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Welcome back</CardTitle>
                         <CardDescription className="text-slate-500">Sign in to your account</CardDescription>
                     </CardHeader>
 
                     <CardContent>
-                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                            
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+
                             {/* Email */}
                             <div className="space-y-2">
                                 <Label htmlFor="email" className="text-slate-700 dark:text-slate-300">Email</Label>
@@ -149,7 +149,7 @@ export default function LoginPage() {
                                     className="data-[state=checked]:bg-teal-600 data-[state=checked]:border-teal-600"
                                 />
                                 <Label htmlFor="rememberMe" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-slate-600 dark:text-slate-400 cursor-pointer">
-                                    Remember me for 7 days
+                                    Remember me
                                 </Label>
                             </div>
 
@@ -162,9 +162,9 @@ export default function LoginPage() {
                             )}
 
                             {/* Submit Button */}
-                            <Button 
-                                type="submit" 
-                                disabled={isSubmitting} 
+                            <Button
+                                type="submit"
+                                disabled={isSubmitting}
                                 className="w-full h-11 text-base font-semibold bg-teal-600 hover:bg-teal-700 text-white transition-all shadow-md shadow-teal-500/20"
                             >
                                 {isSubmitting ? (

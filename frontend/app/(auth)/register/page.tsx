@@ -10,8 +10,8 @@ export default function RegisterSelectionPage() {
         <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50/50 dark:bg-slate-950 p-4 sm:p-6 lg:p-8 selection:bg-teal-500/30">
             {/* Back Navigation */}
             <div className="w-full max-w-4xl mx-auto mb-8 sm:mb-10">
-                <Link 
-                    href="/" 
+                <Link
+                    href="/"
                     className="inline-flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded-md p-1 -ml-1"
                     aria-label="Return to homepage"
                 >
@@ -50,8 +50,8 @@ export default function RegisterSelectionPage() {
                                 "Build your software agency"
                             ].map((item, i) => (
                                 <div key={i} className="flex items-center text-teal-50">
-                                    <div className="w-5 h-5 rounded-full bg-teal-500/20 flex items-center justify-center mr-3 shrink-0">
-                                        <Check className="w-3.5 h-3.5 text-teal-300" />
+                                    <div className="w-5 h-5 rounded-full bg-yellow-500/20 flex items-center justify-center mr-3 shrink-0">
+                                        <Check className="w-3.5 h-3.5 text-yellow-300" />
                                     </div>
                                     <span className="text-base font-medium">{item}</span>
                                 </div>
@@ -70,7 +70,7 @@ export default function RegisterSelectionPage() {
                 <Link href="/register/client" className="group relative block w-full outline-none">
                     <div className="bg-white dark:bg-slate-900 border border-slate-400 dark:border-slate-800 rounded-r-3xl p-8 flex flex-col shadow-sm transition-all duration-300 md:group-hover:-translate-y-1 md:group-hover:shadow-md ring-2 ring-transparent group-focus:ring-blue-500">
 
-                        <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-sm flex items-center justify-center mb-8">
+                        <div className="w-14 h-14 bg-green-100 text-green-600 rounded-sm flex items-center justify-center mb-8">
                             <User className="w-7 h-7" />
                         </div>
 
@@ -84,8 +84,8 @@ export default function RegisterSelectionPage() {
                                 "Track project and task requests"
                             ].map((item, i) => (
                                 <div key={i} className="flex items-center text-slate-600 dark:text-slate-400">
-                                    <div className="w-5 h-5 rounded-full bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center mr-3 shrink-0">
-                                        <Check className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                                    <div className="w-5 h-5 rounded-full bg-green-100 dark:bg-green-500/10 flex items-center justify-center mr-3 shrink-0">
+                                        <Check className="w-3.5 h-3.5 text-green-600 dark:text-green-400" />
                                     </div>
                                     <span className="text-base font-medium">{item}</span>
                                 </div>
@@ -93,7 +93,7 @@ export default function RegisterSelectionPage() {
                         </div>
 
                         <div className="mt-4">
-                            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-xl transition-colors shadow-sm text-base flex items-center justify-center">
+                            <button className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-8 rounded-xl transition-colors shadow-sm text-base flex items-center justify-center">
                                 Continue as Client
                             </button>
                         </div>
