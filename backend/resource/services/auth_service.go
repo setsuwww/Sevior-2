@@ -4,7 +4,6 @@ import (
 	"errors"
 	"time"
 
-	"backend/resource/database"
 	"backend/resource/models"
 	"backend/resource/utils"
 
@@ -16,9 +15,9 @@ type AuthService struct {
 	db *gorm.DB
 }
 
-func NewAuthService() *AuthService {
+func NewAuthService(db *gorm.DB) *AuthService {
 	return &AuthService{
-		db: database.DB,
+		db: db,
 	}
 }
 

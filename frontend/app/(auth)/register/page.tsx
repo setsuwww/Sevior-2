@@ -103,7 +103,7 @@ export default function RegisterSelectionPage() {
             </div>
 
             <p className="mt-12 text-slate-500 dark:text-slate-400 font-medium">
-                Already have an account? <Link href="/login" className="text-teal-600 dark:text-teal-500 font-bold hover:underline">Log In</Link>
+                Already have an account? <Link href="/login" className="text-slate-900 hover:text-teal-600 font-bold hover:underline">Log In</Link>
             </p>
         </div>
     );

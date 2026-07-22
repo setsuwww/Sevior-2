@@ -4,8 +4,9 @@ import React, { createContext, useContext, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { AgencyForm, EntryPoint, Step, ValidationErrors } from "../../types";
 import { validateAgencyProfile, validatePasswords, validatePlanSelection } from "../../types"
-import { axiosInstance } from "@/_lib/axiosInstance";
-import { useAuthStore } from "@/_stores/auth";
+import { authService } from "@/features/auth/services/auth.service";
+import { useAuth } from "@/features/auth/providers/AuthProvider";
+import toast from "react-hot-toast";
 
 interface AgencyOnboardingContextType {
     form: AgencyForm;
@@ -18,6 +19,7 @@ interface AgencyOnboardingContextType {
     previousStep: () => void;
     changePlan: () => void;
     submitAgency: () => Promise<void>;
+    submittingStatus: "idle" | "creating" | "signing_in";
     submitting: boolean;
     errors: ValidationErrors;
 }
@@ -33,7 +35,8 @@ export function AgencyOnboardingProvider({ children }: { children: React.ReactNo
 
     const [step, setStep] = useState<Step>(1);
     const [entryPoint, setEntryPoint] = useState<EntryPoint>(initialPlanId ? "pricing" : "register");
-    const [submitting, setSubmitting] = useState(false);
+    const [submittingStatus, setSubmittingStatus] = useState<"idle" | "creating" | "signing_in">("idle");
+    const submitting = submittingStatus !== "idle";
     const [errors, setErrors] = useState<ValidationErrors>({});
 
     const [form, setForm] = useState<AgencyForm>({
@@ -98,8 +101,10 @@ export function AgencyOnboardingProvider({ children }: { children: React.ReactNo
         setStep(2);
     };
 
+    const { login } = useAuth();
+
     const submitAgency = async () => {
-        setSubmitting(true);
+        setSubmittingStatus("creating");
         setErrors({});
         try {
             const payload = {
@@ -111,15 +116,19 @@ export function AgencyOnboardingProvider({ children }: { children: React.ReactNo
                 subscription_plan: form.subscription_plan || "free",
             };
 
-            const { data } = await axiosInstance.post("/auth/register/agency", payload);
-            useAuthStore.getState().setAuth(data.accessToken, data.refreshToken, data.user);
+            const res = await authService.registerAgency(payload);
+            
+            setSubmittingStatus("signing_in");
+            // Wait slightly for smooth UX transition
+            await new Promise((resolve) => setTimeout(resolve, 800));
 
-            setTimeout(() => {
-                router.push("/dashboard/admin");
-            }, 1000);
+            login(res.accessToken, res.user);
+            toast.success("Welcome to Sevior!", { duration: 3000 });
+
+            router.push("/dashboard/admin");
         } catch (err: any) {
-            setErrors({ submit: err.response?.data?.error || err.message });
-            setSubmitting(false);
+            setErrors({ submit: err.response?.data?.error || err.message || "Registration failed." });
+            setSubmittingStatus("idle");
         }
     };
 
@@ -136,6 +145,7 @@ export function AgencyOnboardingProvider({ children }: { children: React.ReactNo
                 previousStep,
                 changePlan,
                 submitAgency,
+                submittingStatus,
                 submitting,
                 errors,
             }}

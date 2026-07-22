@@ -3,7 +3,6 @@ import { Hero } from "@/_components/landing/Hero";
 import { About } from "@/_components/landing/About";
 import { Services } from "@/_components/landing/Services";
 import { Pricing } from "@/_components/landing/Pricing";
-import { JoinSevior } from "@/_components/landing/JoinSevior";
 import { Testimonials } from "@/_components/landing/Testimonials";
 import { Contact } from "@/_components/landing/Contact";
 import { Footer } from "@/_components/landing/Footer";
@@ -19,7 +18,6 @@ export default function Home() {
         <Services />
         <Testimonials />
         <Pricing />
-        <JoinSevior />
         <Contact />
       </main>
 

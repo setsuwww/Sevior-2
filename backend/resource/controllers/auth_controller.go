@@ -10,9 +10,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var authService = services.NewAuthService()
+type AuthController struct {
+	authService *services.AuthService
+}
 
-func setTokenCookie(c *gin.Context, token string, expires time.Time) {
+func NewAuthController(authService *services.AuthService) *AuthController {
+	return &AuthController{
+		authService: authService,
+	}
+}
+
+func (ac *AuthController) setTokenCookie(c *gin.Context, token string, expires time.Time) {
 	// Set HttpOnly cookie for Refresh Token
 	c.SetCookie(
 		"refresh_token",
@@ -25,7 +33,7 @@ func setTokenCookie(c *gin.Context, token string, expires time.Time) {
 	)
 }
 
-func clearTokenCookie(c *gin.Context) {
+func (ac *AuthController) clearTokenCookie(c *gin.Context) {
 	c.SetCookie(
 		"refresh_token",
 		"",
@@ -37,7 +45,7 @@ func clearTokenCookie(c *gin.Context) {
 	)
 }
 
-func RegisterClient(c *gin.Context) {
+func (ac *AuthController) RegisterClient(c *gin.Context) {
 	var input struct {
 		FullName string `json:"full_name" binding:"required"`
 		Email    string `json:"email" binding:"required,email"`
@@ -48,7 +56,7 @@ func RegisterClient(c *gin.Context) {
 		return
 	}
 
-	user, err := authService.RegisterClient(input.FullName, input.Email, input.Password)
+	user, err := ac.authService.RegisterClient(input.FullName, input.Email, input.Password)
 	if err != nil {
 		status := http.StatusInternalServerError
 		if err.Error() == "email already in use" {
@@ -60,9 +68,9 @@ func RegisterClient(c *gin.Context) {
 
 	accessToken, _ := utils.GenerateToken(user.ID, user.Role)
 	refreshToken, _ := utils.GenerateRefreshToken(user.ID, user.Role)
-	authService.StoreRefreshToken(user.ID, refreshToken)
+	ac.authService.StoreRefreshToken(user.ID, refreshToken)
 
-	setTokenCookie(c, refreshToken, time.Now().Add(time.Hour*24*7))
+	ac.setTokenCookie(c, refreshToken, time.Now().Add(time.Hour*24*7))
 
 	c.JSON(http.StatusCreated, gin.H{
 		"user":        user,
@@ -70,7 +78,7 @@ func RegisterClient(c *gin.Context) {
 	})
 }
 
-func RegisterAgency(c *gin.Context) {
+func (ac *AuthController) RegisterAgency(c *gin.Context) {
 	var input struct {
 		FullName          string `json:"full_name" binding:"required"`
 		Email             string `json:"email" binding:"required,email"`
@@ -83,7 +91,7 @@ func RegisterAgency(c *gin.Context) {
 		return
 	}
 
-	user, err := authService.RegisterAgencyOwner(input.FullName, input.Email, input.Password, input.AgencyName)
+	user, err := ac.authService.RegisterAgencyOwner(input.FullName, input.Email, input.Password, input.AgencyName)
 	if err != nil {
 		status := http.StatusInternalServerError
 		if err.Error() == "email already in use" {
@@ -95,9 +103,9 @@ func RegisterAgency(c *gin.Context) {
 
 	accessToken, _ := utils.GenerateToken(user.ID, user.Role)
 	refreshToken, _ := utils.GenerateRefreshToken(user.ID, user.Role)
-	authService.StoreRefreshToken(user.ID, refreshToken)
+	ac.authService.StoreRefreshToken(user.ID, refreshToken)
 
-	setTokenCookie(c, refreshToken, time.Now().Add(time.Hour*24*7))
+	ac.setTokenCookie(c, refreshToken, time.Now().Add(time.Hour*24*7))
 
 	c.JSON(http.StatusCreated, gin.H{
 		"user":        user,
@@ -106,7 +114,7 @@ func RegisterAgency(c *gin.Context) {
 	})
 }
 
-func Login(c *gin.Context) {
+func (ac *AuthController) Login(c *gin.Context) {
 	var input struct {
 		Email      string `json:"email" binding:"required,email"`
 		Password   string `json:"password" binding:"required"`
@@ -117,7 +125,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	user, err := authService.Login(input.Email, input.Password)
+	user, err := ac.authService.Login(input.Email, input.Password)
 	if err != nil {
 		status := http.StatusUnauthorized
 		if err.Error() == "your account has been suspended" {
@@ -131,13 +139,13 @@ func Login(c *gin.Context) {
 	
 	if input.RememberMe {
 		refreshToken, _ := utils.GenerateRefreshToken(user.ID, user.Role)
-		authService.StoreRefreshToken(user.ID, refreshToken)
-		setTokenCookie(c, refreshToken, time.Now().Add(time.Hour*24*7))
+		ac.authService.StoreRefreshToken(user.ID, refreshToken)
+		ac.setTokenCookie(c, refreshToken, time.Now().Add(time.Hour*24*7))
 	} else {
 		// If not remember me, we can issue a session cookie or no refresh token at all.
 		// For simplicity, we just issue a session cookie (expires when browser closes)
 		refreshToken, _ := utils.GenerateRefreshToken(user.ID, user.Role)
-		authService.StoreRefreshToken(user.ID, refreshToken)
+		ac.authService.StoreRefreshToken(user.ID, refreshToken)
 		c.SetCookie("refresh_token", refreshToken, 0, "/", "", false, true)
 	}
 
@@ -147,7 +155,7 @@ func Login(c *gin.Context) {
 	})
 }
 
-func RefreshToken(c *gin.Context) {
+func (ac *AuthController) RefreshToken(c *gin.Context) {
 	// Read from HttpOnly cookie
 	tokenStr, err := c.Cookie("refresh_token")
 	if err != nil || tokenStr == "" {
@@ -184,25 +192,25 @@ func RefreshToken(c *gin.Context) {
 	
 	// Option to rotate refresh token here
 	newRefreshToken, _ := utils.GenerateRefreshToken(userID, role)
-	authService.DeleteRefreshToken(tokenStr)
-	authService.StoreRefreshToken(userID, newRefreshToken)
-	setTokenCookie(c, newRefreshToken, time.Now().Add(time.Hour*24*7))
+	ac.authService.DeleteRefreshToken(tokenStr)
+	ac.authService.StoreRefreshToken(userID, newRefreshToken)
+	ac.setTokenCookie(c, newRefreshToken, time.Now().Add(time.Hour*24*7))
 
 	c.JSON(http.StatusOK, gin.H{
 		"accessToken": newAccessToken,
 	})
 }
 
-func Logout(c *gin.Context) {
+func (ac *AuthController) Logout(c *gin.Context) {
 	tokenStr, _ := c.Cookie("refresh_token")
 	if tokenStr != "" {
-		authService.DeleteRefreshToken(tokenStr)
+		ac.authService.DeleteRefreshToken(tokenStr)
 	}
-	clearTokenCookie(c)
+	ac.clearTokenCookie(c)
 	c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully"})
 }
 
-func ForgotPassword(c *gin.Context) {
+func (ac *AuthController) ForgotPassword(c *gin.Context) {
 	var input struct {
 		Email string `json:"email" binding:"required,email"`
 	}
@@ -211,7 +219,7 @@ func ForgotPassword(c *gin.Context) {
 		return
 	}
 
-	token, err := authService.GeneratePasswordResetToken(input.Email)
+	token, err := ac.authService.GeneratePasswordResetToken(input.Email)
 	if err != nil {
 		// Do not leak existence of email. Just return 200 OK.
 		c.JSON(http.StatusOK, gin.H{"message": "If that email is in our database, we will send a password reset link."})
@@ -228,7 +236,7 @@ func ForgotPassword(c *gin.Context) {
 	})
 }
 
-func ResetPassword(c *gin.Context) {
+func (ac *AuthController) ResetPassword(c *gin.Context) {
 	var input struct {
 		Token    string `json:"token" binding:"required"`
 		Password string `json:"password" binding:"required,min=6"`
@@ -238,7 +246,7 @@ func ResetPassword(c *gin.Context) {
 		return
 	}
 
-	err := authService.ResetPassword(input.Token, input.Password)
+	err := ac.authService.ResetPassword(input.Token, input.Password)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -247,7 +255,7 @@ func ResetPassword(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Password reset successfully. You can now log in."})
 }
 
-func Me(c *gin.Context) {
+func (ac *AuthController) Me(c *gin.Context) {
 	userIface, exists := c.Get("currentUser")
 	if !exists {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})

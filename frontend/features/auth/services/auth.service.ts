@@ -98,6 +98,16 @@ export const authService = {
     setAccessToken(null);
   },
 
+  registerClient: async (data: any): Promise<AuthResponse> => {
+    const response = await authApi.post<AuthResponse>("/register/client", data);
+    return response.data;
+  },
+
+  registerAgency: async (data: any): Promise<AuthResponse> => {
+    const response = await authApi.post<AuthResponse>("/register/agency", data);
+    return response.data;
+  },
+
   refresh: async (): Promise<RefreshResponse> => {
     const response = await authApi.post<RefreshResponse>("/refresh");
     return response.data;

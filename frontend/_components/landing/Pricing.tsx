@@ -29,7 +29,7 @@ export function Pricing() {
                 className={`
                   relative flex flex-col w-full md:w-1/3 transition-all duration-300
                   ${isFree ? 'bg-white border border-gray-300 shadow-xs rounded-3xl md:rounded-r-none md:border-r-0 z-10 hover:-translate-y-1' : ''}
-                  ${isPro ? 'bg-gradient-to-tr from-slate-800 to-teal-800 text-white shadow-2xl shadow-slate-900/40 border-0 rounded-3xl md:rounded-xl z-20 md:scale-[1.06] md:min-h-[600px] hover:-translate-y-2 hover:shadow-slate-900/60' : ''}
+                  ${isPro ? 'bg-gradient-to-r from-slate-800 to-teal-800 text-white shadow-2xl shadow-slate-900/40 border-0 rounded-3xl md:rounded-xl z-20 md:scale-[1.06] md:min-h-[600px] hover:-translate-y-2 hover:shadow-slate-900/60' : ''}
                   ${isExec ? 'bg-white border border-yellow-500 shadow-sm rounded-3xl ring ring-offset-4 ring-yellow-600 md:rounded-l-none md:border-l-0 z-10 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(234,179,8,0.15)]' : ''}
                   p-8
                 `}

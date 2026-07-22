@@ -6,6 +6,7 @@ import (
 	superadminCtrl "backend/resource/controllers/superadmin"
 	superadminRepo "backend/resource/repositories/superadmin"
 	superadminSvc "backend/resource/services/superadmin"
+	"backend/resource/services"
 
 	"backend/resource/middleware"
 
@@ -26,18 +27,21 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		AllowCredentials: true,
 	}))
 
+	authService := services.NewAuthService(db)
+	authCtrl := controllers.NewAuthController(authService)
+
 	authPublic := r.Group("/auth")
-	authPublic.POST("/register/client", controllers.RegisterClient)
-	authPublic.POST("/register/agency", controllers.RegisterAgency)
-	authPublic.POST("/login", controllers.Login)
-	authPublic.POST("/refresh", controllers.RefreshToken)
-	authPublic.POST("/logout", controllers.Logout)
-	authPublic.POST("/forgot-password", controllers.ForgotPassword)
-	authPublic.POST("/reset-password", controllers.ResetPassword)
+	authPublic.POST("/register/client", authCtrl.RegisterClient)
+	authPublic.POST("/register/agency", authCtrl.RegisterAgency)
+	authPublic.POST("/login", authCtrl.Login)
+	authPublic.POST("/refresh", authCtrl.RefreshToken)
+	authPublic.POST("/logout", authCtrl.Logout)
+	authPublic.POST("/forgot-password", authCtrl.ForgotPassword)
+	authPublic.POST("/reset-password", authCtrl.ResetPassword)
 
 	authProtected := r.Group("/auth")
 	authProtected.Use(middleware.AuthMiddleware(db))
-	authProtected.GET("/me", controllers.Me)
+	authProtected.GET("/me", authCtrl.Me)
 
 	// Legacy admin group (keeping it intact for now if needed, or we can replace it)
 	// But the user requested superadmin architecture, so let's build the superadmin group.

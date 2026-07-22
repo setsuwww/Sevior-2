@@ -181,7 +181,7 @@ export default function LoginPage() {
                         <div className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
                             Don't have an account?{" "}
                             <Link href="/register" className="font-semibold text-slate-900 dark:text-white hover:text-teal-600 dark:hover:text-teal-400 transition-colors">
-                                Register now
+                                Register
                             </Link>
                         </div>
                     </CardContent>
