@@ -7,7 +7,7 @@ import { Button } from "@/_components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/_components/ui/avatar";
 import { Badge } from "@/_components/ui/badge";
 import { Skeleton } from "@/_components/ui/skeleton";
-import { developerService } from "../../../../../../../services/developer.service";
+import { developerService } from "../../../../../../../_lib/services/admin/developer.service";
 import { Developer } from "../../../../../../../types/developer";
 import { DeveloperFormModal } from "../../../../../../../_components/developer/DeveloperFormModal";
 import { DeleteConfirmDialog } from "../../../../../../../_components/developer/DeleteConfirmDialog";
