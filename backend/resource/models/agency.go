@@ -12,11 +12,13 @@ type Agency struct {
 	Website      string `gorm:"type:varchar"`
 	Location     string `gorm:"type:varchar"`
 	ProfileImage string `gorm:"type:text"`
+
 	Status             string `gorm:"type:varchar"`
 	SubscriptionPlan   string `gorm:"type:varchar"`
 	SubscriptionStatus string `gorm:"type:varchar"`
-	CreatedAt          time.Time
-	UpdatedAt    time.Time
+
+	CreatedAt time.Time
+	UpdatedAt time.Time
 
 	// Relations
 	SocialMedias    []SocialMedia    `gorm:"foreignKey:AgencyID"`

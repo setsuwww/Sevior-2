@@ -1,15 +1,15 @@
-package agencyadmin
+package admin
 
 import (
 	"backend/resource/models"
-	"backend/resource/services/agencyadmin"
+	"backend/resource/services/admin"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type DashboardController struct {
-	Service *agencyadmin.DashboardService
+	Service *admin.DashboardService
 }
 
 func (c *DashboardController) GetStats(ctx *gin.Context) {

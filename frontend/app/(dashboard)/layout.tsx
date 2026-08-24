@@ -1,52 +1,73 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { useAuthStore } from "@/_stores/auth";
+import { useAuth } from "@/providers/AuthProvider";
 import AppSidebar from "@/_components/ui/layout/AppSidebar";
 import AppHeader from "@/_components/ui/layout/AppHeader";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-    const { user, restoreAuth } = useAuthStore();
+export default function DashboardLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
+    const { user, isAuthenticated, isLoading } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
-    const [isChecking, setIsChecking] = useState(true);
 
     useEffect(() => {
-        const verifyAuth = async () => {
-            try {
-                const restoredUser = await restoreAuth();
-                if (!restoredUser) {
-                    router.push("/login");
-                    return;
-                }
+        if (isLoading) return;
 
-                const role = restoredUser.Role;
-                if (pathname.startsWith("/superadmin") && role !== "SUPER_ADMIN") {
-                    router.push("/login");
-                } else if (pathname.startsWith("/admin") && role !== "ADMIN") {
-                    router.push("/login");
-                } else if (pathname.startsWith("/developer") && role !== "DEVELOPER") {
-                    router.push("/login");
-                } else if (pathname.startsWith("/client") && role !== "CLIENT") {
-                    router.push("/login");
-                } else {
-                    setIsChecking(false);
-                }
-            } catch (error) {
-                router.push("/login");
-            }
-        };
+        if (!isAuthenticated || !user) {
+            router.replace("/login");
+            return;
+        }
 
-        verifyAuth();
-    }, [pathname, restoreAuth, router]);
+        const role = user.Role;
 
-    if (isChecking) {
+        if (
+            pathname.startsWith("/dashboard/superadmin") &&
+            role !== "SUPER_ADMIN"
+        ) {
+            router.replace("/login");
+            return;
+        }
+
+        if (
+            pathname.startsWith("/dashboard/admin") &&
+            role !== "ADMIN"
+        ) {
+            router.replace("/login");
+            return;
+        }
+
+        if (
+            pathname.startsWith("/dashboard/developer") &&
+            role !== "DEVELOPER"
+        ) {
+            router.replace("/login");
+            return;
+        }
+
+        if (
+            pathname.startsWith("/dashboard/client") &&
+            role !== "CLIENT"
+        ) {
+            router.replace("/login");
+            return;
+        }
+    }, [isLoading, isAuthenticated, user, pathname, router]);
+
+    if (isLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-teal-600"></div>
+                <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-teal-600" />
             </div>
         );
+    }
+
+    if (!isAuthenticated || !user) {
+        return null;
     }
 
     return (

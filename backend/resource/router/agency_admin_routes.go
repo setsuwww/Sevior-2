@@ -1,11 +1,12 @@
 package router
 
 import (
-	"backend/resource/controllers/agencyadmin"
-	repo "backend/resource/repositories/agencyadmin"
-	service "backend/resource/services/agencyadmin"
+	"backend/resource/controllers/admin"
 	"backend/resource/middleware"
 	"backend/resource/models"
+
+	repo "backend/resource/repositories/admin"
+	service "backend/resource/services/admin"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -23,9 +24,9 @@ func AgencyAdminRoutes(r *gin.Engine, db *gorm.DB) {
 	clientService := &service.ClientService{Repo: clientRepo}
 
 	// Initialize Controllers
-	dashCtrl := &agencyadmin.DashboardController{Service: dashService}
-	devCtrl := &agencyadmin.DeveloperController{Service: devService}
-	clientCtrl := &agencyadmin.ClientController{Service: clientService}
+	dashCtrl := &admin.DashboardController{Service: dashService}
+	devCtrl := &admin.DeveloperController{Service: devService}
+	clientCtrl := &admin.ClientController{Service: clientService}
 
 	adminGroup := r.Group("/api/v1/agency-admin")
 	adminGroup.Use(middleware.AuthMiddleware(db))

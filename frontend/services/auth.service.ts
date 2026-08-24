@@ -6,12 +6,14 @@ const API_URL = "http://localhost:8080/auth";
 
 export const authApi: AxiosInstance = axios.create({
   baseURL: API_URL,
-  withCredentials: true, // IMPORTANT: Allows HttpOnly cookies to be sent
+  withCredentials: true,
+  timeout: 10000,
 });
 
 export const api: AxiosInstance = axios.create({
   baseURL: "http://localhost:8080",
   withCredentials: true,
+  timeout: 10000,
 });
 
 let isRefreshing = false;
@@ -74,7 +76,9 @@ api.interceptors.response.use(
       } catch (err) {
         processQueue(err, null);
         // Dispatch event or callback to logout user
-        window.dispatchEvent(new Event("auth:logout"));
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(new Event("auth:logout"));
+        }
         return Promise.reject(err);
       } finally {
         isRefreshing = false;

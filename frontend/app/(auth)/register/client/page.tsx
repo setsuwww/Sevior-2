@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authService } from "@/services/auth.service";
-import { useAuth } from "@/app/providers/AuthProvider";
 
 import { Input } from "@/_components/ui/input";
 import { Label } from "@/_components/ui/label";
 import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 import { OnboardingLayout } from "./components/OnboardingLayout";
 import toast from "react-hot-toast";
+import { useAuth } from "@/providers/AuthProvider";
 
 export default function ClientRegistrationPage() {
     const [form, setForm] = useState({

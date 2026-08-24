@@ -1,8 +1,8 @@
-package agencyadmin
+package admin
 
 import (
 	"backend/resource/models"
-	"backend/resource/services/agencyadmin"
+	"backend/resource/services/admin"
 	"net/http"
 	"strconv"
 
@@ -10,7 +10,7 @@ import (
 )
 
 type DeveloperController struct {
-	Service *agencyadmin.DeveloperService
+	Service *admin.DeveloperService
 }
 
 func (c *DeveloperController) GetDevelopers(ctx *gin.Context) {

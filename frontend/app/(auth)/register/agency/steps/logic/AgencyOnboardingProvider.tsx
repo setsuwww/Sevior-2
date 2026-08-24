@@ -4,9 +4,9 @@ import React, { createContext, useContext, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { AgencyForm, EntryPoint, Step, ValidationErrors } from "../../types";
 import { validateAgencyProfile, validatePasswords, validatePlanSelection } from "../../types"
-import { authService } from "@/services/auth.service";
-import { useAuth } from "@/app/providers/AuthProvider";
 import toast from "react-hot-toast";
+import { useAuth } from "@/providers/AuthProvider";
+import { authService } from "@/services/auth.service";
 
 interface AgencyOnboardingContextType {
     form: AgencyForm;

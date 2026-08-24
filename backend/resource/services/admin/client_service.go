@@ -1,12 +1,12 @@
-package agencyadmin
+package admin
 
 import (
 	"backend/resource/models"
-	"backend/resource/repositories/agencyadmin"
+	"backend/resource/repositories/admin"
 )
 
 type ClientService struct {
-	Repo *agencyadmin.ClientRepository
+	Repo *admin.ClientRepository
 }
 
 func (s *ClientService) GetClients(agencyID uint, search, sort string, page, limit int) ([]models.User, int64, error) {

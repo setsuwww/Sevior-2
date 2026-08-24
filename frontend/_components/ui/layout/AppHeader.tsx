@@ -28,7 +28,7 @@ export default function AppHeader() {
             {/* Right side */}
             <div className="flex items-center space-x-6">
                 <div className="relative cursor-pointer group">
-                    <Button variant="ghost" size="icon" className="relative w-10 h-10 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center group-hover:border-teal-300 transition-colors">
+                    <Button variant="ghost" size="icon" className="relative w-10 h-10 rounded-full bg-gray-50 border border-gray-200 flex items-center justify-center group-hover:border-gray-300 transition-colors">
                         <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 border-2 border-white rounded-full"></span>
                         <Bell className="w-5 h-5 text-gray-600 group-hover:text-teal-600 transition-colors" />
                     </Button>

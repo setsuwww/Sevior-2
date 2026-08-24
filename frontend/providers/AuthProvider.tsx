@@ -23,25 +23,34 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const restoreSession = async () => {
       try {
-        // Attempt to silently refresh token using the HttpOnly cookie
+        console.log("[AUTH] Starting session restore...");
+
+        console.log("[AUTH] Calling /auth/refresh...");
         const { accessToken } = await authService.refresh();
+
+        console.log("[AUTH] Refresh success:", accessToken ? "TOKEN RECEIVED" : "NO TOKEN");
+
         setAccessToken(accessToken);
 
-        // Fetch current user details
+        console.log("[AUTH] Calling /auth/me...");
         const { user: userData } = await authService.getMe();
+
+        console.log("[AUTH] /auth/me success:", userData);
+
         setUser(userData);
       } catch (error) {
-        // No valid session, stay logged out
+        console.error("[AUTH] Session restore failed:", error);
+
         setAccessToken(null);
         setUser(null);
       } finally {
+        console.log("[AUTH] Session restore finished");
         setIsLoading(false);
       }
     };
 
     restoreSession();
 
-    // Listen for logout events triggered by interceptor (e.g. refresh token expired)
     const handleLogoutEvent = () => {
       setUser(null);
       setAccessToken(null);
@@ -49,6 +58,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     window.addEventListener("auth:logout", handleLogoutEvent);
+
     return () => {
       window.removeEventListener("auth:logout", handleLogoutEvent);
     };

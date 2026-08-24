@@ -1,7 +1,8 @@
-package agencyadmin
+package admin
 
 import (
 	"backend/resource/models"
+
 	"gorm.io/gorm"
 )
 
@@ -10,12 +11,12 @@ type DashboardRepository struct {
 }
 
 type DashboardStats struct {
-	TotalDevelopers  int64 `json:"total_developers"`
-	TotalClients     int64 `json:"total_clients"`
-	TotalProjects    int64 `json:"total_projects"`
-	ActiveProjects   int64 `json:"active_projects"`
+	TotalDevelopers   int64 `json:"total_developers"`
+	TotalClients      int64 `json:"total_clients"`
+	TotalProjects     int64 `json:"total_projects"`
+	ActiveProjects    int64 `json:"active_projects"`
 	CompletedProjects int64 `json:"completed_projects"`
-	PendingProjects  int64 `json:"pending_projects"`
+	PendingProjects   int64 `json:"pending_projects"`
 }
 
 func (r *DashboardRepository) GetStats(agencyID uint) (*DashboardStats, error) {

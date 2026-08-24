@@ -1,14 +1,15 @@
-package agencyadmin
+package admin
 
 import (
 	"backend/resource/models"
-	"backend/resource/repositories/agencyadmin"
+	"backend/resource/repositories/admin"
 	"errors"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
 type DeveloperService struct {
-	Repo *agencyadmin.DeveloperRepository
+	Repo *admin.DeveloperRepository
 }
 
 func (s *DeveloperService) GetDevelopers(agencyID uint, search, status, sort string, page, limit int) ([]models.User, int64, error) {

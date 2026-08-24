@@ -2,11 +2,11 @@ package router
 
 import (
 	"backend/resource/controllers"
-	
+
 	superadminCtrl "backend/resource/controllers/superadmin"
 	superadminRepo "backend/resource/repositories/superadmin"
-	superadminSvc "backend/resource/services/superadmin"
 	"backend/resource/services"
+	superadminSvc "backend/resource/services/superadmin"
 
 	"backend/resource/middleware"
 
@@ -45,7 +45,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 
 	// Legacy admin group (keeping it intact for now if needed, or we can replace it)
 	// But the user requested superadmin architecture, so let's build the superadmin group.
-	
+
 	superadminGroup := r.Group("/superadmin")
 	superadminGroup.Use(middleware.AuthMiddleware(db), middleware.RoleMiddleware("SUPER_ADMIN"))
 	{
@@ -103,7 +103,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		superadminGroup.GET("/settings/maintenance", settingCtrl.GetMaintenanceMode)
 		superadminGroup.POST("/settings/maintenance", settingCtrl.ToggleMaintenanceMode)
 		superadminGroup.GET("/settings/audit-logs", settingCtrl.GetAuditLogs)
-		
+
 		superadminGroup.GET("/settings/announcements", settingCtrl.GetAnnouncements)
 		superadminGroup.POST("/settings/announcements", settingCtrl.CreateAnnouncement)
 		superadminGroup.PATCH("/settings/announcements/:id", settingCtrl.UpdateAnnouncement)
@@ -112,6 +112,8 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 
 	// Agency Admin routes
 	AgencyAdminRoutes(r, db)
+
+	ClientRouter(r, db)
 
 	return r
 }

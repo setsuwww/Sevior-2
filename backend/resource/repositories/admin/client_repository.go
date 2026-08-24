@@ -1,7 +1,8 @@
-package agencyadmin
+package admin
 
 import (
 	"backend/resource/models"
+
 	"gorm.io/gorm"
 )
 

@@ -1,8 +1,8 @@
-package agencyadmin
+package admin
 
 import (
 	"backend/resource/models"
-	"backend/resource/services/agencyadmin"
+	agencyadmin "backend/resource/services/admin"
 	"net/http"
 	"strconv"
 
