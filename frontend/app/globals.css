@@ -99,7 +99,7 @@
   --accent-foreground: oklch(0.985 0.001 106.423);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
+  --input: oklch(100% 0.00011 271.152 / 0.098);
   --ring: oklch(0.553 0.013 58.071);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
@@ -126,8 +126,9 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    font-family : "Google-Sans";
+    font-family: "Google-Sans";
   }
+
   body {
     @apply bg-background text-foreground;
   }

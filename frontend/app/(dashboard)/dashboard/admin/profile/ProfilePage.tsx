@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Mail, Building2, MapPin, Globe, Edit3, Key, LogOut, Trash2, Camera, Phone, FileText, Hash, CheckCircle, XCircle, X } from "lucide-react";
+import { Mail, Building2, MapPin, Globe, Edit3, Key, LogOut, Trash2, Camera, Phone, FileText, Hash, CheckCircle, XCircle, X, SquarePen } from "lucide-react";
 import {
     fetchUserProfile,
     updateUserProfile,
@@ -9,6 +9,9 @@ import {
     UserProfile,
 } from "@/_lib/services/admin/profile.service";
 import { authService } from "@/_lib/auth";
+import { Button } from "@/_components/ui/button";
+import { Badge } from "@/_components/ui/badge";
+import { ROLE_COLORS } from "@/_constants/theme/user";
 
 export function AdminProfilePage() {
     const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -290,7 +293,7 @@ export function AdminProfilePage() {
             )}
 
             <div className="mx-auto">
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                <div className="bg-white rounded-sm shadow-sm border border-gray-200 overflow-hidden">
                     {/* COVER */}
 
                     <div className="h-48 bg-gradient-to-r from-slate-900 via-slate-800 to-teal-800 relative">
@@ -333,9 +336,14 @@ export function AdminProfilePage() {
                     <div className="pt-20 pb-8 px-8">
                         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                             <div>
-                                <h1 className="text-3xl font-bold text-gray-900">
-                                    {profile.FullName}
-                                </h1>
+                                <div className="flex items-center">
+                                    <h1 className="text-3xl font-bold text-gray-900">
+                                        {profile.FullName}
+                                    </h1>
+                                    <Badge variant="outline" className={`ml-2 text-xs ${ROLE_COLORS[profile.Role]} `}>
+                                        {profile.Role}
+                                    </Badge>
+                                </div>
 
                                 <div className="flex items-center gap-2 mt-2 text-gray-600">
                                     <Mail className="h-4 w-4" />
@@ -348,31 +356,16 @@ export function AdminProfilePage() {
                                         <span>{profile.Phone}</span>
                                     </div>
                                 )}
-
-                                <div className="flex items-center gap-2 mt-2">
-                                    <span className="text-sm font-medium text-gray-600">
-                                        {profile.Role}
-                                    </span>
-
-                                    <span
-                                        className={`px-2 py-1 text-xs font-semibold rounded-full ${profile.IsActive
-                                            ? "bg-green-100 text-green-700"
-                                            : "bg-red-100 text-red-700"
-                                            }`}
-                                    >
-                                        {profile.IsActive ? "Active" : "Inactive"}
-                                    </span>
-                                </div>
                             </div>
 
-                            <button
+                            <Button
                                 type="button"
                                 onClick={() => setActiveModal("edit")}
-                                className="flex items-center justify-center gap-2 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+                                className="flex items-center justify-center gap-2 px-4 py-2 bg-teal-600 text-white hover:bg-teal-700 transition-colors"
                             >
                                 <Edit3 className="h-4 w-4" />
                                 Edit Profile
-                            </button>
+                            </Button>
                         </div>
 
                         {/* BIOGRAPHY */}
@@ -394,10 +387,10 @@ export function AdminProfilePage() {
                         )}
 
                         {profile.Agency && (
-                            <div className="mt-8 bg-gray-50 border border-gray-200 rounded-xl p-6">
-                                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+                            <div className="mt-8 bg-gray-50 border border-gray-200 rounded-sm p-6">
+                                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                                     <div className="flex items-center gap-3">
-                                        <div className="h-16 w-16 rounded-xl overflow-hidden bg-white border border-gray-200 flex-shrink-0">
+                                        <div className="h-16 w-16 rounded-full overflow-hidden bg-slate-800 border border-gray-900 flex-shrink-0">
                                             {agencyImagePreview ? (
                                                 <img
                                                     src={agencyImagePreview}
@@ -407,8 +400,8 @@ export function AdminProfilePage() {
                                                     className="h-full w-full object-cover"
                                                 />
                                             ) : (
-                                                <div className="h-full w-full flex items-center justify-center bg-teal-100">
-                                                    <Building2 className="h-7 w-7 text-teal-600" />
+                                                <div className="h-full w-full flex items-center justify-center bg-slate-800">
+                                                    <Building2 className="h-7 w-7 text-white" />
                                                 </div>
                                             )}
                                         </div>
@@ -416,10 +409,7 @@ export function AdminProfilePage() {
                                         <div>
                                             <div className="flex items-center gap-2">
                                                 <h2 className="text-xl font-semibold text-gray-900">
-                                                    {
-                                                        profile.Agency
-                                                            .AgencyName
-                                                    }
+                                                    {profile.Agency.AgencyName}
                                                 </h2>
 
                                                 <span className={`px-2 py-1 text-xs font-semibold rounded-full
@@ -440,20 +430,21 @@ export function AdminProfilePage() {
                                         </div>
                                     </div>
 
-                                    <button
+                                    <Button
                                         type="button"
+                                        variant="outline" size="sm"
                                         onClick={() => setActiveModal("edit")}
-                                        className="flex items-center gap-2 px-3 py-2 border border-gray-300 bg-white rounded-lg hover:bg-gray-100 transition-colors text-sm"
+                                        className="flex items-center gap-2 px-3 py-2 border border-gray-300 bg-white rounded-sm hover:bg-gray-100 transition-colors text-sm"
                                     >
-                                        <Edit3 className="h-4 w-4" />
+                                        <SquarePen className="h-4 w-4" />
                                         Edit Agency
-                                    </button>
+                                    </Button>
                                 </div>
 
                                 {/* DESCRIPTION */}
 
                                 {profile.Agency.Description && (
-                                    <p className="text-gray-700 mt-5 leading-relaxed">
+                                    <p className="text-md text-gray-700 mt-5 leading-relaxed max-w-xl">
                                         {profile.Agency.Description}
                                     </p>
                                 )}
@@ -469,7 +460,7 @@ export function AdminProfilePage() {
 
                                             <div>
                                                 <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
-                                                    Contact
+                                                    Agency Phone
                                                 </p>
 
                                                 <p className="text-gray-700 mt-1">
@@ -556,11 +547,8 @@ export function AdminProfilePage() {
                                                 Subscription Plan
                                             </p>
 
-                                            <p className="font-semibold text-gray-800 mt-1">
-                                                {
-                                                    profile.Agency
-                                                        .SubscriptionPlan
-                                                }
+                                            <p className="text-sm font-semibold text-gray-800 mt-1 capitalize">
+                                                {profile.Agency.SubscriptionPlan}
                                             </p>
                                         </div>
 
@@ -569,11 +557,8 @@ export function AdminProfilePage() {
                                                 Subscription Status
                                             </p>
 
-                                            <p className="font-semibold text-gray-800 mt-1">
-                                                {
-                                                    profile.Agency
-                                                        .SubscriptionStatus
-                                                }
+                                            <p className="text-sm font-semibold text-gray-800 mt-1">
+                                                {profile.Agency.SubscriptionStatus}
                                             </p>
                                         </div>
                                     </div>
@@ -586,36 +571,39 @@ export function AdminProfilePage() {
                         {/* ================================================== */}
 
                         <div className="mt-8 flex flex-wrap gap-3 border-t border-gray-200 pt-6">
-                            <button
+
+                            <Button
                                 type="button"
                                 onClick={() =>
                                     setActiveModal("password")
                                 }
-                                className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                variant="outline" size="sm"
                             >
                                 <Key className="h-4 w-4" />
                                 Change Password
-                            </button>
+                            </Button>
 
-                            <button
-                                type="button"
-                                onClick={handleLogout}
-                                className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-red-600"
-                            >
-                                <LogOut className="h-4 w-4" />
-                                Logout
-                            </button>
+                            <div className="flex gap-3 ml-auto">
+                                <Button
+                                    type="button"
+                                    onClick={handleLogout}
+                                    variant="outline" size="sm" className="border-mist-300 text-red-500 hover:bg-mist-100 hover:text-red-700"
+                                >
+                                    <LogOut className="h-4 w-4" />
+                                    Logout
+                                </Button>
 
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    setShowDeleteConfirm(true)
-                                }
-                                className="flex items-center gap-2 px-4 py-2 border border-red-300 rounded-lg hover:bg-red-50 transition-colors text-red-600"
-                            >
-                                <Trash2 className="h-4 w-4" />
-                                Delete Account
-                            </button>
+                                <Button
+                                    type="button"
+                                    onClick={() =>
+                                        setShowDeleteConfirm(true)
+                                    }
+                                    variant="outline" size="sm" className="border-red-500 text-red-500 hover:bg-red-100 hover:text-red-700"
+                                >
+                                    <Trash2 className="h-4 w-4" />
+                                    Delete Account
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -625,197 +613,55 @@ export function AdminProfilePage() {
             {/* EDIT PROFILE MODAL */}
             {/* ====================================================== */}
 
-            {activeModal === "edit" && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-                        <div className="p-6">
-                            <div className="flex items-center justify-between mb-6">
-                                <div>
-                                    <h2 className="text-2xl font-bold text-gray-900">
-                                        Edit Profile
-                                    </h2>
+            {
+                activeModal === "edit" && (
+                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+                            <div className="p-6">
+                                <div className="flex items-center justify-between mb-6">
+                                    <div>
+                                        <h2 className="text-2xl font-bold text-gray-900">
+                                            Edit Profile
+                                        </h2>
 
-                                    <p className="text-sm text-gray-500 mt-1">
-                                        Update your personal and agency
-                                        information.
-                                    </p>
-                                </div>
-
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        setActiveModal(null)
-                                    }
-                                    className="p-2 rounded-lg hover:bg-gray-100"
-                                >
-                                    <X className="h-5 w-5" />
-                                </button>
-                            </div>
-
-                            <div className="space-y-8">
-                                {/* USER */}
-
-                                <div>
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                                        Personal Information
-                                    </h3>
-
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                Full Name
-                                            </label>
-
-                                            <input
-                                                type="text"
-                                                value={editForm.fullName}
-                                                onChange={(e) =>
-                                                    setEditForm({
-                                                        ...editForm,
-                                                        fullName:
-                                                            e.target.value,
-                                                    })
-                                                }
-                                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                Email
-                                            </label>
-
-                                            <input
-                                                type="email"
-                                                value={editForm.email}
-                                                onChange={(e) =>
-                                                    setEditForm({
-                                                        ...editForm,
-                                                        email:
-                                                            e.target.value,
-                                                    })
-                                                }
-                                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                Phone
-                                            </label>
-
-                                            <input
-                                                type="text"
-                                                value={editForm.phone}
-                                                onChange={(e) =>
-                                                    setEditForm({
-                                                        ...editForm,
-                                                        phone:
-                                                            e.target.value,
-                                                    })
-                                                }
-                                                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
-                                            />
-                                        </div>
+                                        <p className="text-sm text-gray-500 mt-1">
+                                            Update your personal and agency
+                                            information.
+                                        </p>
                                     </div>
 
-                                    <div className="mt-4">
-                                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                                            Biography
-                                        </label>
-
-                                        <textarea
-                                            rows={4}
-                                            value={editForm.biography}
-                                            onChange={(e) =>
-                                                setEditForm({
-                                                    ...editForm,
-                                                    biography:
-                                                        e.target.value,
-                                                })
-                                            }
-                                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500 resize-none"
-                                        />
-                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            setActiveModal(null)
+                                        }
+                                        className="p-2 rounded-lg hover:bg-gray-100"
+                                    >
+                                        <X className="h-5 w-5" />
+                                    </button>
                                 </div>
 
-                                {/* AGENCY */}
+                                <div className="space-y-8">
+                                    {/* USER */}
 
-                                {profile.Agency && (
-                                    <div className="border-t pt-6">
+                                    <div>
                                         <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                                            Agency Information
+                                            Personal Information
                                         </h3>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            {/* NAME */}
-
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                    Agency Name
+                                                    Full Name
                                                 </label>
 
                                                 <input
                                                     type="text"
-                                                    value={
-                                                        editForm.agencyName
-                                                    }
+                                                    value={editForm.fullName}
                                                     onChange={(e) =>
                                                         setEditForm({
                                                             ...editForm,
-                                                            agencyName:
-                                                                e.target
-                                                                    .value,
-                                                        })
-                                                    }
-                                                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
-                                                />
-                                            </div>
-
-                                            {/* SLUG */}
-
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                    Agency Slug
-                                                </label>
-
-                                                <div className="relative">
-                                                    <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-
-                                                    <input
-                                                        type="text"
-                                                        value={
-                                                            editForm.agencySlug
-                                                        }
-                                                        onChange={(e) =>
-                                                            setEditForm({
-                                                                ...editForm,
-                                                                agencySlug:
-                                                                    e.target
-                                                                        .value,
-                                                            })
-                                                        }
-                                                        className="w-full pl-9 pr-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
-                                                    />
-                                                </div>
-                                            </div>
-
-                                            {/* CONTACT */}
-
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                    Contact
-                                                </label>
-
-                                                <input
-                                                    type="text"
-                                                    value={
-                                                        editForm.agencyContact
-                                                    }
-                                                    onChange={(e) =>
-                                                        setEditForm({
-                                                            ...editForm,
-                                                            agencyContact:
+                                                            fullName:
                                                                 e.target.value,
                                                         })
                                                     }
@@ -823,22 +669,18 @@ export function AdminProfilePage() {
                                                 />
                                             </div>
 
-                                            {/* EMAIL */}
-
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                    Agency Email
+                                                    Email
                                                 </label>
 
                                                 <input
                                                     type="email"
-                                                    value={
-                                                        editForm.agencyEmail
-                                                    }
+                                                    value={editForm.email}
                                                     onChange={(e) =>
                                                         setEditForm({
                                                             ...editForm,
-                                                            agencyEmail:
+                                                            email:
                                                                 e.target.value,
                                                         })
                                                     }
@@ -846,50 +688,18 @@ export function AdminProfilePage() {
                                                 />
                                             </div>
 
-                                            {/* LOCATION */}
-
                                             <div>
                                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                    Location
-                                                </label>
-
-                                                <div className="relative">
-                                                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-
-                                                    <input
-                                                        type="text"
-                                                        value={
-                                                            editForm.agencyLocation
-                                                        }
-                                                        onChange={(e) =>
-                                                            setEditForm({
-                                                                ...editForm,
-                                                                agencyLocation:
-                                                                    e.target
-                                                                        .value,
-                                                            })
-                                                        }
-                                                        className="w-full pl-9 pr-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
-                                                    />
-                                                </div>
-                                            </div>
-
-                                            {/* WEBSITE */}
-
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                    Website
+                                                    Phone
                                                 </label>
 
                                                 <input
-                                                    type="url"
-                                                    value={
-                                                        editForm.agencyWebsite
-                                                    }
+                                                    type="text"
+                                                    value={editForm.phone}
                                                     onChange={(e) =>
                                                         setEditForm({
                                                             ...editForm,
-                                                            agencyWebsite:
+                                                            phone:
                                                                 e.target.value,
                                                         })
                                                     }
@@ -898,22 +708,18 @@ export function AdminProfilePage() {
                                             </div>
                                         </div>
 
-                                        {/* DESCRIPTION */}
-
                                         <div className="mt-4">
                                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                                Description
+                                                Biography
                                             </label>
 
                                             <textarea
                                                 rows={4}
-                                                value={
-                                                    editForm.agencyDescription
-                                                }
+                                                value={editForm.biography}
                                                 onChange={(e) =>
                                                     setEditForm({
                                                         ...editForm,
-                                                        agencyDescription:
+                                                        biography:
                                                             e.target.value,
                                                     })
                                                 }
@@ -921,228 +727,230 @@ export function AdminProfilePage() {
                                             />
                                         </div>
                                     </div>
-                                )}
 
-                                {/* BUTTON */}
+                                    {/* AGENCY */}
 
-                                <div className="flex gap-3 pt-4 border-t">
-                                    <button
-                                        type="button"
-                                        onClick={handleEditProfile}
-                                        className="flex-1 px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium"
-                                    >
-                                        Save Changes
-                                    </button>
+                                    {profile.Agency && (
+                                        <div className="border-t pt-6">
+                                            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                                                Agency Information
+                                            </h3>
 
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            setActiveModal(null)
-                                        }
-                                        className="px-5 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                                    >
-                                        Cancel
-                                    </button>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                {/* NAME */}
+
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                        Agency Name
+                                                    </label>
+
+                                                    <input
+                                                        type="text"
+                                                        value={
+                                                            editForm.agencyName
+                                                        }
+                                                        onChange={(e) =>
+                                                            setEditForm({
+                                                                ...editForm,
+                                                                agencyName:
+                                                                    e.target
+                                                                        .value,
+                                                            })
+                                                        }
+                                                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
+                                                    />
+                                                </div>
+
+                                                {/* SLUG */}
+
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                        Agency Slug
+                                                    </label>
+
+                                                    <div className="relative">
+                                                        <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+
+                                                        <input
+                                                            type="text"
+                                                            value={
+                                                                editForm.agencySlug
+                                                            }
+                                                            onChange={(e) =>
+                                                                setEditForm({
+                                                                    ...editForm,
+                                                                    agencySlug:
+                                                                        e.target
+                                                                            .value,
+                                                                })
+                                                            }
+                                                            className="w-full pl-9 pr-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                {/* CONTACT */}
+
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                        Contact
+                                                    </label>
+
+                                                    <input
+                                                        type="text"
+                                                        value={
+                                                            editForm.agencyContact
+                                                        }
+                                                        onChange={(e) =>
+                                                            setEditForm({
+                                                                ...editForm,
+                                                                agencyContact:
+                                                                    e.target.value,
+                                                            })
+                                                        }
+                                                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
+                                                    />
+                                                </div>
+
+                                                {/* EMAIL */}
+
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                        Agency Email
+                                                    </label>
+
+                                                    <input
+                                                        type="email"
+                                                        value={
+                                                            editForm.agencyEmail
+                                                        }
+                                                        onChange={(e) =>
+                                                            setEditForm({
+                                                                ...editForm,
+                                                                agencyEmail:
+                                                                    e.target.value,
+                                                            })
+                                                        }
+                                                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
+                                                    />
+                                                </div>
+
+                                                {/* LOCATION */}
+
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                        Location
+                                                    </label>
+
+                                                    <div className="relative">
+                                                        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+
+                                                        <input
+                                                            type="text"
+                                                            value={
+                                                                editForm.agencyLocation
+                                                            }
+                                                            onChange={(e) =>
+                                                                setEditForm({
+                                                                    ...editForm,
+                                                                    agencyLocation:
+                                                                        e.target
+                                                                            .value,
+                                                                })
+                                                            }
+                                                            className="w-full pl-9 pr-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
+                                                        />
+                                                    </div>
+                                                </div>
+
+                                                {/* WEBSITE */}
+
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                        Website
+                                                    </label>
+
+                                                    <input
+                                                        type="url"
+                                                        value={
+                                                            editForm.agencyWebsite
+                                                        }
+                                                        onChange={(e) =>
+                                                            setEditForm({
+                                                                ...editForm,
+                                                                agencyWebsite:
+                                                                    e.target.value,
+                                                            })
+                                                        }
+                                                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            {/* DESCRIPTION */}
+
+                                            <div className="mt-4">
+                                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                    Description
+                                                </label>
+
+                                                <textarea
+                                                    rows={4}
+                                                    value={
+                                                        editForm.agencyDescription
+                                                    }
+                                                    onChange={(e) =>
+                                                        setEditForm({
+                                                            ...editForm,
+                                                            agencyDescription:
+                                                                e.target.value,
+                                                        })
+                                                    }
+                                                    className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500 resize-none"
+                                                />
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* BUTTON */}
+
+                                    <div className="flex gap-3 pt-4 border-t">
+                                        <button
+                                            type="button"
+                                            onClick={handleEditProfile}
+                                            className="flex-1 px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium"
+                                        >
+                                            Save Changes
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                setActiveModal(null)
+                                            }
+                                            className="px-5 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )
+            }
 
             {/* ====================================================== */}
             {/* USER PHOTO MODAL */}
             {/* ====================================================== */}
 
-            {activeModal === "user-photo" && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl max-w-md w-full p-6">
-                        <div className="flex items-center justify-between mb-5">
-                            <h2 className="text-xl font-bold">
-                                Update Profile Photo
-                            </h2>
-
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    setActiveModal(null)
-                                }
-                                className="p-2 rounded-lg hover:bg-gray-100"
-                            >
-                                <X className="h-5 w-5" />
-                            </button>
-                        </div>
-
-                        <label className="block cursor-pointer">
-                            <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-teal-500 transition-colors">
-                                <Camera className="h-10 w-10 mx-auto text-gray-400 mb-3" />
-
-                                <p className="font-medium text-gray-700">
-                                    Choose profile image
-                                </p>
-
-                                <p className="text-sm text-gray-500 mt-1">
-                                    PNG, JPG or WEBP
-                                </p>
-                            </div>
-
-                            <input
-                                type="file"
-                                accept="image/png,image/jpeg,image/webp"
-                                className="hidden"
-                                onChange={handleUserImageChange}
-                            />
-                        </label>
-
-                        {userImage && (
-                            <div className="mt-4">
-                                <p className="text-sm text-gray-500">
-                                    Selected:
-                                </p>
-
-                                <p className="text-sm font-medium mt-1">
-                                    {userImage.name}
-                                </p>
-                            </div>
-                        )}
-
-                        <div className="flex gap-3 mt-6">
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    /*
-                                     * TODO:
-                                     *
-                                     * uploadUserProfileImage(userImage)
-                                     */
-                                    showSuccess(
-                                        "Profile image selected."
-                                    );
-                                    setActiveModal(null);
-                                }}
-                                disabled={!userImage}
-                                className="flex-1 px-4 py-2.5 bg-teal-600 text-white rounded-lg disabled:opacity-50"
-                            >
-                                Upload Image
-                            </button>
-
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    setActiveModal(null)
-                                }
-                                className="px-4 py-2.5 border border-gray-300 rounded-lg"
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* ====================================================== */}
-            {/* AGENCY PHOTO MODAL */}
-            {/* ====================================================== */}
-
-            {activeModal === "agency-photo" && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl max-w-md w-full p-6">
-                        <div className="flex items-center justify-between mb-5">
-                            <h2 className="text-xl font-bold">
-                                Update Agency Image
-                            </h2>
-
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    setActiveModal(null)
-                                }
-                                className="p-2 rounded-lg hover:bg-gray-100"
-                            >
-                                <X className="h-5 w-5" />
-                            </button>
-                        </div>
-
-                        <label className="block cursor-pointer">
-                            <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-teal-500 transition-colors">
-                                <Building2 className="h-10 w-10 mx-auto text-gray-400 mb-3" />
-
-                                <p className="font-medium text-gray-700">
-                                    Choose agency image
-                                </p>
-
-                                <p className="text-sm text-gray-500 mt-1">
-                                    PNG, JPG or WEBP
-                                </p>
-                            </div>
-
-                            <input
-                                type="file"
-                                accept="image/png,image/jpeg,image/webp"
-                                className="hidden"
-                                onChange={handleAgencyImageChange}
-                            />
-                        </label>
-
-                        {agencyImage && (
-                            <div className="mt-4">
-                                <p className="text-sm text-gray-500">
-                                    Selected:
-                                </p>
-
-                                <p className="text-sm font-medium mt-1">
-                                    {agencyImage.name}
-                                </p>
-                            </div>
-                        )}
-
-                        <div className="flex gap-3 mt-6">
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    /*
-                                     * TODO:
-                                     *
-                                     * uploadAgencyProfileImage(
-                                     *     agencyImage
-                                     * )
-                                     */
-                                    showSuccess(
-                                        "Agency image selected."
-                                    );
-                                    setActiveModal(null);
-                                }}
-                                disabled={!agencyImage}
-                                className="flex-1 px-4 py-2.5 bg-teal-600 text-white rounded-lg disabled:opacity-50"
-                            >
-                                Upload Image
-                            </button>
-
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    setActiveModal(null)
-                                }
-                                className="px-4 py-2.5 border border-gray-300 rounded-lg"
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* ====================================================== */}
-            {/* CHANGE PASSWORD */}
-            {/* ====================================================== */}
-
-            {activeModal === "password" && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl max-w-md w-full">
-                        <div className="p-6">
-                            <div className="flex items-center justify-between mb-6">
-                                <h2 className="text-2xl font-bold">
-                                    Change Password
+            {
+                activeModal === "user-photo" && (
+                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-2xl max-w-md w-full p-6">
+                            <div className="flex items-center justify-between mb-5">
+                                <h2 className="text-xl font-bold">
+                                    Update Profile Photo
                                 </h2>
 
                                 <button
@@ -1156,87 +964,322 @@ export function AdminProfilePage() {
                                 </button>
                             </div>
 
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Current Password
-                                    </label>
+                            <label className="block cursor-pointer">
+                                <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-teal-500 transition-colors">
+                                    <Camera className="h-10 w-10 mx-auto text-gray-400 mb-3" />
 
-                                    <input
-                                        type="password"
-                                        value={
-                                            passwordData.currentPassword
-                                        }
-                                        onChange={(e) =>
-                                            setPasswordData({
-                                                ...passwordData,
-                                                currentPassword:
-                                                    e.target.value,
-                                            })
-                                        }
-                                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
-                                    />
+                                    <p className="font-medium text-gray-700">
+                                        Choose profile image
+                                    </p>
+
+                                    <p className="text-sm text-gray-500 mt-1">
+                                        PNG, JPG or WEBP
+                                    </p>
                                 </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        New Password
-                                    </label>
+                                <input
+                                    type="file"
+                                    accept="image/png,image/jpeg,image/webp"
+                                    className="hidden"
+                                    onChange={handleUserImageChange}
+                                />
+                            </label>
 
-                                    <input
-                                        type="password"
-                                        value={
-                                            passwordData.newPassword
-                                        }
-                                        onChange={(e) =>
-                                            setPasswordData({
-                                                ...passwordData,
-                                                newPassword:
-                                                    e.target.value,
-                                            })
-                                        }
-                                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
-                                    />
+                            {userImage && (
+                                <div className="mt-4">
+                                    <p className="text-sm text-gray-500">
+                                        Selected:
+                                    </p>
+
+                                    <p className="text-sm font-medium mt-1">
+                                        {userImage.name}
+                                    </p>
+                                </div>
+                            )}
+
+                            <div className="flex gap-3 mt-6">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        /*
+                                         * TODO:
+                                         *
+                                         * uploadUserProfileImage(userImage)
+                                         */
+                                        showSuccess(
+                                            "Profile image selected."
+                                        );
+                                        setActiveModal(null);
+                                    }}
+                                    disabled={!userImage}
+                                    className="flex-1 px-4 py-2.5 bg-teal-600 text-white rounded-lg disabled:opacity-50"
+                                >
+                                    Upload Image
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        setActiveModal(null)
+                                    }
+                                    className="px-4 py-2.5 border border-gray-300 rounded-lg"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+
+            {/* ====================================================== */}
+            {/* AGENCY PHOTO MODAL */}
+            {/* ====================================================== */}
+
+            {
+                activeModal === "agency-photo" && (
+                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-2xl max-w-md w-full p-6">
+                            <div className="flex items-center justify-between mb-5">
+                                <h2 className="text-xl font-bold">
+                                    Update Agency Image
+                                </h2>
+
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        setActiveModal(null)
+                                    }
+                                    className="p-2 rounded-lg hover:bg-gray-100"
+                                >
+                                    <X className="h-5 w-5" />
+                                </button>
+                            </div>
+
+                            <label className="block cursor-pointer">
+                                <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-teal-500 transition-colors">
+                                    <Building2 className="h-10 w-10 mx-auto text-gray-400 mb-3" />
+
+                                    <p className="font-medium text-gray-700">
+                                        Choose agency image
+                                    </p>
+
+                                    <p className="text-sm text-gray-500 mt-1">
+                                        PNG, JPG or WEBP
+                                    </p>
                                 </div>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Confirm New Password
-                                    </label>
+                                <input
+                                    type="file"
+                                    accept="image/png,image/jpeg,image/webp"
+                                    className="hidden"
+                                    onChange={handleAgencyImageChange}
+                                />
+                            </label>
 
-                                    <input
-                                        type="password"
-                                        value={
-                                            passwordData.confirmPassword
-                                        }
-                                        onChange={(e) =>
-                                            setPasswordData({
-                                                ...passwordData,
-                                                confirmPassword:
-                                                    e.target.value,
-                                            })
-                                        }
-                                        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
-                                    />
+                            {agencyImage && (
+                                <div className="mt-4">
+                                    <p className="text-sm text-gray-500">
+                                        Selected:
+                                    </p>
+
+                                    <p className="text-sm font-medium mt-1">
+                                        {agencyImage.name}
+                                    </p>
                                 </div>
+                            )}
 
-                                <div className="flex gap-3 pt-4">
-                                    <button
-                                        type="button"
-                                        onClick={
-                                            handleChangePassword
-                                        }
-                                        className="flex-1 px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
-                                    >
-                                        Update Password
-                                    </button>
+                            <div className="flex gap-3 mt-6">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        /*
+                                         * TODO:
+                                         *
+                                         * uploadAgencyProfileImage(
+                                         *     agencyImage
+                                         * )
+                                         */
+                                        showSuccess(
+                                            "Agency image selected."
+                                        );
+                                        setActiveModal(null);
+                                    }}
+                                    disabled={!agencyImage}
+                                    className="flex-1 px-4 py-2.5 bg-teal-600 text-white rounded-lg disabled:opacity-50"
+                                >
+                                    Upload Image
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        setActiveModal(null)
+                                    }
+                                    className="px-4 py-2.5 border border-gray-300 rounded-lg"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+
+            {/* ====================================================== */}
+            {/* CHANGE PASSWORD */}
+            {/* ====================================================== */}
+
+            {
+                activeModal === "password" && (
+                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-2xl max-w-md w-full">
+                            <div className="p-6">
+                                <div className="flex items-center justify-between mb-6">
+                                    <h2 className="text-2xl font-bold">
+                                        Change Password
+                                    </h2>
 
                                     <button
                                         type="button"
                                         onClick={() =>
                                             setActiveModal(null)
                                         }
-                                        className="px-4 py-2.5 border border-gray-300 rounded-lg"
+                                        className="p-2 rounded-lg hover:bg-gray-100"
+                                    >
+                                        <X className="h-5 w-5" />
+                                    </button>
+                                </div>
+
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                            Current Password
+                                        </label>
+
+                                        <input
+                                            type="password"
+                                            value={
+                                                passwordData.currentPassword
+                                            }
+                                            onChange={(e) =>
+                                                setPasswordData({
+                                                    ...passwordData,
+                                                    currentPassword:
+                                                        e.target.value,
+                                                })
+                                            }
+                                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                            New Password
+                                        </label>
+
+                                        <input
+                                            type="password"
+                                            value={
+                                                passwordData.newPassword
+                                            }
+                                            onChange={(e) =>
+                                                setPasswordData({
+                                                    ...passwordData,
+                                                    newPassword:
+                                                        e.target.value,
+                                                })
+                                            }
+                                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                            Confirm New Password
+                                        </label>
+
+                                        <input
+                                            type="password"
+                                            value={
+                                                passwordData.confirmPassword
+                                            }
+                                            onChange={(e) =>
+                                                setPasswordData({
+                                                    ...passwordData,
+                                                    confirmPassword:
+                                                        e.target.value,
+                                                })
+                                            }
+                                            className="w-full px-4 py-2.5 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-teal-500"
+                                        />
+                                    </div>
+
+                                    <div className="flex gap-3 pt-4">
+                                        <button
+                                            type="button"
+                                            onClick={
+                                                handleChangePassword
+                                            }
+                                            className="flex-1 px-4 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
+                                        >
+                                            Update Password
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                setActiveModal(null)
+                                            }
+                                            className="px-4 py-2.5 border border-gray-300 rounded-lg"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+
+            {/* ====================================================== */}
+            {/* DELETE ACCOUNT */}
+            {/* ====================================================== */}
+
+            {
+                showDeleteConfirm && (
+                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                        <div className="bg-white rounded-2xl max-w-md w-full p-6">
+                            <div className="text-center">
+                                <div className="mx-auto h-16 w-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                                    <Trash2 className="h-8 w-8 text-red-600" />
+                                </div>
+
+                                <h2 className="text-2xl font-bold text-gray-900">
+                                    Delete Account
+                                </h2>
+
+                                <p className="text-gray-600 mt-2">
+                                    Are you sure you want to delete your
+                                    account? This action cannot be undone.
+                                </p>
+
+                                <div className="flex gap-3 mt-6">
+                                    <button
+                                        type="button"
+                                        onClick={handleDeleteAccount}
+                                        className="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                                    >
+                                        Yes, Delete Account
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            setShowDeleteConfirm(false)
+                                        }
+                                        className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg"
                                     >
                                         Cancel
                                     </button>
@@ -1244,53 +1287,8 @@ export function AdminProfilePage() {
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
-
-            {/* ====================================================== */}
-            {/* DELETE ACCOUNT */}
-            {/* ====================================================== */}
-
-            {showDeleteConfirm && (
-                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl max-w-md w-full p-6">
-                        <div className="text-center">
-                            <div className="mx-auto h-16 w-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                                <Trash2 className="h-8 w-8 text-red-600" />
-                            </div>
-
-                            <h2 className="text-2xl font-bold text-gray-900">
-                                Delete Account
-                            </h2>
-
-                            <p className="text-gray-600 mt-2">
-                                Are you sure you want to delete your
-                                account? This action cannot be undone.
-                            </p>
-
-                            <div className="flex gap-3 mt-6">
-                                <button
-                                    type="button"
-                                    onClick={handleDeleteAccount}
-                                    className="flex-1 px-4 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700"
-                                >
-                                    Yes, Delete Account
-                                </button>
-
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        setShowDeleteConfirm(false)
-                                    }
-                                    className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg"
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-        </div>
+                )
+            }
+        </div >
     );
 }
