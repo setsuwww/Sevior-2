@@ -4,16 +4,23 @@ import (
 	"net/http"
 
 	"backend/resource/models"
-	"backend/resource/services/admin"
+	adminService "backend/resource/services/admin"
 
 	"github.com/gin-gonic/gin"
 )
 
 type ProfileController struct {
-	Service *admin.ProfileService
+	Service *adminService.ProfileService
 }
 
-func (c *ProfileController) GetProfile(ctx *gin.Context) {
+// ============================================================
+// GET PROFILE
+// ============================================================
+
+func (c *ProfileController) GetProfile(
+	ctx *gin.Context,
+) {
+
 	currentUser, exists := ctx.Get("currentUser")
 
 	if !exists {
@@ -33,6 +40,7 @@ func (c *ProfileController) GetProfile(ctx *gin.Context) {
 	}
 
 	profile, err := c.Service.GetProfile(user.ID)
+
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
@@ -43,7 +51,14 @@ func (c *ProfileController) GetProfile(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, profile)
 }
 
-func (c *ProfileController) UpdateProfile(ctx *gin.Context) {
+// ============================================================
+// UPDATE PROFILE
+// ============================================================
+
+func (c *ProfileController) UpdateProfile(
+	ctx *gin.Context,
+) {
+
 	currentUser, exists := ctx.Get("currentUser")
 
 	if !exists {
@@ -62,7 +77,7 @@ func (c *ProfileController) UpdateProfile(ctx *gin.Context) {
 		return
 	}
 
-	var req admin.UpdateProfileRequest
+	var req adminService.UpdateProfileRequest
 
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -71,10 +86,15 @@ func (c *ProfileController) UpdateProfile(ctx *gin.Context) {
 		return
 	}
 
-	if err := c.Service.UpdateProfile(user.ID, req); err != nil {
+	if err := c.Service.UpdateProfile(
+		user.ID,
+		req,
+	); err != nil {
+
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),
 		})
+
 		return
 	}
 

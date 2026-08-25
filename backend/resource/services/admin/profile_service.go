@@ -1,9 +1,7 @@
 package admin
 
 import (
-	"errors"
-
-	"backend/resource/models"
+	adminDTO "backend/resource/dto/admin"
 	"backend/resource/repositories/admin"
 )
 
@@ -26,13 +24,60 @@ type UpdateProfileRequest struct {
 	AgencyImage string `json:"agency_profile_image"`
 }
 
-func (s *ProfileService) GetProfile(userID uint) (*models.User, error) {
-	return s.Repo.GetUserByID(userID)
-}
-
-func (s *ProfileService) UpdateProfile(userID uint, req UpdateProfileRequest) error {
+func (s *ProfileService) GetProfile(
+	userID uint,
+) (*adminDTO.ProfileResponse, error) {
 
 	user, err := s.Repo.GetUserByID(userID)
+
+	if err != nil {
+		return nil, err
+	}
+
+	response := &adminDTO.ProfileResponse{
+		User: adminDTO.UserProfileResponse{
+			ID:           user.ID,
+			FullName:     user.FullName,
+			Email:        user.Email,
+			Phone:        user.Phone,
+			ProfileImage: user.ProfileImage,
+			Biography:    user.Biography,
+			Role:         user.Role,
+			IsActive:     user.IsActive != nil && *user.IsActive,
+			LastLogin:    user.LastLogin,
+		},
+
+		Agency: nil,
+	}
+
+	if user.AgencyID != nil {
+		response.Agency = &adminDTO.AgencyProfileResponse{
+			ID:                 user.Agency.ID,
+			AgencyName:         user.Agency.AgencyName,
+			AgencySlug:         user.Agency.AgencySlug,
+			OwnerName:          user.Agency.OwnerName,
+			Contact:            user.Agency.Contact,
+			Email:              user.Agency.Email,
+			Description:        user.Agency.Description,
+			Website:            user.Agency.Website,
+			Location:           user.Agency.Location,
+			ProfileImage:       user.Agency.ProfileImage,
+			Status:             user.Agency.Status,
+			SubscriptionPlan:   user.Agency.SubscriptionPlan,
+			SubscriptionStatus: user.Agency.SubscriptionStatus,
+		}
+	}
+
+	return response, nil
+}
+
+func (s *ProfileService) UpdateProfile(
+	userID uint,
+	req UpdateProfileRequest,
+) error {
+
+	user, err := s.Repo.GetUserByID(userID)
+
 	if err != nil {
 		return err
 	}
@@ -62,11 +107,12 @@ func (s *ProfileService) UpdateProfile(userID uint, req UpdateProfileRequest) er
 		"profile_image": req.AgencyImage,
 	}
 
-	if err := s.Repo.UpdateAgency(*user.AgencyID, agencyData); err != nil {
+	if err := s.Repo.UpdateAgency(
+		*user.AgencyID,
+		agencyData,
+	); err != nil {
 		return err
 	}
 
 	return nil
 }
-
-var ErrUnauthorized = errors.New("unauthorized")
