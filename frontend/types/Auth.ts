@@ -1,26 +1,23 @@
-import { User } from "./User";
-
-export interface AuthResponse {
-  user: User;
-  accessToken: string;
-  refreshToken: string;
-}
-
 export interface RefreshResponse {
   accessToken: string;
 }
 
-export type Role = "SUPER_ADMIN" | "ADMIN" | "DEVELOPER" | "CLIENT";
+export type PlatformRole =
+  | "USER"
+  | "CLIENT"
+  | "ADMIN"
+  | "DEVELOPER"
+  | "SUPER_ADMIN";
 
-export interface UserAuth {
+export interface AuthUser {
   ID: number;
   AgencyID?: number;
   FullName: string;
   Email: string;
-  Role: Role;
+  Role: PlatformRole;
   Phone: string;
-  ProfileImage: string;
-  Biography: string;
+  ProfileImage?: string | null;
+  Biography?: string | null;
   IsActive: boolean;
   LastLogin?: string;
   CreatedAt: string;
@@ -28,9 +25,8 @@ export interface UserAuth {
 }
 
 export interface AuthResponse {
-  user: User;
   accessToken: string;
-  message?: string;
+  user: AuthUser;
 }
 
 export interface RefreshResponse {

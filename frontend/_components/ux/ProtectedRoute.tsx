@@ -26,7 +26,7 @@ export default function ProtectedRoute({ children, allowedRoles }: { children: R
             }
 
             if (allowedRoles && !allowedRoles.includes(currentUser.Role)) {
-                router.push("/dashboard");
+                router.push(");
                 return;
             }
 

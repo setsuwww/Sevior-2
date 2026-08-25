@@ -1,15 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { Eye, EyeOff, AlertCircle, Loader2 } from "lucide-react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+
 import toast from "react-hot-toast";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Eye, EyeOff, AlertCircle, Loader2 } from "lucide-react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { loginSchema, LoginFormValues } from "@/validators/auth.validators";
-import { authService, setAccessToken } from "@/services/auth.service";
+import { authService } from "@/services/auth.service";
 import { useAuth } from "@/providers/AuthProvider";
 
 import { Button } from "@/_components/ui/button";
@@ -17,7 +20,8 @@ import { Input } from "@/_components/ui/input";
 import { Label } from "@/_components/ui/label";
 import { Checkbox } from "@/_components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/_components/ui/card";
-import Image from "next/image";
+
+import { getDashboardPath } from "@/_lib/helpers/dashboard-redirect";
 
 export default function LoginPage() {
     const router = useRouter();
@@ -51,19 +55,9 @@ export default function LoginPage() {
 
             toast.success("Welcome back!", { duration: 3000 });
 
-            const userRole = res.user.Role;
-            if (userRole === "SUPER_ADMIN") {
-                router.push("/dashboard/superadmin");
-            } else if (userRole === "ADMIN") {
-                router.push("/dashboard/admin");
-            } else if (userRole === "DEVELOPER") {
-                router.push("/dashboard/developer");
-            } else if (userRole === "CLIENT") {
-                router.push("/dashboard/client");
-            } else {
-                router.push("/dashboard");
-            }
-        } catch (err: any) {
+            router.push(getDashboardPath(res.user.Role));
+        }
+        catch (err: any) {
             setAuthError(err.response?.data?.error || err.message || "An unexpected error occurred");
         }
     };

@@ -2,10 +2,8 @@ import axios, { AxiosInstance } from "axios";
 import { AuthResponse, RefreshResponse } from "@/types/Auth"
 import { LoginFormValues, ForgotPasswordFormValues } from "@/validators/auth.validators";
 
-const API_URL = "http://localhost:8080/auth";
-
 export const authApi: AxiosInstance = axios.create({
-  baseURL: API_URL,
+  baseURL: "http://localhost:8080/auth",
   withCredentials: true,
   timeout: 10000,
 });
@@ -43,7 +41,8 @@ api.interceptors.request.use((config) => {
 export const setAccessToken = (token: string | null) => {
   if (token) {
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  } else {
+  }
+  else {
     delete api.defaults.headers.common["Authorization"];
   }
 };
@@ -73,14 +72,15 @@ api.interceptors.response.use(
         processQueue(null, data.accessToken);
         originalRequest.headers["Authorization"] = "Bearer " + data.accessToken;
         return api(originalRequest);
-      } catch (err) {
+      }
+      catch (err) {
         processQueue(err, null);
-        // Dispatch event or callback to logout user
         if (typeof window !== "undefined") {
           window.dispatchEvent(new Event("auth:logout"));
         }
         return Promise.reject(err);
-      } finally {
+      }
+      finally {
         isRefreshing = false;
       }
     }

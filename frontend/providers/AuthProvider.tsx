@@ -1,50 +1,39 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { UserAuth } from "@/types/Auth";
+import { AuthUser } from "@/types/Auth";
 import { authService, setAccessToken } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {
-  user: UserAuth | null;
+  user: AuthUser | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (token: string, userData: UserAuth) => void;
+  login: (token: string, userData: AuthUser) => void;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<UserAuth | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     const restoreSession = async () => {
       try {
-        console.log("[AUTH] Starting session restore...");
-
-        console.log("[AUTH] Calling /auth/refresh...");
         const { accessToken } = await authService.refresh();
 
-        console.log("[AUTH] Refresh success:", accessToken ? "TOKEN RECEIVED" : "NO TOKEN");
-
         setAccessToken(accessToken);
-
-        console.log("[AUTH] Calling /auth/me...");
         const { user: userData } = await authService.getMe();
-
-        console.log("[AUTH] /auth/me success:", userData);
-
         setUser(userData);
-      } catch (error) {
-        console.error("[AUTH] Session restore failed:", error);
-
+      }
+      catch (error) {
         setAccessToken(null);
         setUser(null);
-      } finally {
-        console.log("[AUTH] Session restore finished");
+      }
+      finally {
         setIsLoading(false);
       }
     };
@@ -64,7 +53,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
   }, [router]);
 
-  const login = (token: string, userData: UserAuth) => {
+  const login = (token: string, userData: AuthUser) => {
     setAccessToken(token);
     setUser(userData);
   };
@@ -72,9 +61,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = async () => {
     try {
       await authService.logout();
-    } catch (err) {
+    }
+    catch (err) {
       console.error("Logout failed", err);
-    } finally {
+    }
+    finally {
       setUser(null);
       setAccessToken(null);
       router.push("/login");

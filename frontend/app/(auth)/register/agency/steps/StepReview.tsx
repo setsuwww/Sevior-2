@@ -1,4 +1,3 @@
-import React from "react";
 import { Building2 } from "lucide-react";
 import { useAgencyOnboarding } from "./logic/useAgencyOnboarding";
 import { AgencySummaryCard } from "../components/AgencySummaryCard";
@@ -21,7 +20,7 @@ export function StepReview() {
                         {isCreating ? "Creating your account..." : "Automatically signing in..."}
                     </h3>
                     <p className="text-gray-500 dark:text-gray-400 max-w-md">
-                        {isCreating 
+                        {isCreating
                             ? "We are setting up your workspace, provisioning resources, and preparing your dashboard."
                             : "Securing your session and redirecting you to the dashboard..."}
                     </p>

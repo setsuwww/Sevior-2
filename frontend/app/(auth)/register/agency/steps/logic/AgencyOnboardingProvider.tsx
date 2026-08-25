@@ -53,7 +53,6 @@ export function AgencyOnboardingProvider({ children }: { children: React.ReactNo
 
     const updateForm = (updates: Partial<AgencyForm>) => {
         setForm((prev) => ({ ...prev, ...updates }));
-        // Clear errors for updated fields
         if (Object.keys(errors).length > 0) {
             const newErrors = { ...errors };
             Object.keys(updates).forEach(key => delete newErrors[key]);

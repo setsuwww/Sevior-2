@@ -1,8 +1,7 @@
-import React from "react";
 import { Label } from "@/_components/ui/label";
 import { Input } from "@/_components/ui/input";
 import { Textarea } from "@/_components/ui/textarea";
-import { UploadCloud, Building2, User, Mail, Lock, Globe, Tag, FileText } from "lucide-react";
+import { UploadCloud } from "lucide-react";
 import { useAgencyOnboarding } from "./logic/useAgencyOnboarding";
 
 export function StepAgencyProfile() {
