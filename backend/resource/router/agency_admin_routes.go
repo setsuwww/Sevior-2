@@ -47,5 +47,6 @@ func AgencyAdminRoutes(r *gin.Engine, db *gorm.DB) {
 		adminGroup.GET("/users/clients/:id", clientCtrl.GetClient)
 
 		adminGroup.GET("/profile", profileCtrl.GetProfile)
+		adminGroup.PATCH("/profile", profileCtrl.UpdateProfile)
 	}
 }
