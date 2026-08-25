@@ -64,7 +64,6 @@ export function AdminProfilePage() {
                 setUserImagePreview(data.ProfileImage || null);
                 setAgencyImagePreview(data.Agency?.ProfileImage || null);
             } catch (error) {
-                console.error("Failed to load profile:", error);
                 setErrorMessage("Failed to load profile.");
             } finally {
                 setLoading(false);
@@ -183,7 +182,6 @@ export function AdminProfilePage() {
 
             setActiveModal(null);
         } catch (error) {
-            console.error("Failed to change password:", error);
             showError("Failed to change password.");
         }
     };
@@ -204,7 +202,6 @@ export function AdminProfilePage() {
 
             window.location.href = "/login";
         } catch (error) {
-            console.error("Logout failed:", error);
             showError("Logout failed.");
         }
     };
@@ -219,7 +216,6 @@ export function AdminProfilePage() {
 
             window.location.href = "/goodbye";
         } catch (error) {
-            console.error("Delete account failed:", error);
             showError("Failed to delete account.");
         }
     };
@@ -322,7 +318,7 @@ export function AdminProfilePage() {
                     {/* PROFILE HEADER */}
 
                     <div className="pt-20 pb-8 px-8">
-                        <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+                        <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                             <div>
                                 <h1 className="text-3xl font-bold text-gray-900">
                                     {profile.FullName}
@@ -341,8 +337,6 @@ export function AdminProfilePage() {
                                 )}
 
                                 <div className="flex items-center gap-2 mt-2">
-                                    <ShieldCheck className="h-4 w-4 text-teal-600" />
-
                                     <span className="text-sm font-medium text-gray-600">
                                         {profile.Role}
                                     </span>
@@ -353,9 +347,7 @@ export function AdminProfilePage() {
                                             : "bg-red-100 text-red-700"
                                             }`}
                                     >
-                                        {profile.IsActive
-                                            ? "Active"
-                                            : "Inactive"}
+                                        {profile.IsActive ? "Active" : "Inactive"}
                                     </span>
                                 </div>
                             </div>
@@ -388,16 +380,10 @@ export function AdminProfilePage() {
                             </div>
                         )}
 
-                        {/* ================================================== */}
-                        {/* AGENCY */}
-                        {/* ================================================== */}
-
                         {profile.Agency && (
                             <div className="mt-8 bg-gray-50 border border-gray-200 rounded-xl p-6">
                                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                                     <div className="flex items-center gap-3">
-                                        {/* AGENCY IMAGE */}
-
                                         <div className="h-16 w-16 rounded-xl overflow-hidden bg-white border border-gray-200 flex-shrink-0">
                                             {agencyImagePreview ? (
                                                 <img
@@ -423,12 +409,11 @@ export function AdminProfilePage() {
                                                     }
                                                 </h2>
 
-                                                <span
-                                                    className={`px-2 py-1 text-xs font-semibold rounded-full ${profile.Agency.Status ===
-                                                        "ACTIVE"
-                                                        ? "bg-green-100 text-green-700"
-                                                        : "bg-gray-100 text-gray-700"
-                                                        }`}
+                                                <span className={`px-2 py-1 text-xs font-semibold rounded-full
+                                                    ${profile.Agency.Status === "ACTIVE" ?
+                                                        "bg-green-100 text-green-700" :
+                                                        "bg-gray-100 text-gray-700"
+                                                    }`}
                                                 >
                                                     {profile.Agency.Status}
                                                 </span>
@@ -436,24 +421,15 @@ export function AdminProfilePage() {
 
                                             {/* SLUG */}
 
-                                            <div className="flex items-center gap-1 mt-1 text-sm text-gray-500">
-                                                <Hash className="h-3.5 w-3.5" />
-
-                                                <span>
-                                                    {
-                                                        profile.Agency
-                                                            .AgencySlug
-                                                    }
-                                                </span>
+                                            <div className="flex items-center gap-1 mt-1 text-sm text-gray-500 italic">
+                                                <span># {profile.Agency.AgencySlug}</span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <button
                                         type="button"
-                                        onClick={() =>
-                                            setActiveModal("edit")
-                                        }
+                                        onClick={() => setActiveModal("edit")}
                                         className="flex items-center gap-2 px-3 py-2 border border-gray-300 bg-white rounded-lg hover:bg-gray-100 transition-colors text-sm"
                                     >
                                         <Edit3 className="h-4 w-4" />
@@ -475,7 +451,7 @@ export function AdminProfilePage() {
                                     {/* CONTACT */}
 
                                     {profile.Agency.Contact && (
-                                        <div className="flex items-start gap-3">
+                                        <div className="flex items-center gap-3">
                                             <Phone className="h-5 w-5 text-gray-500 mt-0.5" />
 
                                             <div>
@@ -493,7 +469,7 @@ export function AdminProfilePage() {
                                     {/* EMAIL */}
 
                                     {profile.Agency.Email && (
-                                        <div className="flex items-start gap-3">
+                                        <div className="flex items-center gap-3">
                                             <Mail className="h-5 w-5 text-gray-500 mt-0.5" />
 
                                             <div>
@@ -511,7 +487,7 @@ export function AdminProfilePage() {
                                     {/* LOCATION */}
 
                                     {profile.Agency.Location && (
-                                        <div className="flex items-start gap-3">
+                                        <div className="flex items-center gap-3">
                                             <MapPin className="h-5 w-5 text-gray-500 mt-0.5" />
 
                                             <div>
@@ -532,7 +508,7 @@ export function AdminProfilePage() {
                                     {/* WEBSITE */}
 
                                     {profile.Agency.Website && (
-                                        <div className="flex items-start gap-3">
+                                        <div className="flex items-center gap-3">
                                             <Globe className="h-5 w-5 text-gray-500 mt-0.5" />
 
                                             <div>
