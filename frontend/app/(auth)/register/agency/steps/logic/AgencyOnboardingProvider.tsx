@@ -110,8 +110,12 @@ export function AgencyOnboardingProvider({ children }: { children: React.ReactNo
                 full_name: form.full_name,
                 email: form.email,
                 password: form.password,
+
                 agency_name: form.agency_name,
+                agency_slug: form.agency_slug,
+                agency_description: form.agency_description,
                 website: form.website,
+
                 subscription_plan: form.subscription_plan || "free",
             };
 

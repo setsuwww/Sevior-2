@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"backend/resource/dto/auth"
 	"backend/resource/models"
 	"backend/resource/services"
 	"backend/resource/utils"
@@ -79,33 +80,46 @@ func (ac *AuthController) RegisterClient(c *gin.Context) {
 }
 
 func (ac *AuthController) RegisterAgency(c *gin.Context) {
-	var input struct {
-		FullName          string `json:"full_name" binding:"required"`
-		Email             string `json:"email" binding:"required,email"`
-		Password          string `json:"password" binding:"required,min=6"`
-		AgencyName        string `json:"agency_name" binding:"required"`
-	}
+	var input auth.RegisterAgencyRequest
 
 	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
-	user, err := ac.authService.RegisterAgencyOwner(input.FullName, input.Email, input.Password, input.AgencyName)
+	user, err := ac.authService.RegisterAgencyOwner(input)
 	if err != nil {
 		status := http.StatusInternalServerError
+
 		if err.Error() == "email already in use" {
 			status = http.StatusConflict
 		}
-		c.JSON(status, gin.H{"error": err.Error()})
+
+		c.JSON(status, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
 	accessToken, _ := utils.GenerateToken(user.ID, user.Role)
-	refreshToken, _ := utils.GenerateRefreshToken(user.ID, user.Role)
-	ac.authService.StoreRefreshToken(user.ID, refreshToken)
 
-	ac.setTokenCookie(c, refreshToken, time.Now().Add(time.Hour*24*7))
+	refreshToken, _ := utils.GenerateRefreshToken(
+		user.ID,
+		user.Role,
+	)
+
+	ac.authService.StoreRefreshToken(
+		user.ID,
+		refreshToken,
+	)
+
+	ac.setTokenCookie(
+		c,
+		refreshToken,
+		time.Now().Add(time.Hour*24*7),
+	)
 
 	c.JSON(http.StatusCreated, gin.H{
 		"user":        user,
@@ -136,14 +150,12 @@ func (ac *AuthController) Login(c *gin.Context) {
 	}
 
 	accessToken, _ := utils.GenerateToken(user.ID, user.Role)
-	
+
 	if input.RememberMe {
 		refreshToken, _ := utils.GenerateRefreshToken(user.ID, user.Role)
 		ac.authService.StoreRefreshToken(user.ID, refreshToken)
 		ac.setTokenCookie(c, refreshToken, time.Now().Add(time.Hour*24*7))
 	} else {
-		// If not remember me, we can issue a session cookie or no refresh token at all.
-		// For simplicity, we just issue a session cookie (expires when browser closes)
 		refreshToken, _ := utils.GenerateRefreshToken(user.ID, user.Role)
 		ac.authService.StoreRefreshToken(user.ID, refreshToken)
 		c.SetCookie("refresh_token", refreshToken, 0, "/", "", false, true)
@@ -189,7 +201,7 @@ func (ac *AuthController) RefreshToken(c *gin.Context) {
 
 	// Generate new access token
 	newAccessToken, _ := utils.GenerateToken(userID, role)
-	
+
 	// Option to rotate refresh token here
 	newRefreshToken, _ := utils.GenerateRefreshToken(userID, role)
 	ac.authService.DeleteRefreshToken(tokenStr)
@@ -232,7 +244,7 @@ func (ac *AuthController) ForgotPassword(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "If that email is in our database, we will send a password reset link.",
-		"token": token, // FOR TESTING ONLY
+		"token":   token, // FOR TESTING ONLY
 	})
 }
 

@@ -5,6 +5,7 @@ import "time"
 type Agency struct {
 	ID           uint   `gorm:"primaryKey"`
 	AgencyName   string `gorm:"type:varchar"`
+	AgencySlug   string `gorm:"type:varchar;uniqueIndex"`
 	OwnerName    string `gorm:"type:varchar"`
 	Contact      string `gorm:"type:varchar"`
 	Email        string `gorm:"type:varchar"`

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"time"
 
+	"backend/resource/dto/auth"
 	"backend/resource/models"
 	"backend/resource/utils"
 
@@ -46,38 +47,53 @@ func (s *AuthService) Login(email, password string) (*models.User, error) {
 	return &user, nil
 }
 
-func (s *AuthService) RegisterAgencyOwner(fullName, email, password, agencyName string) (*models.User, error) {
-	// Check if email exists
+func (s *AuthService) RegisterAgencyOwner(input auth.RegisterAgencyRequest) (*models.User, error) {
+
 	var count int64
-	s.db.Model(&models.User{}).Where("email = ?", email).Count(&count)
+
+	if err := s.db.
+		Model(&models.User{}).
+		Where("email = ?", input.Email).
+		Count(&count).Error; err != nil {
+		return nil, err
+	}
+
 	if count > 0 {
 		return nil, errors.New("email already in use")
 	}
 
-	hashedPassword := utils.HashPassword(password)
+	hashedPassword := utils.HashPassword(input.Password)
 	isActive := true
 
-	// Transaction to create Agency and User
 	var user models.User
+
 	err := s.db.Transaction(func(tx *gorm.DB) error {
+
 		agency := models.Agency{
-			AgencyName: agencyName,
-			OwnerName:  fullName,
-			Email:      email,
-			Status:     "ACTIVE",
+			AgencyName:         input.AgencyName,
+			AgencySlug:         input.AgencySlug,
+			OwnerName:          input.FullName,
+			Email:              input.Email,
+			Description:        input.AgencyDescription,
+			Website:            input.Website,
+			SubscriptionPlan:   input.SubscriptionPlan,
+			Status:             "ACTIVE",
+			SubscriptionStatus: "ACTIVE",
 		}
+
 		if err := tx.Create(&agency).Error; err != nil {
 			return err
 		}
 
 		user = models.User{
 			AgencyID: &agency.ID,
-			FullName: fullName,
-			Email:    email,
+			FullName: input.FullName,
+			Email:    input.Email,
 			Password: hashedPassword,
 			Role:     models.RoleAdmin,
 			IsActive: &isActive,
 		}
+
 		if err := tx.Create(&user).Error; err != nil {
 			return err
 		}
@@ -85,9 +101,12 @@ func (s *AuthService) RegisterAgencyOwner(fullName, email, password, agencyName 
 		return nil
 	})
 
-	return &user, err
-}
+	if err != nil {
+		return nil, err
+	}
 
+	return &user, nil
+}
 func (s *AuthService) RegisterClient(fullName, email, password string) (*models.User, error) {
 	var count int64
 	s.db.Model(&models.User{}).Where("email = ?", email).Count(&count)
