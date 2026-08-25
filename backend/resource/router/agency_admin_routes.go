@@ -17,16 +17,19 @@ func AgencyAdminRoutes(r *gin.Engine, db *gorm.DB) {
 	dashRepo := &repo.DashboardRepository{DB: db}
 	devRepo := &repo.DeveloperRepository{DB: db}
 	clientRepo := &repo.ClientRepository{DB: db}
+	profileRepo := &repo.ProfileRepository{DB: db}
 
 	// Initialize Services
 	dashService := &service.DashboardService{Repo: dashRepo}
 	devService := &service.DeveloperService{Repo: devRepo}
 	clientService := &service.ClientService{Repo: clientRepo}
+	profileService := &service.ProfileService{Repo: profileRepo}
 
 	// Initialize Controllers
 	dashCtrl := &admin.DashboardController{Service: dashService}
 	devCtrl := &admin.DeveloperController{Service: devService}
 	clientCtrl := &admin.ClientController{Service: clientService}
+	profileCtrl := &admin.ProfileController{Service: profileService}
 
 	adminGroup := r.Group("/api/v1/agency-admin")
 	adminGroup.Use(middleware.AuthMiddleware(db))
@@ -42,5 +45,7 @@ func AgencyAdminRoutes(r *gin.Engine, db *gorm.DB) {
 
 		adminGroup.GET("/users/clients", clientCtrl.GetClients)
 		adminGroup.GET("/users/clients/:id", clientCtrl.GetClient)
+
+		adminGroup.GET("/profile", profileCtrl.GetProfile)
 	}
 }

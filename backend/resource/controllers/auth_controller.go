@@ -267,12 +267,19 @@ func (ac *AuthController) ResetPassword(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Password reset successfully. You can now log in."})
 }
 
-func (ac *AuthController) Me(c *gin.Context) {
-	userIface, exists := c.Get("currentUser")
+func (c *AuthController) Me(ctx *gin.Context) {
+	currentUser, exists := ctx.Get("currentUser")
+
 	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		ctx.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Unauthorized",
+		})
 		return
 	}
-	user := userIface.(models.User)
-	c.JSON(http.StatusOK, gin.H{"user": user})
+
+	user := currentUser.(models.User)
+
+	ctx.JSON(http.StatusOK, gin.H{
+		"user": user,
+	})
 }

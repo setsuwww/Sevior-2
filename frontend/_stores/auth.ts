@@ -3,7 +3,6 @@
 import { create } from "zustand";
 import axios from "axios";
 
-
 import { PlatformRole } from "@/types/User";
 
 export interface User {
@@ -20,7 +19,6 @@ interface AuthState {
   setAuth: (token: string, refreshToken: string, user: User) => void;
   resetAuth: () => void;
   restoreAuth: () => Promise<User | null>;
-  fetchCurrentUser: () => Promise<User | null>;
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -65,30 +63,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     if (token && refreshToken && user) {
       set({ token, refreshToken, user });
-      return user; 
+      return user;
     }
     return null;
-  },
-
-  fetchCurrentUser: async () => {
-    const token = localStorage.getItem("accessToken");
-    if (!token) return null;
-
-    try {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/auth/me`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (!res.data || !res.data.user) return null;
-
-      const { ID, FullName, Email, Role } = res.data.user;
-      get().setAuth(token, get().refreshToken || "", { ID, FullName, Email, Role });
-      return { ID, FullName, Email, Role  };
-    } catch (err) {
-      console.error("Failed to fetch current user:", err);
-      get().resetAuth();
-      return null;
-    }
   },
 }));
 

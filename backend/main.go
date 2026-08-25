@@ -7,7 +7,6 @@ import (
 
 	"backend/resource/database"
 	"backend/resource/router"
-	"backend/resource/seeds"
 )
 
 func main() {
@@ -16,8 +15,8 @@ func main() {
 	}
 
 	db := database.Connect()
-	database.RunMigrations(db)
-	seeds.UsersSeed(db)
+	// database.RunMigrations(db)
+	// seeds.UsersSeed(db)
 
 	r := router.SetupRouter(db)
 
