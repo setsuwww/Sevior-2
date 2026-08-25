@@ -34,3 +34,24 @@ type AgencyProfileResponse struct {
 	SubscriptionPlan   string `json:"subscription_plan"`
 	SubscriptionStatus string `json:"subscription_status"`
 }
+
+type UpdateProfileRequest struct {
+	FullName  string `json:"full_name"`
+	Email     string `json:"email"`
+	Phone     string `json:"phone"`
+	Biography string `json:"biography"`
+
+	AgencyName        string `json:"agency_name"`
+	AgencySlug        string `json:"agency_slug"`
+	AgencyContact     string `json:"contact"`
+	AgencyEmail       string `json:"agency_email"`
+	AgencyDescription string `json:"description"`
+	AgencyWebsite     string `json:"agency_website"`
+	AgencyLocation    string `json:"location"`
+}
+
+type ChangePasswordRequest struct {
+	CurrentPassword string `json:"current_password" binding:"required"`
+	NewPassword     string `json:"new_password" binding:"required,min=6"`
+	ConfirmPassword string `json:"confirm_password" binding:"required"`
+}
