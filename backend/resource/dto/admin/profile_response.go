@@ -46,7 +46,7 @@ type UpdateProfileRequest struct {
 	AgencyContact     string `json:"contact"`
 	AgencyEmail       string `json:"agency_email"`
 	AgencyDescription string `json:"description"`
-	AgencyWebsite     string `json:"agency_website"`
+	AgencyWebsite     string `json:"website"`
 	AgencyLocation    string `json:"location"`
 }
 

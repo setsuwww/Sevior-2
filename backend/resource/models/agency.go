@@ -2,6 +2,31 @@ package models
 
 import "time"
 
+type SubscriptionPlan string
+
+const (
+	SubscriptionPlanFree      SubscriptionPlan = "FREE"
+	SubscriptionPlanPro       SubscriptionPlan = "PRO"
+	SubscriptionPlanExecutive SubscriptionPlan = "EXECUTIVE"
+)
+
+type AgencyStatus string
+
+const (
+	AgencyStatusActive   AgencyStatus = "ACTIVE"
+	AgencyStatusInactive AgencyStatus = "INACTIVE"
+)
+
+type SubscriptionStatus string
+
+const (
+	SubscriptionStatusActive   SubscriptionStatus = "ACTIVE"
+	SubscriptionStatusTrialing SubscriptionStatus = "TRIALING"
+	SubscriptionStatusPastDue  SubscriptionStatus = "PAST_DUE"
+	SubscriptionStatusCanceled SubscriptionStatus = "CANCELED"
+	SubscriptionStatusExpired  SubscriptionStatus = "EXPIRED"
+)
+
 type Agency struct {
 	ID           uint   `gorm:"primaryKey"`
 	AgencyName   string `gorm:"type:varchar"`
@@ -14,9 +39,9 @@ type Agency struct {
 	Location     string `gorm:"type:varchar"`
 	ProfileImage string `gorm:"type:text"`
 
-	Status             string `gorm:"type:varchar"`
-	SubscriptionPlan   string `gorm:"type:varchar"`
-	SubscriptionStatus string `gorm:"type:varchar"`
+	Status             AgencyStatus       `gorm:"type:varchar"`
+	SubscriptionPlan   SubscriptionPlan   `gorm:"type:varchar"`
+	SubscriptionStatus SubscriptionStatus `gorm:"type:varchar"`
 
 	CreatedAt time.Time
 	UpdatedAt time.Time

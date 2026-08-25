@@ -55,9 +55,9 @@ func (s *ProfileService) GetProfile(userID uint) (*adminDTO.ProfileResponse, err
 			Website:            user.Agency.Website,
 			Location:           user.Agency.Location,
 			ProfileImage:       user.Agency.ProfileImage,
-			Status:             user.Agency.Status,
-			SubscriptionPlan:   user.Agency.SubscriptionPlan,
-			SubscriptionStatus: user.Agency.SubscriptionStatus,
+			Status:             string(user.Agency.Status),
+			SubscriptionPlan:   string(user.Agency.SubscriptionPlan),
+			SubscriptionStatus: string(user.Agency.SubscriptionStatus),
 		}
 	}
 

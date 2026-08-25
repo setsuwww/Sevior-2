@@ -76,7 +76,7 @@ func (s *AuthService) RegisterAgencyOwner(input auth.RegisterAgencyRequest) (*mo
 			Email:              input.Email,
 			Description:        input.AgencyDescription,
 			Website:            input.Website,
-			SubscriptionPlan:   input.SubscriptionPlan,
+			SubscriptionPlan:   models.SubscriptionPlan(input.SubscriptionPlan),
 			Status:             "ACTIVE",
 			SubscriptionStatus: "ACTIVE",
 		}

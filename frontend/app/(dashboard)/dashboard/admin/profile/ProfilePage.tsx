@@ -1,8 +1,14 @@
 "use client";
 
-import { fetchUserProfile, UserProfile } from "@/_lib/services/admin/profile.service";
 import { useEffect, useState } from "react";
-import { User, Mail, Building2, MapPin, Globe, Edit3, Key, LogOut, Trash2, Camera, Phone, FileText, Hash, ShieldCheck, CheckCircle, XCircle, X } from "lucide-react";
+import { Mail, Building2, MapPin, Globe, Edit3, Key, LogOut, Trash2, Camera, Phone, FileText, Hash, CheckCircle, XCircle, X } from "lucide-react";
+import {
+    fetchUserProfile,
+    updateUserProfile,
+    changeUserPassword,
+    UserProfile,
+} from "@/_lib/services/admin/profile.service";
+import { authService } from "@/_lib/auth";
 
 export function AdminProfilePage() {
     const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -112,40 +118,53 @@ export function AdminProfilePage() {
     };
 
     const handleEditProfile = async () => {
+        if (!profile) return;
+
         try {
-            if (!profile) return;
+            const payload = {
+                full_name: editForm.fullName,
+                email: editForm.email,
+                phone: editForm.phone,
+                biography: editForm.biography,
 
-            const updatedProfile: UserProfile = {
-                ...profile,
-
-                FullName: editForm.fullName,
-                Email: editForm.email,
-                Phone: editForm.phone,
-                Biography: editForm.biography,
-
-                Agency: profile.Agency
-                    ? {
-                        ...profile.Agency,
-
-                        AgencyName: editForm.agencyName,
-                        AgencySlug: editForm.agencySlug,
-                        Contact: editForm.agencyContact,
-                        Email: editForm.agencyEmail,
-                        Description: editForm.agencyDescription,
-                        Website: editForm.agencyWebsite,
-                        Location: editForm.agencyLocation,
-                    }
-                    : null,
+                agency_name: editForm.agencyName,
+                agency_slug: editForm.agencySlug,
+                contact: editForm.agencyContact,
+                agency_email: editForm.agencyEmail,
+                description: editForm.agencyDescription,
+                website: editForm.agencyWebsite,
+                location: editForm.agencyLocation,
             };
+
+            await updateUserProfile(payload);
+
+            const updatedProfile = await fetchUserProfile();
 
             setProfile(updatedProfile);
 
-            showSuccess("Profile updated successfully.");
+            setEditForm({
+                fullName: updatedProfile.FullName || "",
+                email: updatedProfile.Email || "",
+                phone: updatedProfile.Phone || "",
+                biography: updatedProfile.Biography || "",
 
+                agencyName: updatedProfile.Agency?.AgencyName || "",
+                agencySlug: updatedProfile.Agency?.AgencySlug || "",
+                agencyContact: updatedProfile.Agency?.Contact || "",
+                agencyEmail: updatedProfile.Agency?.Email || "",
+                agencyDescription: updatedProfile.Agency?.Description || "",
+                agencyWebsite: updatedProfile.Agency?.Website || "",
+                agencyLocation: updatedProfile.Agency?.Location || "",
+            });
+
+            showSuccess("Profile updated successfully.");
             setActiveModal(null);
         }
-        catch (error) {
-            showError("Failed to update profile.");
+        catch (error: any) {
+            showError(
+                error?.response?.data?.error ||
+                "Failed to update profile."
+            );
         }
     };
 
@@ -154,55 +173,49 @@ export function AdminProfilePage() {
             showError("Current password is required.");
             return;
         }
-
         if (!passwordData.newPassword) {
             showError("New password is required.");
             return;
         }
-
+        if (passwordData.newPassword.length < 6) {
+            showError("New password must be at least 6 characters.");
+            return;
+        }
         if (passwordData.newPassword !== passwordData.confirmPassword) {
             showError("Passwords do not match.");
             return;
         }
 
         try {
-            /*
-             * TODO:
-             *
-             * await changePassword(...)
-             */
-
-            showSuccess("Password changed successfully.");
-
-            setPasswordData({
-                currentPassword: "",
-                newPassword: "",
-                confirmPassword: "",
+            await changeUserPassword({
+                current_password: passwordData.currentPassword,
+                new_password: passwordData.newPassword,
             });
 
+            showSuccess("Password changed successfully.");
+            setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+
             setActiveModal(null);
-        } catch (error) {
-            showError("Failed to change password.");
+        }
+        catch (error: any) {
+            showError(
+                error?.response?.data?.error ||
+                "Failed to change password."
+            );
         }
     };
 
-    /*
-     * ============================================================
-     * LOGOUT
-     * ============================================================
-     */
-
     const handleLogout = async () => {
         try {
-            /*
-             * TODO:
-             *
-             * await authService.logout()
-             */
+            await authService.logout();
 
             window.location.href = "/login";
-        } catch (error) {
-            showError("Logout failed.");
+        }
+        catch (error: any) {
+            showError(
+                error?.response?.data?.error ||
+                "Logout failed."
+            );
         }
     };
 

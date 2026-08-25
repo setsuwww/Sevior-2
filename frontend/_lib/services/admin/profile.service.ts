@@ -59,13 +59,27 @@ interface ProfileResponse {
     } | null;
 }
 
-export async function fetchUserProfile(): Promise<UserProfile> {
-    const response = await api.get<ProfileResponse>(
-        "/api/v1/agency-admin/profile"
-    );
+interface UpdateProfilePayload {
+    full_name: string;
+    email: string;
+    phone: string;
+    biography: string;
 
-    const data = response.data;
+    agency_name?: string;
+    agency_slug?: string;
+    contact?: string;
+    agency_email?: string;
+    description?: string;
+    website?: string;
+    location?: string;
+}
 
+interface ChangePasswordPayload {
+    current_password: string;
+    new_password: string;
+}
+
+function mapProfile(data: ProfileResponse): UserProfile {
     return {
         ID: data.user.id,
         FullName: data.user.full_name,
@@ -90,11 +104,26 @@ export async function fetchUserProfile(): Promise<UserProfile> {
                 Location: data.agency.location,
                 ProfileImage: data.agency.profile_image,
                 Status: data.agency.status,
-                SubscriptionPlan:
-                    data.agency.subscription_plan,
+                SubscriptionPlan: data.agency.subscription_plan,
                 SubscriptionStatus:
                     data.agency.subscription_status,
             }
             : null,
     };
+}
+
+export async function fetchUserProfile(): Promise<UserProfile> {
+    const response = await api.get<ProfileResponse>("/api/v1/agency-admin/profile");
+
+    return mapProfile(response.data);
+}
+
+export async function updateUserProfile(payload: UpdateProfilePayload): Promise<UserProfile> {
+    const response = await api.patch<ProfileResponse>("/api/v1/agency-admin/profile", payload);
+
+    return mapProfile(response.data);
+}
+
+export async function changeUserPassword(payload: ChangePasswordPayload): Promise<void> {
+    await api.patch("/api/v1/agency-admin/profile/password", payload);
 }
