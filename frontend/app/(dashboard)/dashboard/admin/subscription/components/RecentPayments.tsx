@@ -37,7 +37,7 @@ export default function RecentPayments({
                         </h2>
 
                         <p className="text-sm text-slate-500">
-                            Lima pembayaran terbaru
+                            Displaying your 5 recent payments
                         </p>
                     </div>
                 </div>
@@ -55,16 +55,16 @@ export default function RecentPayments({
             {/* Content */}
             {payments.length === 0 ? (
                 <div className="p-10 text-center">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-sm bg-slate-50">
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-sm bg-slate-100">
                         <Receipt className="h-5 w-5 text-slate-400" />
                     </div>
 
                     <p className="mt-3 text-sm font-medium text-slate-700">
-                        Belum ada pembayaran
+                        There is no Transaction
                     </p>
 
                     <p className="mt-1 text-sm text-slate-500">
-                        Riwayat pembayaran kamu akan muncul di sini.
+                        Your transaction history will appear here.
                     </p>
                 </div>
             ) : (

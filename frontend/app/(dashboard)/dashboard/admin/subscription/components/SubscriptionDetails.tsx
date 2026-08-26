@@ -43,6 +43,11 @@ export default function SubscriptionDetails({ subscription }: SubscriptionDetail
                         Your current plan
                     </p>
                 </div>
+
+                <div className="mt-8 flex items-center gap-2 text-xs text-slate-400">
+                    <span className="h-1.5 w-1.5 rounded-full bg-teal-500" />
+                    Subscription is currently active
+                </div>
             </div>
         </div>
     );

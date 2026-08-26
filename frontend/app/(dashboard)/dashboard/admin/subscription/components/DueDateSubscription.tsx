@@ -35,7 +35,7 @@ export default function DueDateSubscription({
                         </h2>
 
                         <p className="text-sm text-slate-500">
-                            Informasi periode subscription kamu
+                            Your subscription period information
                         </p>
                     </div>
                 </div>
