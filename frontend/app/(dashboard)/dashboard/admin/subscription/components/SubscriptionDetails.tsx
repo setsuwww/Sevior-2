@@ -2,22 +2,13 @@
 
 
 import { PLAN_COLORS } from "@/_constants/theme/subscription";
+import { SubscriptionPlan } from "@/app/(auth)/register/agency/types";
 
 interface SubscriptionDetailsProps {
     subscription: {
-        plan: string;
+        plan: SubscriptionPlan;
         status: string;
     };
-}
-
-interface DueDateSubscriptionProps {
-    subscription: {
-        plan: string;
-        status: string;
-        start_date: string | null;
-        end_date: string | null;
-    };
-    isExpired: boolean;
 }
 
 export default function SubscriptionDetails({ subscription }: SubscriptionDetailsProps) {

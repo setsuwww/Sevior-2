@@ -4,10 +4,11 @@ import { CalendarDays } from "lucide-react";
 
 import SubscriptionDetails from "./SubscriptionDetails";
 import { formatDate } from "../logic/useAdminSubscription";
+import { SubscriptionPlan } from "@/app/(auth)/register/agency/types";
 
 interface DueDateSubscriptionProps {
     subscription: {
-        plan: string;
+        plan: SubscriptionPlan;
         status: string;
         start_date: string | null;
         end_date: string | null;
