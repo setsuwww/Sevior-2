@@ -79,6 +79,10 @@ interface ChangePasswordPayload {
     new_password: string;
 }
 
+interface UploadImageResponse {
+    profile_image: string;
+}
+
 function mapProfile(data: ProfileResponse): UserProfile {
     return {
         ID: data.user.id,
@@ -118,12 +122,36 @@ export async function fetchUserProfile(): Promise<UserProfile> {
     return mapProfile(response.data);
 }
 
-export async function updateUserProfile(payload: UpdateProfilePayload): Promise<UserProfile> {
-    const response = await api.patch<ProfileResponse>("/api/v1/agency-admin/profile", payload);
-
-    return mapProfile(response.data);
+export async function updateUserProfile(payload: UpdateProfilePayload): Promise<void> {
+    await api.patch("/api/v1/agency-admin/profile", payload);
 }
 
 export async function changeUserPassword(payload: ChangePasswordPayload): Promise<void> {
     await api.patch("/api/v1/agency-admin/profile/password", payload);
+}
+
+export async function uploadUserProfileImage(file: File): Promise<UploadImageResponse> {
+    const formData = new FormData();
+
+    formData.append("profile_image", file);
+
+    const response = await api.patch<UploadImageResponse>(
+        "/api/v1/agency-admin/profile/image",
+        formData
+    );
+
+    return response.data;
+}
+
+export async function uploadAgencyProfileImage(file: File): Promise<UploadImageResponse> {
+    const formData = new FormData();
+
+    formData.append("profile_image", file);
+
+    const response = await api.patch<UploadImageResponse>(
+        "/api/v1/agency-admin/profile/agency-image",
+        formData
+    );
+
+    return response.data;
 }
