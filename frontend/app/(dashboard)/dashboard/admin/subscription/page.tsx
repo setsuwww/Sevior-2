@@ -6,34 +6,13 @@ import RecentPayments from "./components/RecentPayments";
 
 import { useAdminSubscription } from "./logic/useAdminSubscription";
 
+import SubscriptionSkeleton from "./skeleton";
+import { CalendarHeart } from "lucide-react";
+
 export default function SubscriptionPage() {
-    const {
-        data,
-        subscription,
-        recentPayments,
-        isExpired,
-        isLoading,
-        error,
-    } = useAdminSubscription();
+    const { data, subscription, recentPayments, isExpired, isLoading, error } = useAdminSubscription();
 
-    if (isLoading) {
-        return (
-            <div className="p-6">
-                <div className="animate-pulse space-y-6">
-                    <div className="h-8 w-48 rounded-sm bg-slate-200" />
-
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                        <div className="h-32 rounded-sm bg-slate-200" />
-                        <div className="h-32 rounded-sm bg-slate-200" />
-                        <div className="h-32 rounded-sm bg-slate-200" />
-                    </div>
-
-                    <div className="h-72 rounded-sm bg-slate-200" />
-                    <div className="h-80 rounded-sm bg-slate-200" />
-                </div>
-            </div>
-        );
-    }
+    if (isLoading) { return (<SubscriptionSkeleton />) }
 
     if (error) {
         return (
@@ -54,34 +33,30 @@ export default function SubscriptionPage() {
     return (
         <div className="space-y-6 p-6">
             {/* Header */}
-            <div>
-                <h1 className="text-2xl font-bold text-slate-900">
-                    Subscription
-                </h1>
+            <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm bg-teal-700 shadow-sm">
+                    <CalendarHeart className="h-6 w-6 text-white" />
+                </div>
 
-                <p className="mt-1 text-sm text-slate-500">
-                    Kelola subscription dan lihat informasi billing
-                    agency kamu.
-                </p>
+                <div>
+                    <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+                        Subscription
+                    </h1>
+
+                    <p className="mt-1 text-sm text-slate-500">
+                        Kelola subscription dan lihat informasi billing agency kamu.
+                    </p>
+                </div>
             </div>
 
             {/* Stats */}
-            <SubscriptionStats
-                subscription={subscription}
-                isExpired={isExpired}
-            />
+            <SubscriptionStats subscription={subscription} isExpired={isExpired} />
 
             {/* Subscription Details */}
-            <DueDateSubscription
-                subscription={subscription}
-                isExpired={isExpired}
-            />
+            <DueDateSubscription subscription={subscription} isExpired={isExpired} />
 
             {/* Recent Payments */}
-            <RecentPayments
-                payments={recentPayments}
-                totalPayments={data.payments.length}
-            />
+            <RecentPayments payments={recentPayments} totalPayments={data.payments.length} />
         </div>
     );
 }

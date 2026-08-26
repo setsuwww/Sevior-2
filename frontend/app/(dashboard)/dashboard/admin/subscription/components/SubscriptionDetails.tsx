@@ -22,16 +22,14 @@ export default function SubscriptionDetails({ subscription }: SubscriptionDetail
                         Current Plan
                     </p>
 
-                    <span className="inline-flex items-center gap-1.5 rounded-sm bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-400">
+                    <span className="inline-flex items-center gap-1.5 rounded-sm bg-emerald-500/15 px-2.5 py-1 text-xs font-medium text-emerald-400">
                         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                         {subscription.status}
                     </span>
                 </div>
 
                 <div className="mt-5">
-                    <p
-                        className={`inline-flex items-center rounded-sm text-xs font-semibold uppercase tracking-wide ${PLAN_COLORS[subscription.plan]}`}
-                    >
+                    <p className={`inline-flex items-center rounded-sm text-xs font-semibold uppercase tracking-wide ${PLAN_COLORS[subscription.plan]}`}>
                         {subscription.plan}
                     </p>
 
