@@ -60,40 +60,14 @@ func AgencyAdminRoutes(
 
 	{
 		// Profile
-		adminGroup.GET(
-			"/profile",
-			profileController.GetProfile,
-		)
-
-		adminGroup.PATCH(
-			"/profile",
-			profileController.UpdateProfile,
-		)
-
-		adminGroup.PATCH(
-			"/profile/password",
-			profileController.ChangePassword,
-		)
-
-		adminGroup.PATCH(
-			"/profile/image",
-			profileController.UploadUserProfileImage,
-		)
-
-		adminGroup.PATCH(
-			"/profile/agency-image",
-			profileController.UploadAgencyProfileImage,
-		)
-
-		adminGroup.DELETE(
-			"/profile",
-			profileController.DeleteAccount,
-		)
+		adminGroup.GET("/profile", profileController.GetProfile)
+		adminGroup.PATCH("/profile", profileController.UpdateProfile)
+		adminGroup.PATCH("/profile/password", profileController.ChangePassword)
+		adminGroup.PATCH("/profile/image", profileController.UploadUserProfileImage)
+		adminGroup.PATCH("/profile/agency-image", profileController.UploadAgencyProfileImage)
+		adminGroup.DELETE("/profile", profileController.DeleteAccount)
 
 		// Subscription
-		adminGroup.GET(
-			"/subscription",
-			subscriptionController.GetSubscription,
-		)
+		adminGroup.GET("/subscription", subscriptionController.GetSubscription)
 	}
 }

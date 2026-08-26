@@ -1,6 +1,7 @@
 package admin
 
 import (
+	"errors"
 	"net/http"
 
 	"backend/resource/models"
@@ -42,8 +43,15 @@ func (c *SubscriptionController) GetSubscription(ctx *gin.Context) {
 	result, err := c.Service.GetSubscription(*user.AgencyID)
 
 	if err != nil {
+		if errors.Is(err, adminService.ErrSubscriptionNotFound) {
+			ctx.JSON(http.StatusNotFound, gin.H{
+				"message": "Agency does not have an active subscription",
+			})
+			return
+		}
+
 		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"error": err.Error(),
+			"message": "Failed to fetch subscription",
 		})
 		return
 	}

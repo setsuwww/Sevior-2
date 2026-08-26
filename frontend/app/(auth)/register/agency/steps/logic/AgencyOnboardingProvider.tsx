@@ -31,7 +31,15 @@ export function AgencyOnboardingProvider({ children }: { children: React.ReactNo
     const router = useRouter();
 
     const planParam = searchParams.get("plan");
-    const initialPlanId = planParam === "pro" ? "team" : (planParam === "executive" ? "company" : (planParam === "free" ? "free" : ""));
+
+    const initialPlanId =
+        planParam === "pro"
+            ? "PRO"
+            : planParam === "executive"
+                ? "EXECUTIVE"
+                : planParam === "FREEfree"
+                    ? "FREE"
+                    : "";
 
     const [step, setStep] = useState<Step>(1);
     const [entryPoint, setEntryPoint] = useState<EntryPoint>(initialPlanId ? "pricing" : "register");
@@ -116,7 +124,7 @@ export function AgencyOnboardingProvider({ children }: { children: React.ReactNo
                 agency_description: form.agency_description,
                 website: form.website,
 
-                subscription_plan: form.subscription_plan || "free",
+                subscription_plan: form.subscription_plan || "FREE",
             };
 
             const res = await authService.registerAgency(payload);

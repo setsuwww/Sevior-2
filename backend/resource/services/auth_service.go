@@ -22,6 +22,24 @@ func NewAuthService(db *gorm.DB) *AuthService {
 	}
 }
 
+func getSubscriptionPrice(plan models.SubscriptionPlan) (float64, error) {
+
+	switch plan {
+
+	case models.SubscriptionPlanFree:
+		return 0, nil
+
+	case models.SubscriptionPlanPro:
+		return 49, nil
+
+	case models.SubscriptionPlanExecutive:
+		return 199, nil
+
+	default:
+		return 0, errors.New("invalid subscription plan")
+	}
+}
+
 func (s *AuthService) Login(email, password string) (*models.User, error) {
 	var user models.User
 	if err := s.db.Where("email = ?", email).First(&user).Error; err != nil {
@@ -68,7 +86,6 @@ func (s *AuthService) RegisterAgencyOwner(input auth.RegisterAgencyRequest) (*mo
 	var user models.User
 
 	err := s.db.Transaction(func(tx *gorm.DB) error {
-
 		agency := models.Agency{
 			AgencyName:         input.AgencyName,
 			AgencySlug:         input.AgencySlug,
@@ -77,14 +94,13 @@ func (s *AuthService) RegisterAgencyOwner(input auth.RegisterAgencyRequest) (*mo
 			Description:        input.AgencyDescription,
 			Website:            input.Website,
 			SubscriptionPlan:   models.SubscriptionPlan(input.SubscriptionPlan),
-			Status:             "ACTIVE",
-			SubscriptionStatus: "ACTIVE",
+			Status:             models.AgencyStatusActive,
+			SubscriptionStatus: models.SubscriptionStatusActive,
 		}
 
 		if err := tx.Create(&agency).Error; err != nil {
 			return err
 		}
-
 		user = models.User{
 			AgencyID: &agency.ID,
 			FullName: input.FullName,
@@ -97,6 +113,27 @@ func (s *AuthService) RegisterAgencyOwner(input auth.RegisterAgencyRequest) (*mo
 		if err := tx.Create(&user).Error; err != nil {
 			return err
 		}
+		plan := models.SubscriptionPlan(input.SubscriptionPlan)
+
+		price, err := getSubscriptionPrice(plan)
+		if err != nil {
+			return err
+		}
+
+		now := time.Now()
+
+		subscription := models.Subscription{
+			AgencyID:  agency.ID,
+			Plan:      plan,
+			Price:     price,
+			Status:    models.SubscriptionStatusActive,
+			StartDate: now,
+			EndDate:   now.AddDate(0, 1, 0),
+		}
+
+		if err := tx.Create(&subscription).Error; err != nil {
+			return err
+		}
 
 		return nil
 	})
@@ -107,6 +144,7 @@ func (s *AuthService) RegisterAgencyOwner(input auth.RegisterAgencyRequest) (*mo
 
 	return &user, nil
 }
+
 func (s *AuthService) RegisterClient(fullName, email, password string) (*models.User, error) {
 	var count int64
 	s.db.Model(&models.User{}).Where("email = ?", email).Count(&count)

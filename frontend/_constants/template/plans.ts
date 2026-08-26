@@ -1,4 +1,21 @@
-export const plans = [
+import { SubscriptionPlan } from "@/app/(auth)/register/agency/types";
+
+export interface Plan {
+    id: SubscriptionPlan;
+    name: string;
+    price: string;
+    period: string;
+    description: string;
+    features: {
+        name: string;
+        included: boolean;
+    }[];
+    buttonText: string;
+    buttonVariant: "outline" | "default";
+    popular: boolean;
+}
+
+export const plans: Plan[] = [
     {
         id: "FREE",
         name: "Free",

@@ -10,16 +10,20 @@ type SubscriptionRepository struct {
 	DB *gorm.DB
 }
 
-func (r *SubscriptionRepository) GetCurrentSubscription(agencyID uint) (*models.Subscription, error) {
+func (r *SubscriptionRepository) GetCurrentSubscription(
+	agencyID uint,
+) (*models.Subscription, error) {
 
 	var subscription models.Subscription
 
 	err := r.DB.
 		Where("agency_id = ?", agencyID).
 		Where(
-			"status = ? OR status = ?",
-			"Active",
-			"Pending",
+			"status IN ?",
+			[]models.SubscriptionStatus{
+				models.SubscriptionStatusActive,
+				models.SubscriptionStatusTrialing,
+			},
 		).
 		Order("end_date DESC").
 		First(&subscription).

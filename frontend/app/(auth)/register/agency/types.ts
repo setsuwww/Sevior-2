@@ -1,8 +1,23 @@
-export const getPlanId = (name: string) => {
-    if (name === "Free") return "free";
-    if (name === "Pro") return "team";
-    if (name === "Executive") return "company";
-    return "free";
+export type SubscriptionPlan =
+    | "FREE"
+    | "PRO"
+    | "EXECUTIVE"
+    | "";
+
+export const getPlanId = (name: string): SubscriptionPlan => {
+    switch (name) {
+        case "Free":
+            return "FREE";
+
+        case "Pro":
+            return "PRO";
+
+        case "Executive":
+            return "EXECUTIVE";
+
+        default:
+            return "";
+    }
 };
 
 export interface AgencyForm {
@@ -16,8 +31,6 @@ export interface AgencyForm {
     website: string;
     subscription_plan: string;
 }
-
-export type SubscriptionPlan = "free" | "team" | "company" | "";
 
 export type EntryPoint = "register" | "pricing";
 

@@ -20,6 +20,7 @@ const (
 type SubscriptionStatus string
 
 const (
+	SubscriptionStatusPending  SubscriptionStatus = "PENDING"
 	SubscriptionStatusActive   SubscriptionStatus = "ACTIVE"
 	SubscriptionStatusTrialing SubscriptionStatus = "TRIALING"
 	SubscriptionStatusPastDue  SubscriptionStatus = "PAST_DUE"

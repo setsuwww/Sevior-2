@@ -1,8 +1,12 @@
 package admin
 
 import (
-	adminRepo "backend/resource/repositories/admin"
+	"errors"
 	"time"
+
+	adminRepo "backend/resource/repositories/admin"
+
+	"gorm.io/gorm"
 )
 
 type SubscriptionService struct {
@@ -39,11 +43,19 @@ type SubscriptionResponse struct {
 	Payments     []PaymentSummary    `json:"payments"`
 }
 
+var ErrSubscriptionNotFound = errors.New(
+	"subscription not found",
+)
+
 func (s *SubscriptionService) GetSubscription(agencyID uint) (*SubscriptionResponse, error) {
 
 	subscription, err := s.Repo.GetCurrentSubscription(agencyID)
 
 	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, ErrSubscriptionNotFound
+		}
+
 		return nil, err
 	}
 
@@ -56,22 +68,20 @@ func (s *SubscriptionService) GetSubscription(agencyID uint) (*SubscriptionRespo
 		return nil, err
 	}
 
-	// Calculate remaining days
 	daysRemaining := 0
 
 	now := time.Now()
 
 	if subscription.EndDate.After(now) {
-		duration := subscription.EndDate.Sub(now)
-
-		daysRemaining = int(duration.Hours() / 24)
+		daysRemaining = int(
+			subscription.EndDate.Sub(now).Hours() / 24,
+		)
 
 		if daysRemaining < 0 {
 			daysRemaining = 0
 		}
 	}
 
-	// Latest billing
 	var billing *BillingSummary
 
 	if len(payments) > 0 {
@@ -87,16 +97,14 @@ func (s *SubscriptionService) GetSubscription(agencyID uint) (*SubscriptionRespo
 	result := &SubscriptionResponse{
 		Subscription: SubscriptionSummary{
 			ID:            subscription.ID,
-			Plan:          subscription.Plan,
+			Plan:          string(subscription.Plan),
 			Price:         subscription.Price,
-			Status:        subscription.Status,
+			Status:        string(subscription.Status),
 			StartDate:     subscription.StartDate,
 			EndDate:       subscription.EndDate,
 			DaysRemaining: daysRemaining,
 		},
-
-		Billing: billing,
-
+		Billing:  billing,
 		Payments: make([]PaymentSummary, 0, len(payments)),
 	}
 
