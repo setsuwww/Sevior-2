@@ -12,4 +12,7 @@ untuk update berikut fokus pada page Client, link :
 - - Bisa Upload image
 - - Bisa hapus akun
 - - Bisa melihat expired date subscription
+- - Bisa ganti password, login, dan konfirmasi hapus akun
+- - Bisa ganti warna banner
+- - Benerin types dan interfaces
 
