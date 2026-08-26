@@ -90,12 +90,12 @@ export default function SubscriptionPage() {
                     <div className="h-8 w-48 rounded bg-slate-200" />
 
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                        <div className="h-32 rounded-xl bg-slate-200" />
-                        <div className="h-32 rounded-xl bg-slate-200" />
-                        <div className="h-32 rounded-xl bg-slate-200" />
+                        <div className="h-32 rounded-sm bg-slate-200" />
+                        <div className="h-32 rounded-sm bg-slate-200" />
+                        <div className="h-32 rounded-sm bg-slate-200" />
                     </div>
 
-                    <div className="h-72 rounded-xl bg-slate-200" />
+                    <div className="h-72 rounded-sm bg-slate-200" />
                 </div>
             </div>
         );
@@ -104,7 +104,7 @@ export default function SubscriptionPage() {
     if (error) {
         return (
             <div className="p-6">
-                <div className="rounded-xl border border-red-200 bg-red-50 p-5">
+                <div className="rounded-sm border border-red-200 bg-red-50 p-5">
                     <p className="font-medium text-red-700">
                         {error}
                     </p>
@@ -143,7 +143,7 @@ export default function SubscriptionPage() {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
 
                 {/* Current Plan */}
-                <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="rounded-sm border border-slate-200 bg-white p-5 shadow-sm">
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm text-slate-500">
@@ -172,7 +172,7 @@ export default function SubscriptionPage() {
                 </div>
 
                 {/* Remaining */}
-                <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="rounded-sm border border-slate-200 bg-white p-5 shadow-sm">
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm text-slate-500">
@@ -202,7 +202,7 @@ export default function SubscriptionPage() {
                 </div>
 
                 {/* Price */}
-                <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="rounded-sm border border-slate-200 bg-white p-5 shadow-sm">
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm text-slate-500">
@@ -226,7 +226,7 @@ export default function SubscriptionPage() {
             </div>
 
             {/* Subscription Detail */}
-            <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
+            <div className="rounded-sm border border-slate-200 bg-white shadow-sm">
                 <div className="border-b border-slate-100 p-5">
                     <div className="flex items-center gap-3">
                         <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-teal-50">
@@ -283,7 +283,7 @@ export default function SubscriptionPage() {
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 
                 {/* Latest Billing */}
-                <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
+                <div className="rounded-sm border border-slate-200 bg-white shadow-sm">
                     <div className="border-b border-slate-100 p-5">
                         <div className="flex items-center gap-3">
                             <div className="h-10 w-10 bg-yellow-50 rounded-sm flex items-center justify-center">
@@ -358,7 +358,7 @@ export default function SubscriptionPage() {
                 </div>
 
                 {/* Status */}
-                <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
+                <div className="rounded-sm border border-slate-200 bg-white shadow-sm">
                     <div className="border-b border-slate-100 p-5">
                         <h2 className="font-semibold text-slate-900">
                             Subscription Status
@@ -402,7 +402,7 @@ export default function SubscriptionPage() {
             </div>
 
             {/* Payment History */}
-            <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
+            <div className="rounded-sm border border-slate-200 bg-white shadow-sm">
 
                 <div className="border-b border-slate-100 p-5">
                     <h2 className="font-semibold text-slate-900">
