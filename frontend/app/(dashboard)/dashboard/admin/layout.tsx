@@ -1,10 +1,12 @@
+// app/(dashboard)/dashboard/client/layout.tsx
+
 "use client";
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/providers/AuthProvider";
 
-export default function ClientLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const { user, isLoading } = useAuth();
     const router = useRouter();
 
@@ -16,7 +18,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
             return;
         }
 
-        if (user.Role !== "CLIENT") {
+        if (user.Role !== "ADMIN") {
             router.replace("/dashboard");
         }
     }, [user, isLoading, router]);
@@ -29,7 +31,7 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
         );
     }
 
-    if (user.Role !== "CLIENT") {
+    if (user.Role !== "ADMIN") {
         return null;
     }
 

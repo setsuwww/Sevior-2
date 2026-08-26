@@ -6,11 +6,7 @@ import { useAuth } from "@/providers/AuthProvider";
 import AppSidebar from "@/_components/ui/layout/AppSidebar";
 import AppHeader from "@/_components/ui/layout/AppHeader";
 
-export default function DashboardLayout({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+export default function DashboardLayout({ children }: { children: React.ReactNode; }) {
     const { user, isAuthenticated, isLoading } = useAuth();
     const router = useRouter();
     const pathname = usePathname();
@@ -18,44 +14,15 @@ export default function DashboardLayout({
     useEffect(() => {
         if (isLoading) return;
 
-        if (!isAuthenticated || !user) {
-            router.replace("/login");
-            return;
-        }
+        if (!isAuthenticated || !user) { router.replace("/login"); return }
 
         const role = user.Role;
 
-        if (
-            pathname.startsWith("/dashboard/superadmin") &&
-            role !== "SUPER_ADMIN"
-        ) {
-            router.replace("/login");
-            return;
-        }
+        if (pathname.startsWith("/dashboard/superadmin") && role !== "SUPER_ADMIN") { router.replace("/login"); return }
+        if (pathname.startsWith("/dashboard/admin") && role !== "ADMIN") { router.replace("/login"); return }
+        if (pathname.startsWith("/dashboard/developer") && role !== "DEVELOPER") { router.replace("/login"); return }
+        if (pathname.startsWith("/dashboard/client") && role !== "CLIENT") { router.replace("/login"); return }
 
-        if (
-            pathname.startsWith("/dashboard/admin") &&
-            role !== "ADMIN"
-        ) {
-            router.replace("/login");
-            return;
-        }
-
-        if (
-            pathname.startsWith("/dashboard/developer") &&
-            role !== "DEVELOPER"
-        ) {
-            router.replace("/login");
-            return;
-        }
-
-        if (
-            pathname.startsWith("/dashboard/client") &&
-            role !== "CLIENT"
-        ) {
-            router.replace("/login");
-            return;
-        }
     }, [isLoading, isAuthenticated, user, pathname, router]);
 
     if (isLoading) {

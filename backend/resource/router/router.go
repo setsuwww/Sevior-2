@@ -19,6 +19,8 @@ import (
 func SetupRouter(db *gorm.DB) *gin.Engine {
 	r := gin.Default()
 
+	r.Static("/uploads", "./uploads")
+
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE"},

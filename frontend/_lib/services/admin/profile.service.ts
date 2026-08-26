@@ -1,4 +1,6 @@
-import { api } from "@/services/auth.service";
+import { api } from "@/_lib/axiosInstance";
+import { isPlatformRole } from "@/_lib/helpers/role-helper";
+import { PlatformRole } from "@/types/User";
 
 export interface Agency {
     ID: number;
@@ -23,7 +25,7 @@ export interface UserProfile {
     Phone: string;
     ProfileImage: string;
     Biography: string;
-    Role: string;
+    Role: PlatformRole;
     IsActive: boolean;
     LastLogin: string | null;
     Agency: Agency | null;
@@ -84,6 +86,10 @@ interface UploadImageResponse {
 }
 
 function mapProfile(data: ProfileResponse): UserProfile {
+    if (!isPlatformRole(data.user.role)) {
+        throw new Error(`Invalid platform role: ${data.user.role}`);
+    }
+
     return {
         ID: data.user.id,
         FullName: data.user.full_name,
@@ -91,7 +97,9 @@ function mapProfile(data: ProfileResponse): UserProfile {
         Phone: data.user.phone,
         ProfileImage: data.user.profile_image,
         Biography: data.user.biography,
+
         Role: data.user.role,
+
         IsActive: data.user.is_active,
         LastLogin: data.user.last_login,
 
@@ -109,13 +117,11 @@ function mapProfile(data: ProfileResponse): UserProfile {
                 ProfileImage: data.agency.profile_image,
                 Status: data.agency.status,
                 SubscriptionPlan: data.agency.subscription_plan,
-                SubscriptionStatus:
-                    data.agency.subscription_status,
+                SubscriptionStatus: data.agency.subscription_status,
             }
             : null,
     };
 }
-
 export async function fetchUserProfile(): Promise<UserProfile> {
     const response = await api.get<ProfileResponse>("/api/v1/agency-admin/profile");
 

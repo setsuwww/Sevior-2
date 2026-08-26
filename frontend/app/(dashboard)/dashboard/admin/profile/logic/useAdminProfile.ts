@@ -12,7 +12,8 @@ import {
     UserProfile,
 } from "@/_lib/services/admin/profile.service";
 
-import { authService } from "@/_lib/auth";
+import { authService } from "@/_lib/services/auth.service";
+import { getImageUrl } from "@/_lib/helpers/url-image";
 
 type ActiveModal = | "edit" | "password" | "user-photo" | "agency-photo" | null;
 
@@ -96,16 +97,6 @@ export function useAdminProfile() {
         },
     } = profileForm;
 
-    const passwordForm = useForm<PasswordFormValues>({
-        defaultValues: {
-            currentPassword: "",
-            newPassword: "",
-            confirmPassword: "",
-        },
-
-        mode: "onChange",
-    });
-
     const {
         register: registerPassword,
         handleSubmit: handlePasswordSubmit,
@@ -150,11 +141,11 @@ export function useAdminProfile() {
             reset(getProfileFormValues(data));
 
             setUserImagePreview(
-                data.ProfileImage || null
+                getImageUrl(data.ProfileImage) || "/default-profile.png"
             );
 
             setAgencyImagePreview(
-                data.Agency?.ProfileImage || null
+                getImageUrl(data.Agency?.ProfileImage) || "/default-profile.png"
             );
         } catch (error: any) {
             showError(
@@ -327,12 +318,16 @@ export function useAdminProfile() {
 
     const resetUserImage = useCallback(() => {
         setUserImage(null);
-        setUserImagePreview(profile?.ProfileImage || null);
+        setUserImagePreview(
+            getImageUrl(profile?.ProfileImage)
+        );
     }, [profile?.ProfileImage]);
 
     const resetAgencyImage = useCallback(() => {
         setAgencyImage(null);
-        setAgencyImagePreview(profile?.Agency?.ProfileImage || null);
+        setAgencyImagePreview(
+            getImageUrl(profile?.Agency?.ProfileImage)
+        );
     }, [profile?.Agency?.ProfileImage]);
 
     const uploadUserImage = useCallback(async () => {
@@ -350,7 +345,9 @@ export function useAdminProfile() {
                 };
             });
 
-            setUserImagePreview(response.profile_image);
+            setUserImagePreview(
+                getImageUrl(response.profile_image)
+            );
             setUserImage(null);
             setActiveModal(null);
             showSuccess("Profile image selected.");
@@ -379,7 +376,9 @@ export function useAdminProfile() {
                 };
             });
 
-            setAgencyImagePreview(response.profile_image);
+            setAgencyImagePreview(
+                getImageUrl(response.profile_image)
+            );
             setAgencyImage(null);
             setActiveModal(null);
 

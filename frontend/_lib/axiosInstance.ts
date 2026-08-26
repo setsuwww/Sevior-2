@@ -1,25 +1,19 @@
-import axios from "axios";
-import { useAuthStore } from "@/_stores/auth";
+import axios, { AxiosInstance } from "axios";
+import { RefreshResponse } from "@/types/Auth";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
-export const axiosInstance = axios.create({
-  baseURL: API_URL,
+export const authApi: AxiosInstance = axios.create({
+  baseURL: `${API_URL}/auth`,
+  withCredentials: true,
+  timeout: 10000,
 });
 
-axiosInstance.interceptors.request.use(
-  (config) => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("accessToken");
-      if (token && config.headers) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-    }
-    console.log("REQUEST HEADERS:", config.headers);
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+export const api: AxiosInstance = axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+  timeout: 10000,
+});
 
 let isRefreshing = false;
 let failedQueue: any[] = [];
@@ -32,59 +26,73 @@ const processQueue = (error: any, token: string | null = null) => {
       prom.resolve(token);
     }
   });
+
   failedQueue = [];
 };
 
-axiosInstance.interceptors.response.use(
+export const setAccessToken = (token: string | null) => {
+  if (token) {
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
+  } else { delete api.defaults.headers.common.Authorization }
+};
+
+api.interceptors.response.use(
   (response) => response,
+
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest?._retry
+    ) {
       if (isRefreshing) {
-        return new Promise(function (resolve, reject) {
-          failedQueue.push({ resolve, reject });
+        return new Promise((resolve, reject) => {
+          failedQueue.push({
+            resolve,
+            reject,
+          });
         })
           .then((token) => {
-            originalRequest.headers.Authorization = "Bearer " + token;
-            return axiosInstance(originalRequest);
+            originalRequest.headers.Authorization =
+              `Bearer ${token}`;
+
+            return api(originalRequest);
           })
-          .catch((err) => {
-            return Promise.reject(err);
-          });
+          .catch((err) =>
+            Promise.reject(err)
+          );
       }
 
       originalRequest._retry = true;
       isRefreshing = true;
 
-      const refreshToken = typeof window !== "undefined" ? localStorage.getItem("refreshToken") : null;
-      if (!refreshToken) {
-        useAuthStore.getState().resetAuth();
-        return Promise.reject(error);
-      }
-
       try {
-        const { data } = await axios.post(`${API_URL}/auth/refresh`, { refreshToken });
-        const newAccessToken = data.accessToken;
-        
-        if (typeof window !== "undefined") {
-          localStorage.setItem("accessToken", newAccessToken);
-        }
-        
-        useAuthStore.setState({ token: newAccessToken });
-        
-        axiosInstance.defaults.headers.common["Authorization"] = "Bearer " + newAccessToken;
-        originalRequest.headers.Authorization = "Bearer " + newAccessToken;
-        
-        processQueue(null, newAccessToken);
-        return axiosInstance(originalRequest);
-      } catch (err) {
-        processQueue(err, null);
-        useAuthStore.getState().resetAuth();
-        return Promise.reject(err);
-      } finally {
-        isRefreshing = false;
+        const { data } =
+          await authApi.post<RefreshResponse>("/refresh");
+
+        setAccessToken(data.accessToken);
+
+        processQueue(
+          null, data.accessToken
+        );
+
+        originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+
+        return api(originalRequest);
       }
+      catch (err) {
+        processQueue(err, null);
+
+        if (typeof window !== "undefined") {
+          window.dispatchEvent(
+            new Event("auth:logout")
+          );
+        }
+
+        return Promise.reject(err);
+      }
+      finally { isRefreshing = false; }
     }
 
     return Promise.reject(error);

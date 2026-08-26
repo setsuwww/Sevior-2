@@ -9,8 +9,8 @@ import { Eye, EyeOff, AlertCircle, Loader2, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import toast from "react-hot-toast";
 
-import { resetPasswordSchema, ResetPasswordFormValues } from "@/features/auth/validators/auth.validator";
-import { authService } from "@/services/auth.service";
+import { resetPasswordSchema, ResetPasswordFormValues } from "@/validators/auth.validators";
+import { authService } from "@/_lib/services/auth.service";
 
 import { Button } from "@/_components/ui/button";
 import { Input } from "@/_components/ui/input";

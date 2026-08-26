@@ -12,7 +12,7 @@ import { Eye, EyeOff, AlertCircle, Loader2 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { loginSchema, LoginFormValues } from "@/validators/auth.validators";
-import { authService } from "@/services/auth.service";
+import { authService } from "@/_lib/services/auth.service";
 import { useAuth } from "@/providers/AuthProvider";
 
 import { Button } from "@/_components/ui/button";

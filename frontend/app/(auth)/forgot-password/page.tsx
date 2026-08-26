@@ -7,8 +7,8 @@ import Link from "next/link";
 import { ArrowLeft, Loader2, MailCheck } from "lucide-react";
 import Image from "next/image";
 
-import { forgotPasswordSchema, ForgotPasswordFormValues } from "@/features/auth/validators/auth.validator";
-import { authService } from "@/services/auth.service";
+import { forgotPasswordSchema, ForgotPasswordFormValues } from "@/validators/auth.validators";
+import { authService } from "@/_lib/services/auth.service";
 
 import { Button } from "@/_components/ui/button";
 import { Input } from "@/_components/ui/input";

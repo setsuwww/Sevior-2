@@ -4,64 +4,96 @@ import (
 	"backend/resource/controllers/admin"
 	"backend/resource/middleware"
 	"backend/resource/models"
-	repo "backend/resource/repositories/admin"
-	service "backend/resource/services/admin"
+	adminRepo "backend/resource/repositories/admin"
+	adminService "backend/resource/services/admin"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
-func AgencyAdminRoutes(r *gin.Engine, db *gorm.DB) {
+func AgencyAdminRoutes(
+	r *gin.Engine,
+	db *gorm.DB,
+) {
+	// ==========================================================
+	// PROFILE
+	// ==========================================================
 
-	// ==========================================
-	// REPOSITORIES
-	// ==========================================
+	profileRepo := &adminRepo.ProfileRepository{
+		DB: db,
+	}
 
-	dashRepo := &repo.DashboardRepository{DB: db}
-	devRepo := &repo.DeveloperRepository{DB: db}
-	clientRepo := &repo.ClientRepository{DB: db}
-	profileRepo := &repo.ProfileRepository{DB: db}
+	profileService := &adminService.ProfileService{
+		Repo: profileRepo,
+	}
 
-	// ==========================================
-	// SERVICES
-	// ==========================================
+	profileController := &admin.ProfileController{
+		Service: profileService,
+	}
 
-	dashService := &service.DashboardService{Repo: dashRepo}
-	devService := &service.DeveloperService{Repo: devRepo}
-	clientService := &service.ClientService{Repo: clientRepo}
-	profileService := service.NewProfileService(profileRepo)
+	// ==========================================================
+	// SUBSCRIPTION
+	// ==========================================================
 
-	// ==========================================
-	// CONTROLLERS
-	// ==========================================
+	subscriptionRepo := &adminRepo.SubscriptionRepository{
+		DB: db,
+	}
 
-	dashCtrl := &admin.DashboardController{Service: dashService}
-	devCtrl := &admin.DeveloperController{Service: devService}
-	clientCtrl := &admin.ClientController{Service: clientService}
-	profileCtrl := &admin.ProfileController{Service: profileService}
+	subscriptionService := &adminService.SubscriptionService{
+		Repo: subscriptionRepo,
+	}
 
-	// ==========================================
+	subscriptionController := &admin.SubscriptionController{
+		Service: subscriptionService,
+	}
+
+	// ==========================================================
 	// ROUTES
-	// ==========================================
+	// ==========================================================
 
 	adminGroup := r.Group("/api/v1/agency-admin")
-	adminGroup.Use(middleware.AuthMiddleware(db), middleware.RoleMiddleware(models.RoleAdmin))
-	{
-		// Dashboard
-		adminGroup.GET("/dashboard/stats", dashCtrl.GetStats)
-		// Developers
-		adminGroup.GET("/users/developers", devCtrl.GetDevelopers)
-		adminGroup.POST("/users/developers", devCtrl.CreateDeveloper)
-		adminGroup.GET("/users/developers/:id", devCtrl.GetDeveloper)
-		adminGroup.PATCH("/users/developers/:id", devCtrl.UpdateDeveloper)
-		adminGroup.DELETE("/users/developers/:id", devCtrl.DeleteDeveloper)
-		// Clients
-		adminGroup.GET("/users/clients", clientCtrl.GetClients)
-		adminGroup.GET("/users/clients/:id", clientCtrl.GetClient)
-		// Profile
-		adminGroup.GET("/profile", profileCtrl.GetProfile)
-		adminGroup.PATCH("/profile", profileCtrl.UpdateProfile)
-		adminGroup.PATCH("/profile/password", profileCtrl.ChangePassword)
 
+	adminGroup.Use(
+		middleware.AuthMiddleware(db),
+		middleware.RoleMiddleware(models.RoleAdmin),
+	)
+
+	{
+		// Profile
+		adminGroup.GET(
+			"/profile",
+			profileController.GetProfile,
+		)
+
+		adminGroup.PATCH(
+			"/profile",
+			profileController.UpdateProfile,
+		)
+
+		adminGroup.PATCH(
+			"/profile/password",
+			profileController.ChangePassword,
+		)
+
+		adminGroup.PATCH(
+			"/profile/image",
+			profileController.UploadUserProfileImage,
+		)
+
+		adminGroup.PATCH(
+			"/profile/agency-image",
+			profileController.UploadAgencyProfileImage,
+		)
+
+		adminGroup.DELETE(
+			"/profile",
+			profileController.DeleteAccount,
+		)
+
+		// Subscription
+		adminGroup.GET(
+			"/subscription",
+			subscriptionController.GetSubscription,
+		)
 	}
 }

@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { AuthUser } from "@/types/Auth";
-import { authService, setAccessToken } from "@/services/auth.service";
+import { authService, setAccessToken } from "@/_lib/services/auth.service";
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {

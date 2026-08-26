@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/_components/ui/button";
-import { AgencyCard } from "../_components/AgencyCard";
-import { api } from "@/services/auth.service";
+import { AgencyCard } from "./AgencyCard";
+import { api } from "@/_lib/axiosInstance";
 
 interface Agency {
     ID: number;

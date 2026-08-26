@@ -6,7 +6,7 @@ import { AgencyForm, EntryPoint, Step, ValidationErrors } from "../../types";
 import { validateAgencyProfile, validatePasswords, validatePlanSelection } from "../../types"
 import toast from "react-hot-toast";
 import { useAuth } from "@/providers/AuthProvider";
-import { authService } from "@/services/auth.service";
+import { authService } from "@/_lib/services/auth.service";
 
 interface AgencyOnboardingContextType {
     form: AgencyForm;
