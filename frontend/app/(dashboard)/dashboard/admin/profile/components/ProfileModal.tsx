@@ -1,5 +1,6 @@
 "use client";
 
+import { PROFILE_THEMES, ProfileTheme } from "@/_constants/theme/profile";
 import {
     Building2,
     Camera,
@@ -9,6 +10,9 @@ import {
 
 interface ProfileModalProps {
     profile: any;
+
+    profileTheme: ProfileTheme;
+    onProfileThemeChange: (theme: ProfileTheme) => void;
 
     userImage: File | null;
     agencyImage: File | null;
@@ -38,6 +42,10 @@ interface ProfileModalProps {
 
 export default function ProfileModal({
     profile,
+
+    profileTheme,
+    onProfileThemeChange,
+
     userImage,
     agencyImage,
 
@@ -83,15 +91,106 @@ export default function ProfileModal({
                     </div>
 
                     <div className="space-y-8 p-6">
-                        {/* ================================================= */}
-                        {/* USER IMAGE */}
-                        {/* ================================================= */}
+                        <section>
+                            <div className="mb-5">
+                                <h3 className="text-lg font-semibold text-gray-900">
+                                    Banner Appearance
+                                </h3>
+
+                                <p className="mt-1 text-sm text-gray-500">
+                                    Choose a color theme for your profile banner.
+                                </p>
+                            </div>
+
+                            <div className="flex flex-wrap gap-4">
+                                {(
+                                    Object.entries(PROFILE_THEMES) as [
+                                        ProfileTheme,
+                                        (typeof PROFILE_THEMES)[ProfileTheme],
+                                    ][]
+                                ).map(([theme, config]) => {
+                                    const isSelected = profileTheme === theme;
+
+                                    return (
+                                        <button
+                                            key={theme}
+                                            type="button"
+                                            onClick={() =>
+                                                onProfileThemeChange(theme)
+                                            }
+                                            className="group flex flex-col items-center gap-2"
+                                        >
+                                            <div
+                                                className={`
+                            relative h-12 w-12 rounded-full
+                            bg-gradient-to-br ${config.avatar}
+                            transition-all duration-200
+                            ${isSelected
+                                                        ? "ring-2 ring-teal-600 ring-offset-2"
+                                                        : "hover:scale-105"
+                                                    }
+                        `}
+                                            >
+                                                <div className="flex h-full w-full items-center justify-center">
+                                                    <span className="text-sm font-semibold text-white">
+                                                        A
+                                                    </span>
+                                                </div>
+
+                                                {isSelected && (
+                                                    <span className="absolute -right-1 -bottom-1 flex h-4 w-4 items-center justify-center rounded-full border-2 border-white bg-teal-600">
+                                                        <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                                                    </span>
+                                                )}
+                                            </div>
+
+                                            <span
+                                                className={`text-xs font-medium ${isSelected
+                                                    ? "text-slate-900"
+                                                    : "text-slate-500"
+                                                    }`}
+                                            >
+                                                {config.label}
+                                            </span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </section>
+                        <div
+                            className={`
+        relative mb-5 h-28 overflow-hidden rounded-sm
+        bg-gradient-to-r
+        ${PROFILE_THEMES[profileTheme].banner}
+    `}
+                        >
+                            <div className="absolute -bottom-5 left-5">
+                                <div className="h-16 w-16 overflow-hidden rounded-full border-4 border-white shadow-md">
+                                    {userImagePreview ? (
+                                        <img
+                                            src={userImagePreview}
+                                            alt={profile.FullName}
+                                            className="h-full w-full object-cover"
+                                        />
+                                    ) : (
+                                        <div
+                                            className={`
+                        flex h-full w-full
+                        items-center justify-center
+                        bg-gradient-to-br
+                        ${PROFILE_THEMES[profileTheme].avatar}
+                    `}
+                                        >
+                                            <span className="text-lg font-bold text-white">
+                                                {profile.FullName?.charAt(0) || "A"}
+                                            </span>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
 
                         <section>
-                            <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                                Profile Photo
-                            </h3>
-
                             <div className="flex items-center gap-5">
                                 <div className="h-20 w-20 overflow-hidden rounded-full border border-gray-200 bg-slate-100">
                                     {userImagePreview ? (
@@ -101,7 +200,7 @@ export default function ProfileModal({
                                             className="h-full w-full object-cover"
                                         />
                                     ) : (
-                                        <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-600 to-teal-600">
+                                        <div className={`flex h-full w-full items-center justify-center bg-gradient-to-br ${theme.avatar}`}>
                                             <span className="text-2xl font-bold text-white">
                                                 {profile.FullName?.charAt(
                                                     0,

@@ -10,6 +10,7 @@ import {
 
 import { Badge } from "@/_components/ui/badge";
 import { ROLE_COLORS } from "@/_constants/theme/user";
+import { PROFILE_THEMES } from "@/_constants/theme/profile";
 
 interface UserProfile {
     FullName: string;
@@ -26,6 +27,8 @@ interface UserSectionProps {
     onEditPhoto: () => void;
 }
 
+const theme = PROFILE_THEMES[profile.ProfileTheme];
+
 export default function SectionUser({
     profile,
     userImagePreview,
@@ -34,7 +37,9 @@ export default function SectionUser({
 }: UserSectionProps) {
     return (
         <>
-            <div className="relative h-48 bg-gradient-to-r from-slate-900 via-slate-800 to-teal-800">
+            <div
+                className={`relative h-48 bg-gradient-to-r ${theme.banner}`}
+            >
                 <div className="absolute -bottom-16 left-8">
                     <div className="relative">
                         <div className="h-32 w-32 overflow-hidden rounded-full border-4 border-white bg-white shadow-lg">
@@ -45,7 +50,7 @@ export default function SectionUser({
                                     className="h-full w-full object-cover"
                                 />
                             ) : (
-                                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-slate-600 to-teal-600">
+                                <div className={`flex h-full w-full items-center justify-center bg-gradient-to-br ${theme.avatar}`}>
                                     <span className="text-4xl font-bold text-white">
                                         {profile.FullName?.charAt(0) || "A"}
                                     </span>
