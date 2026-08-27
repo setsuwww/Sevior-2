@@ -38,9 +38,7 @@ export default function SectionUser({ profile, userImagePreview, onEditProfile, 
 
     return (
         <>
-            <div
-                className={`relative h-48 bg-gradient-to-r ${theme.banner}`}
-            >
+            <div className={`relative h-48 bg-gradient-to-r ${theme.banner}`}>
                 <div className="absolute -bottom-16 left-8">
                     <div className="relative">
                         <div className="h-32 w-32 overflow-hidden rounded-full border-4 border-white bg-white shadow-lg">
