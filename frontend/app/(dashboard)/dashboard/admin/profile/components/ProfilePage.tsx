@@ -76,7 +76,7 @@ export function AdminProfilePage() {
     }
 
     return (
-        <div className="min-h-screen bg-olive-50">
+        <div className="min-h-screen">
             {/* Success */}
             {successMessage && (
                 <div className="fixed right-4 top-4 z-[100]">

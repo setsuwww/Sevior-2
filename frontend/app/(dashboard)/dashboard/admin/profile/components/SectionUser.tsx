@@ -71,7 +71,7 @@ export default function SectionUser({ profile, userImagePreview, onEditProfile, 
             </div>
 
             {/* User Content */}
-            <div className="px-8 pb-8 pt-20">
+            <div className="px-8 pt-20">
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div>
                         <div className="flex items-center">
@@ -111,7 +111,7 @@ export default function SectionUser({ profile, userImagePreview, onEditProfile, 
                 </div>
 
                 {profile.Biography && (
-                    <div>
+                    <div className="mt-10">
                         <div className="mb-2 flex items-center gap-2">
                             <FileText className="h-4 w-4 text-olive-500" />
 
