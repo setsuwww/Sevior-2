@@ -40,12 +40,12 @@ export default function ForgotPasswordPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 p-4 selection:bg-teal-500/30 relative">
+        <div className="min-h-screen flex items-center justify-center bg-olive-50 dark:bg-olive-950 p-4 selection:bg-teal-500/30 relative">
             {/* Back Navigation */}
             <div className="absolute top-6 left-6 md:top-8 md:left-10">
                 <Link
                     href="/login"
-                    className="inline-flex items-center text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded-md p-1 -ml-1"
+                    className="inline-flex items-center text-sm font-medium text-olive-500 dark:text-olive-400 hover:text-teal-600 dark:hover:text-teal-400 transition-colors group focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 rounded-md p-1 -ml-1"
                 >
                     <ArrowLeft className="w-4 h-4 mr-2 transition-transform duration-300 group-hover:-translate-x-1" />
                     Back to login
@@ -59,12 +59,12 @@ export default function ForgotPasswordPage() {
                     </div>
                 </div>
 
-                <Card className="shadow-xl border-slate-200/60 dark:border-slate-800">
+                <Card className="shadow-xl border-olive-200/60 dark:border-olive-800">
                     <CardHeader className="text-center pb-6">
-                        <CardTitle className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                        <CardTitle className="text-2xl font-bold tracking-tight text-olive-900 dark:text-white">
                             Reset Password
                         </CardTitle>
-                        <CardDescription className="text-slate-500">
+                        <CardDescription className="text-olive-500">
                             Enter your email to receive a password reset link
                         </CardDescription>
                     </CardHeader>
@@ -75,8 +75,8 @@ export default function ForgotPasswordPage() {
                                 <div className="w-16 h-16 bg-teal-50 dark:bg-teal-900/20 text-teal-600 dark:text-teal-400 rounded-full flex items-center justify-center mb-2">
                                     <MailCheck className="w-8 h-8" />
                                 </div>
-                                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Check your email</h3>
-                                <p className="text-slate-500 dark:text-slate-400 text-sm max-w-[300px]">
+                                <h3 className="text-lg font-semibold text-olive-900 dark:text-white">Check your email</h3>
+                                <p className="text-olive-500 dark:text-olive-400 text-sm max-w-[300px]">
                                     If an account exists for that email, we have sent a password reset link. Please check your inbox.
                                 </p>
                                 <div className="pt-4">
@@ -90,7 +90,7 @@ export default function ForgotPasswordPage() {
                         ) : (
                             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                                 <div className="space-y-2">
-                                    <Label htmlFor="email" className="text-slate-700 dark:text-slate-300">Email</Label>
+                                    <Label htmlFor="email" className="text-olive-700 dark:text-olive-300">Email</Label>
                                     <Input
                                         id="email"
                                         type="email"

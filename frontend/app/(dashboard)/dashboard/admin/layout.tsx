@@ -26,7 +26,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     if (isLoading || !user) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <div className="w-10 h-10 border-4 border-slate-200 border-t-teal-500 rounded-full animate-spin" />
+                <div className="w-10 h-10 border-4 border-olive-200 border-t-teal-500 rounded-full animate-spin" />
             </div>
         );
     }

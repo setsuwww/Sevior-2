@@ -40,8 +40,8 @@ function ResetPasswordForm() {
         return (
             <div className="text-center py-8">
                 <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">Invalid Token</h3>
-                <p className="text-slate-500 dark:text-slate-400 mb-6">
+                <h3 className="text-xl font-bold text-olive-900 dark:text-white mb-2">Invalid Token</h3>
+                <p className="text-olive-500 dark:text-olive-400 mb-6">
                     No reset token was found in the URL. Please request a new password reset link.
                 </p>
                 <Link href="/forgot-password">
@@ -57,8 +57,8 @@ function ResetPasswordForm() {
                 <div className="w-16 h-16 bg-teal-50 dark:bg-teal-900/20 text-teal-600 dark:text-teal-400 rounded-full flex items-center justify-center mb-2">
                     <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Password reset complete</h3>
-                <p className="text-slate-500 dark:text-slate-400 text-sm max-w-[300px]">
+                <h3 className="text-lg font-semibold text-olive-900 dark:text-white">Password reset complete</h3>
+                <p className="text-olive-500 dark:text-olive-400 text-sm max-w-[300px]">
                     Your password has been successfully reset. You can now log in with your new password.
                 </p>
                 <div className="pt-4">
@@ -87,7 +87,7 @@ function ResetPasswordForm() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* New Password */}
             <div className="space-y-2">
-                <Label htmlFor="password" className="text-slate-700 dark:text-slate-300">New Password</Label>
+                <Label htmlFor="password" className="text-olive-700 dark:text-olive-300">New Password</Label>
                 <div className="relative">
                     <Input
                         id="password"
@@ -100,7 +100,7 @@ function ResetPasswordForm() {
                     <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 focus:outline-none focus:text-teal-600 transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-olive-400 hover:text-olive-600 dark:hover:text-olive-300 focus:outline-none focus:text-teal-600 transition-colors"
                         disabled={isSubmitting}
                     >
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -113,7 +113,7 @@ function ResetPasswordForm() {
 
             {/* Confirm Password */}
             <div className="space-y-2">
-                <Label htmlFor="confirmPassword" className="text-slate-700 dark:text-slate-300">Confirm Password</Label>
+                <Label htmlFor="confirmPassword" className="text-olive-700 dark:text-olive-300">Confirm Password</Label>
                 <div className="relative">
                     <Input
                         id="confirmPassword"
@@ -126,7 +126,7 @@ function ResetPasswordForm() {
                     <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 focus:outline-none focus:text-teal-600 transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-olive-400 hover:text-olive-600 dark:hover:text-olive-300 focus:outline-none focus:text-teal-600 transition-colors"
                         disabled={isSubmitting}
                     >
                         {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -165,7 +165,7 @@ function ResetPasswordForm() {
 
 export default function ResetPasswordPage() {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 p-4 selection:bg-teal-500/30">
+        <div className="min-h-screen flex items-center justify-center bg-olive-50 dark:bg-olive-950 p-4 selection:bg-teal-500/30">
             <div className="w-full max-w-md">
                 <div className="flex justify-center mb-8">
                     <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl sm:rounded-3xl flex items-center justify-center overflow-hidden">
@@ -173,12 +173,12 @@ export default function ResetPasswordPage() {
                     </div>
                 </div>
 
-                <Card className="shadow-xl border-slate-200/60 dark:border-slate-800">
+                <Card className="shadow-xl border-olive-200/60 dark:border-olive-800">
                     <CardHeader className="text-center pb-6">
-                        <CardTitle className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+                        <CardTitle className="text-2xl font-bold tracking-tight text-olive-900 dark:text-white">
                             Set New Password
                         </CardTitle>
-                        <CardDescription className="text-slate-500">
+                        <CardDescription className="text-olive-500">
                             Please create a strong password for your account
                         </CardDescription>
                     </CardHeader>

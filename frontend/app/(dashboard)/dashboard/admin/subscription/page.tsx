@@ -39,11 +39,11 @@ export default function SubscriptionPage() {
                 </div>
 
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+                    <h1 className="text-2xl font-bold tracking-tight text-olive-900">
                         Subscription
                     </h1>
 
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="mt-1 text-sm text-olive-500">
                         Kelola subscription dan lihat informasi billing agency kamu.
                     </p>
                 </div>

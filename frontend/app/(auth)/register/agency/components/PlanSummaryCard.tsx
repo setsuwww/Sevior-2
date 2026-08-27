@@ -11,7 +11,7 @@ export function PlanSummaryCard() {
     const selectedPlanData = plans.find(p => getPlanId(p.name) === form.subscription_plan);
 
     return (
-        <div className="bg-gradient-to-tr from-slate-800 to-teal-800 rounded-2xl p-8 text-white shadow-xl shadow-teal-900/20 relative overflow-hidden h-full">
+        <div className="bg-gradient-to-tr from-olive-800 to-teal-800 rounded-2xl p-8 text-white shadow-xl shadow-teal-900/20 relative overflow-hidden h-full">
             <div className="absolute top-0 right-0 -translate-y-12 translate-x-8 w-32 h-32 bg-teal-400 rounded-full blur-3xl opacity-20"></div>
 
             <div className="flex items-start justify-between mb-8 relative z-10">

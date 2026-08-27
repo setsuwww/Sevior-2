@@ -11,7 +11,7 @@ export function FooterActions({ loading }: { loading: boolean }) {
                 type="button"
                 variant="ghost"
                 onClick={() => router.push("/register")}
-                className="bg-slate-100 hover:bg-slate-200 text-olive-700"
+                className="bg-olive-100 hover:bg-olive-200 text-olive-700"
             >
                 Cancel
             </Button>

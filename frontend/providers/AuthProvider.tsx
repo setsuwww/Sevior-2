@@ -74,10 +74,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950">
+      <div className="min-h-screen flex items-center justify-center bg-olive-50 dark:bg-olive-950">
         <div className="flex flex-col items-center">
           <div className="w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="mt-4 text-slate-500 font-medium">Restoring session...</p>
+          <p className="mt-4 text-olive-500 font-medium">Restoring session...</p>
         </div>
       </div>
     );

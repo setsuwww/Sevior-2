@@ -5,5 +5,5 @@ export const ROLE_COLORS: Record<PlatformRole, string> = {
   ADMIN: "bg-rose-50 text-rose-700 border border-rose-300/60",
   DEVELOPER: "bg-sky-50 text-sky-700 border border-sky-300/60",
   CLIENT: "bg-green-50 text-green-700 border border-green-300/60",
-  USER: "bg-slate-50 text-slate-700 border border-slate-300/60",
+  USER: "bg-olive-50 text-olive-700 border border-olive-300/60",
 };

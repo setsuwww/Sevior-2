@@ -31,14 +31,14 @@ export default function SubscriptionStats({
     return (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {/* Current Plan */}
-            <div className="rounded-sm border border-slate-200 bg-white p-5 shadow-xs">
+            <div className="rounded-sm border border-olive-200 bg-white p-5 shadow-xs">
                 <div className="flex items-center justify-between">
                     <div>
-                        <p className="text-sm text-slate-500">
+                        <p className="text-sm text-olive-500">
                             Current Plan
                         </p>
 
-                        <h2 className="mt-1 text-xl font-bold text-slate-900">
+                        <h2 className="mt-1 text-xl font-bold text-olive-900">
                             {subscription.plan}
                         </h2>
                     </div>
@@ -60,17 +60,17 @@ export default function SubscriptionStats({
             </div>
 
             {/* Remaining */}
-            <div className="rounded-sm border border-slate-200 bg-white p-5 shadow-xs">
+            <div className="rounded-sm border border-olive-200 bg-white p-5 shadow-xs">
                 <div className="flex items-center justify-between">
                     <div>
-                        <p className="text-sm text-slate-500">
+                        <p className="text-sm text-olive-500">
                             Remaining
                         </p>
 
                         <h2
                             className={`mt-1 text-2xl font-bold ${isExpired
                                 ? "text-red-600"
-                                : "text-slate-900"
+                                : "text-olive-900"
                                 }`}
                         >
                             {isExpired
@@ -84,21 +84,21 @@ export default function SubscriptionStats({
                     </div>
                 </div>
 
-                <p className="mt-3 text-xs text-slate-500">
+                <p className="mt-3 text-xs text-olive-500">
                     Expires on{" "}
                     {formatDate(subscription.end_date)}
                 </p>
             </div>
 
             {/* Price */}
-            <div className="rounded-sm border border-slate-200 bg-white p-5 shadow-xs">
+            <div className="rounded-sm border border-olive-200 bg-white p-5 shadow-xs">
                 <div className="flex items-center justify-between">
                     <div>
-                        <p className="text-sm text-slate-500">
+                        <p className="text-sm text-olive-500">
                             Subscription Price
                         </p>
 
-                        <h2 className="mt-1 text-xl font-bold text-slate-900">
+                        <h2 className="mt-1 text-xl font-bold text-olive-900">
                             {formatCurrency(subscription.price)}
                         </h2>
                     </div>
@@ -108,7 +108,7 @@ export default function SubscriptionStats({
                     </div>
                 </div>
 
-                <p className="mt-3 text-xs text-slate-500">
+                <p className="mt-3 text-xs text-olive-500">
                     Current subscription price
                 </p>
             </div>

@@ -63,7 +63,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 p-4 selection:bg-teal-500/30">
+        <div className="min-h-screen flex items-center justify-center bg-olive-50 dark:bg-olive-950 p-4 selection:bg-teal-500/30">
             <div className="w-full max-w-md">
 
                 {/* Logo */}
@@ -73,10 +73,10 @@ export default function LoginPage() {
                     </div>
                 </div>
 
-                <Card className="shadow-xl border-slate-300">
+                <Card className="shadow-xl border-olive-300">
                     <CardHeader className="text-center pb-6">
-                        <CardTitle className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Welcome back</CardTitle>
-                        <CardDescription className="text-slate-500">Sign in to your account</CardDescription>
+                        <CardTitle className="text-2xl font-bold tracking-tight text-olive-900 dark:text-white">Welcome back</CardTitle>
+                        <CardDescription className="text-olive-500">Sign in to your account</CardDescription>
                     </CardHeader>
 
                     <CardContent>
@@ -84,7 +84,7 @@ export default function LoginPage() {
 
                             {/* Email */}
                             <div className="space-y-2">
-                                <Label htmlFor="email" className="text-slate-700 dark:text-slate-300">Email</Label>
+                                <Label htmlFor="email" className="text-olive-700 dark:text-olive-300">Email</Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -101,7 +101,7 @@ export default function LoginPage() {
                             {/* Password */}
                             <div className="space-y-2">
                                 <div className="flex items-center justify-between">
-                                    <Label htmlFor="password" className="text-slate-700 dark:text-slate-300">Password</Label>
+                                    <Label htmlFor="password" className="text-olive-700 dark:text-olive-300">Password</Label>
                                     <Link href="/forgot-password" className="text-sm font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 transition-colors">
                                         Forgot password?
                                     </Link>
@@ -118,7 +118,7 @@ export default function LoginPage() {
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 focus:outline-none focus:text-teal-600 transition-colors"
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-olive-400 hover:text-olive-600 dark:hover:text-olive-300 focus:outline-none focus:text-teal-600 transition-colors"
                                         disabled={isSubmitting}
                                     >
                                         {showPassword ? (
@@ -142,7 +142,7 @@ export default function LoginPage() {
                                     onCheckedChange={(checked) => setValue("rememberMe", !!checked)}
                                     className="data-[state=checked]:bg-teal-600 data-[state=checked]:border-teal-600"
                                 />
-                                <Label htmlFor="rememberMe" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-slate-600 dark:text-slate-400 cursor-pointer">
+                                <Label htmlFor="rememberMe" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-olive-600 dark:text-olive-400 cursor-pointer">
                                     Remember me
                                 </Label>
                             </div>
@@ -172,9 +172,9 @@ export default function LoginPage() {
                             </Button>
                         </form>
 
-                        <div className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+                        <div className="mt-6 text-center text-sm text-olive-500 dark:text-olive-400">
                             Don't have an account?{" "}
-                            <Link href="/register" className="font-semibold text-slate-900 dark:text-white hover:text-teal-600 dark:hover:text-teal-400 transition-colors">
+                            <Link href="/register" className="font-semibold text-olive-900 dark:text-white hover:text-teal-600 dark:hover:text-teal-400 transition-colors">
                                 Register
                             </Link>
                         </div>

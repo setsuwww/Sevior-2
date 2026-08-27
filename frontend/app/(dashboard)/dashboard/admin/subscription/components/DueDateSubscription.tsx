@@ -21,20 +21,20 @@ export default function DueDateSubscription({
     isExpired,
 }: DueDateSubscriptionProps) {
     return (
-        <div className="rounded-sm border border-slate-200 bg-white shadow-xs">
+        <div className="rounded-sm border border-olive-200 bg-white shadow-xs">
             {/* Header */}
-            <div className="border-b border-slate-100 p-5">
+            <div className="border-b border-olive-100 p-5">
                 <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-teal-50">
                         <CalendarDays className="h-5 w-5 text-teal-600" />
                     </div>
 
                     <div>
-                        <h2 className="font-semibold text-slate-900">
+                        <h2 className="font-semibold text-olive-900">
                             Subscription Details
                         </h2>
 
-                        <p className="text-sm text-slate-500">
+                        <p className="text-sm text-olive-500">
                             Your subscription period information
                         </p>
                     </div>
@@ -51,42 +51,42 @@ export default function DueDateSubscription({
                 />
 
                 {/* Start Date */}
-                <div className="rounded-sm border border-slate-200 bg-slate-50/70 p-5">
+                <div className="rounded-sm border border-olive-200 bg-olive-50/70 p-5">
                     <div className="flex items-center justify-between gap-3">
                         <div>
-                            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                            <p className="text-xs font-medium uppercase tracking-wide text-olive-400">
                                 Start Date
                             </p>
 
-                            <p className="mt-3 text-xl font-semibold text-slate-900">
+                            <p className="mt-3 text-xl font-semibold text-olive-900">
                                 {formatDate(
                                     subscription.start_date,
                                 )}
                             </p>
 
-                            <p className="mt-1 text-sm text-slate-500">
+                            <p className="mt-1 text-sm text-olive-500">
                                 Subscription started
                             </p>
                         </div>
 
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border border-slate-200 bg-white text-slate-500 shadow-xs">
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border border-olive-200 bg-white text-olive-500 shadow-xs">
                             <CalendarDays className="h-4 w-4" />
                         </div>
                     </div>
                 </div>
 
                 {/* End Date */}
-                <div className="rounded-sm border border-slate-200 bg-slate-50/70 p-5">
+                <div className="rounded-sm border border-olive-200 bg-olive-50/70 p-5">
                     <div className="flex items-center justify-between gap-3">
                         <div>
-                            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+                            <p className="text-xs font-medium uppercase tracking-wide text-olive-400">
                                 End Date
                             </p>
 
                             <p
                                 className={`mt-3 text-xl font-semibold ${isExpired
                                     ? "text-red-600"
-                                    : "text-slate-900"
+                                    : "text-olive-900"
                                     }`}
                             >
                                 {formatDate(
@@ -94,7 +94,7 @@ export default function DueDateSubscription({
                                 )}
                             </p>
 
-                            <p className="mt-1 text-sm text-slate-500">
+                            <p className="mt-1 text-sm text-olive-500">
                                 Subscription expires
                             </p>
                         </div>
@@ -102,7 +102,7 @@ export default function DueDateSubscription({
                         <div
                             className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-sm border bg-white shadow-xs ${isExpired
                                 ? "border-red-200 text-red-500"
-                                : "border-slate-200 text-slate-500"
+                                : "border-olive-200 text-olive-500"
                                 }`}
                         >
                             <CalendarDays className="h-4 w-4" />

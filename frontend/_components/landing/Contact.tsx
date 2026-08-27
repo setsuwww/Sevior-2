@@ -14,7 +14,7 @@ export function Contact() {
   return (
     <section id="contact" className="py-24 bg-olive-50 dark:bg-olive-950">
       <div className="container mx-auto px-6 max-w-7xl">
-        <div className="bg-gradient-to-r from-slate-800 to-teal-600 rounded-3xl overflow-hidden shadow-2xl relative">
+        <div className="bg-gradient-to-r from-olive-800 to-teal-600 rounded-3xl overflow-hidden shadow-2xl relative">
 
           {/* Decorative Elements */}
           <div className="relative z-10 flex flex-col lg:flex-row items-center">
@@ -44,7 +44,7 @@ export function Contact() {
 
             {/* Right Form */}
             <div className="flex-1 w-full p-10 md:p-16 lg:bg-white/10 lg:backdrop-blur-sm lg:border-l lg:border-white/20">
-              <div className="bg-white border border-slate-600 rounded-2xl p-8 shadow-xl">
+              <div className="bg-white border border-olive-600 rounded-2xl p-8 shadow-xl">
                 <h3 className="text-2xl font-bold text-olive-900 dark:text-white mb-6">Request a Demo</h3>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>

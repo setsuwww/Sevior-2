@@ -43,7 +43,7 @@ export default function SectionAgency({
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div className="flex items-center gap-3">
                     <div className="relative">
-                        <div className="h-16 w-16 overflow-hidden rounded-full border border-olive-900 bg-slate-800">
+                        <div className="h-16 w-16 overflow-hidden rounded-full border border-olive-900 bg-olive-800">
                             {agencyImagePreview ? (
                                 <img
                                     src={agencyImagePreview}
@@ -51,7 +51,7 @@ export default function SectionAgency({
                                     className="h-full w-full object-cover"
                                 />
                             ) : (
-                                <div className="flex h-full w-full items-center justify-center bg-slate-800">
+                                <div className="flex h-full w-full items-center justify-center bg-olive-800">
                                     <Building2 className="h-7 w-7 text-white" />
                                 </div>
                             )}

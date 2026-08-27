@@ -13,12 +13,12 @@ interface SubscriptionDetailsProps {
 
 export default function SubscriptionDetails({ subscription }: SubscriptionDetailsProps) {
     return (
-        <div className="relative overflow-hidden rounded-sm border border-slate-200 bg-gradient-to-r from-slate-900 to-teal-950 p-5 md:col-span-2">
+        <div className="relative overflow-hidden rounded-sm border border-olive-200 bg-gradient-to-r from-olive-900 to-teal-950 p-5 md:col-span-2">
             <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-teal-500/10 blur-3xl" />
 
             <div className="relative flex h-full flex-col">
                 <div className="flex items-center justify-between">
-                    <p className="text-sm font-medium text-slate-400">
+                    <p className="text-sm font-medium text-olive-400">
                         Current Plan
                     </p>
 
@@ -37,12 +37,12 @@ export default function SubscriptionDetails({ subscription }: SubscriptionDetail
                         {subscription.plan} Plan
                     </h3>
 
-                    <p className="mt-1 text-sm text-slate-400">
+                    <p className="mt-1 text-sm text-olive-400">
                         Your current plan
                     </p>
                 </div>
 
-                <div className="mt-8 flex items-center gap-2 text-xs text-slate-400">
+                <div className="mt-8 flex items-center gap-2 text-xs text-olive-400">
                     <span className="h-1.5 w-1.5 rounded-full bg-teal-500" />
                     Subscription is currently active
                 </div>

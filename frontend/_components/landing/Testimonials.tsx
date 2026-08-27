@@ -47,7 +47,7 @@ const testimonials = [
     content: "Scaling our agency meant dealing with disjointed tools. Sevior brought everything under one roof. It is the gold standard for agency management software.",
     rating: 5,
     avatar: "J",
-    color: "bg-slate-100 text-slate-700"
+    color: "bg-olive-100 text-olive-700"
   }
 ];
 
@@ -60,10 +60,10 @@ export function Testimonials() {
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-sm font-bold text-teal-600 uppercase tracking-widest mb-3">Testimonials</h2>
-          <h3 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-4">
+          <h3 className="text-3xl md:text-4xl font-extrabold text-olive-900 dark:text-white mb-4">
             Trusted by modern agencies.
           </h3>
-          <p className="text-slate-600 dark:text-slate-400 text-lg">
+          <p className="text-olive-600 dark:text-olive-400 text-lg">
             Don't just take our word for it. Here's what agency leaders and developers are saying about Sevior.
           </p>
         </div>
@@ -76,7 +76,7 @@ export function Testimonials() {
               return (
                 <div
                   key={idx}
-                  className="relative bg-gradient-to-tr from-slate-800 to-teal-800 rounded-sm p-6 border border-transparent shadow-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-2.5 shadow-2xl shadow-teal-800/40 hover:scale-[1.02] overflow-hidden group"
+                  className="relative bg-gradient-to-tr from-olive-800 to-teal-800 rounded-sm p-6 border border-transparent shadow-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-2.5 shadow-2xl shadow-teal-800/40 hover:scale-[1.02] overflow-hidden group"
                 >
                   <Quote className="absolute -top-4 -right-2 w-32 h-32 text-white/5 pointer-events-none" />
 
@@ -86,13 +86,13 @@ export function Testimonials() {
                         <Star key={i} className="w-5 h-5 text-amber-500 fill-current" />
                       ))}
                     </div>
-                    <p className="text-slate-200 mb-8 italic leading-relaxed text-md font-medium">
+                    <p className="text-olive-200 mb-8 italic leading-relaxed text-md font-medium">
                       "{testimonial.content}"
                     </p>
                   </div>
 
                   <div className="flex items-center space-x-4 relative z-10 mt-auto">
-                    <div className="w-12 h-12 rounded-full bg-white text-slate-900 flex items-center justify-center font-bold text-xl shadow-inner">
+                    <div className="w-12 h-12 rounded-full bg-white text-olive-900 flex items-center justify-center font-bold text-xl shadow-inner">
                       {testimonial.avatar}
                     </div>
                     <div>
@@ -107,7 +107,7 @@ export function Testimonials() {
             return (
               <div
                 key={idx}
-                className="bg-white dark:bg-slate-900 rounded-sm p-6 border border-slate-400 ring ring-offset-4 ring-slate-200 dark:border-slate-800 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
+                className="bg-white dark:bg-olive-900 rounded-sm p-6 border border-olive-400 ring ring-offset-4 ring-olive-200 dark:border-olive-800 flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-lg"
               >
                 <div>
                   <div className="flex space-x-1 mb-6">
@@ -115,7 +115,7 @@ export function Testimonials() {
                       <Star key={i} className={`w-5 h-5 text-amber-400 fill-current`} />
                     ))}
                   </div>
-                  <p className="text-slate-600 dark:text-slate-300 mb-8 italic leading-relaxed">
+                  <p className="text-olive-600 dark:text-olive-300 mb-8 italic leading-relaxed">
                     "{testimonial.content}"
                   </p>
                 </div>
@@ -124,8 +124,8 @@ export function Testimonials() {
                     {testimonial.avatar}
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900 dark:text-white">{testimonial.name}</h4>
-                    <p className="text-sm text-slate-500">{testimonial.role}</p>
+                    <h4 className="font-bold text-olive-900 dark:text-white">{testimonial.name}</h4>
+                    <p className="text-sm text-olive-500">{testimonial.role}</p>
                   </div>
                 </div>
               </div>

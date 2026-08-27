@@ -110,8 +110,8 @@ export default function ProfileModal({
 
                                             <span
                                                 className={`text-xs font-medium ${isSelected
-                                                    ? "text-slate-900"
-                                                    : "text-slate-500"
+                                                    ? "text-olive-900"
+                                                    : "text-olive-500"
                                                     }`}
                                             >
                                                 {config.label}
@@ -126,7 +126,7 @@ export default function ProfileModal({
 
                         <section>
                             <div className="flex items-center gap-5">
-                                <div className="h-20 w-20 overflow-hidden rounded-full border border-olive-200 bg-slate-100">
+                                <div className="h-20 w-20 overflow-hidden rounded-full border border-olive-200 bg-olive-100">
                                     {userImagePreview ? (
                                         <img
                                             src={userImagePreview}
@@ -273,7 +273,7 @@ export default function ProfileModal({
 
                                 {/* Agency Image */}
                                 <div className="mb-6 flex items-center gap-5">
-                                    <div className="h-20 w-20 overflow-hidden rounded-full border border-olive-200 bg-slate-800">
+                                    <div className="h-20 w-20 overflow-hidden rounded-full border border-olive-200 bg-olive-800">
                                         {agencyImagePreview ? (
                                             <img
                                                 src={

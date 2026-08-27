@@ -13,7 +13,7 @@ export function FooterActions() {
                 type="button"
                 variant="ghost"
                 onClick={step === 1 ? () => router.push("/register") : previousStep}
-                className="bg-slate-100 hover:bg-slate-200 text-olive-700"
+                className="bg-olive-100 hover:bg-olive-200 text-olive-700"
             >
                 {step === 1 ? "Cancel" : "Back"}
             </Button>

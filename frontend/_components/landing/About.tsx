@@ -79,7 +79,7 @@ export function About() {
                   <h3 className="font-bold text-olive-900 dark:text-white mb-2">Collaboration</h3>
                   <p className="text-sm text-olive-600 dark:text-olive-400">Give clients transparent access to their project's status.</p>
                 </div>
-                <div className="bg-gradient-to-r from-slate-800 to-teal-800 p-6 rounded-sm shadow-xl flex flex-col justify-center text-white">
+                <div className="bg-gradient-to-r from-olive-800 to-teal-800 p-6 rounded-sm shadow-xl flex flex-col justify-center text-white">
                   <h3 className="text-3xl font-extrabold mb-2">10x</h3>
                   <p className="text-sm font-medium text-teal-100">Faster project delivery times across the board.</p>
                 </div>

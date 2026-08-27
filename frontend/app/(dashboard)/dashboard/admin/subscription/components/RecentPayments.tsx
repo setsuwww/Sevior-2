@@ -23,20 +23,20 @@ export default function RecentPayments({
     totalPayments,
 }: RecentPaymentsProps) {
     return (
-        <div className="rounded-sm border border-slate-200 bg-white shadow-xs">
+        <div className="rounded-sm border border-olive-200 bg-white shadow-xs">
             {/* Header */}
-            <div className="flex items-center justify-between gap-4 border-b border-slate-100 p-5">
+            <div className="flex items-center justify-between gap-4 border-b border-olive-100 p-5">
                 <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 items-center justify-center rounded-sm bg-orange-50">
                         <ClockFading className="h-5 w-5 text-orange-500" />
                     </div>
 
                     <div>
-                        <h2 className="font-semibold text-slate-900">
+                        <h2 className="font-semibold text-olive-900">
                             Recent Payments
                         </h2>
 
-                        <p className="text-sm text-slate-500">
+                        <p className="text-sm text-olive-500">
                             Displaying your 5 recent payments
                         </p>
                     </div>
@@ -55,15 +55,15 @@ export default function RecentPayments({
             {/* Content */}
             {payments.length === 0 ? (
                 <div className="p-10 text-center">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-sm bg-slate-100">
-                        <Receipt className="h-5 w-5 text-slate-400" />
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-sm bg-olive-100">
+                        <Receipt className="h-5 w-5 text-olive-400" />
                     </div>
 
-                    <p className="mt-3 text-sm font-medium text-slate-700">
+                    <p className="mt-3 text-sm font-medium text-olive-700">
                         There is no Transaction
                     </p>
 
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="mt-1 text-sm text-olive-500">
                         Your transaction history will appear here.
                     </p>
                 </div>
@@ -73,8 +73,8 @@ export default function RecentPayments({
 
             {/* Footer */}
             {totalPayments > 5 && (
-                <div className="flex items-center justify-between border-t border-slate-100 px-5 py-4">
-                    <p className="text-xs text-slate-500">
+                <div className="flex items-center justify-between border-t border-olive-100 px-5 py-4">
+                    <p className="text-xs text-olive-500">
                         Menampilkan 5 dari {totalPayments}{" "}
                         pembayaran
                     </p>

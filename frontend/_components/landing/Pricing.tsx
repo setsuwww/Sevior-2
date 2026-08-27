@@ -10,7 +10,7 @@ export function Pricing() {
           <h2 className="text-sm font-bold text-teal-600 uppercase tracking-widest mb-3">Pricing Plans</h2>
           <h3 className="text-3xl md:text-5xl font-extrabold text-olive-900 mb-6 leading-tight">
             Create your own agencies.<br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-800 via-teal-600 to-sky-400">Scale without limits.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-olive-800 via-teal-600 to-sky-400">Scale without limits.</span>
           </h3>
           <p className="text-olive-600 text-lg">
             Choose the perfect plan for your agency. Whether you are a solo developer or an enterprise, we have got you covered.
@@ -29,7 +29,7 @@ export function Pricing() {
                 className={`
                   relative flex flex-col w-full md:w-1/3 transition-all duration-300
                   ${isFree ? 'bg-white border border-olive-300 shadow-xs rounded-3xl md:rounded-r-none md:border-r-0 z-10 hover:-translate-y-1' : ''}
-                  ${isPro ? 'bg-gradient-to-r from-slate-800 to-teal-800 text-white shadow-2xl shadow-slate-900/40 border-0 rounded-3xl md:rounded-xl z-20 md:scale-[1.06] md:min-h-[600px] hover:-translate-y-2 hover:shadow-slate-900/60' : ''}
+                  ${isPro ? 'bg-gradient-to-r from-olive-800 to-teal-800 text-white shadow-2xl shadow-olive-900/40 border-0 rounded-3xl md:rounded-xl z-20 md:scale-[1.06] md:min-h-[600px] hover:-translate-y-2 hover:shadow-olive-900/60' : ''}
                   ${isExec ? 'bg-white border border-yellow-500 shadow-sm rounded-3xl ring ring-offset-4 ring-yellow-600 md:rounded-l-none md:border-l-0 z-10 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(234,179,8,0.15)]' : ''}
                   p-8
                 `}
@@ -60,11 +60,11 @@ export function Pricing() {
                       {feature.included ? (
                         <CheckCircle2 className={`w-5 h-5 shrink-0 ${isPro ? "text-teal-400" : (isExec ? "text-yellow-600" : "text-green-500")}`} />
                       ) : (
-                        <XCircle className={`w-5 h-5 shrink-0 ${isPro ? "text-slate-500" : "text-olive-300"}`} />
+                        <XCircle className={`w-5 h-5 shrink-0 ${isPro ? "text-olive-500" : "text-olive-300"}`} />
                       )}
                       <span className={`text-sm font-medium ${feature.included
                         ? (isPro ? "text-white" : "text-olive-700")
-                        : (isPro ? "text-slate-400" : "text-olive-400")
+                        : (isPro ? "text-olive-400" : "text-olive-400")
                         }`}>
                         {feature.name}
                       </span>
@@ -74,7 +74,7 @@ export function Pricing() {
 
                 <Button
                   className={`w-full h-12 rounded-xl text-md font-bold transition-all duration-300 mt-auto ${isPro
-                    ? "bg-white text-slate-900 hover:bg-olive-100 shadow-md hover:shadow-lg"
+                    ? "bg-white text-olive-900 hover:bg-olive-100 shadow-md hover:shadow-lg"
                     : (isExec
                       ? "bg-olive-900 text-white hover:text-white hover:bg-olive-800"
                       : "bg-olive-900 text-white hover:text-white hover:bg-olive-800"
