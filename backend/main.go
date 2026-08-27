@@ -15,7 +15,7 @@ func main() {
 	}
 
 	db := database.Connect()
-	database.RunMigrations(db)
+	// database.RunMigrations(db)
 	// seeds.UsersSeed(db)
 
 	r := router.SetupRouter(db)

@@ -28,14 +28,12 @@ interface AgencySectionProps {
     agency: Agency;
     agencyImagePreview: string | null;
     onEditAgency: () => void;
-    onEditAgencyPhoto: () => void;
 }
 
 export default function SectionAgency({
     agency,
     agencyImagePreview,
     onEditAgency,
-    onEditAgencyPhoto,
 }: AgencySectionProps) {
     return (
         <div className="mt-8 rounded-sm border border-olive-200 bg-olive-50 p-6">
@@ -47,23 +45,24 @@ export default function SectionAgency({
                             {agencyImagePreview ? (
                                 <img
                                     src={agencyImagePreview}
-                                    alt={agency.AgencyName || "Agency"}
+                                    alt=""
                                     className="h-full w-full object-cover"
+                                    onError={(e) => {
+                                        e.currentTarget.style.display = "none";
+                                        e.currentTarget.parentElement
+                                            ?.querySelector(".agency-fallback")
+                                            ?.classList.remove("hidden");
+                                    }}
                                 />
-                            ) : (
-                                <div className="flex h-full w-full items-center justify-center bg-olive-800">
-                                    <Building2 className="h-7 w-7 text-white" />
-                                </div>
-                            )}
-                        </div>
+                            ) : null}
 
-                        <button
-                            type="button"
-                            onClick={onEditAgencyPhoto}
-                            className="absolute -bottom-1 -right-1 rounded-full border-2 border-olive-50 bg-teal-600 p-1.5 shadow-sm transition-colors hover:bg-teal-700"
-                        >
-                            <SquarePen className="h-3 w-3 text-white" />
-                        </button>
+                            <div
+                                className={`agency-fallback h-full w-full items-center justify-center bg-olive-800 ${agencyImagePreview ? "hidden" : "flex"
+                                    }`}
+                            >
+                                <Building2 className="h-7 w-7 text-white" />
+                            </div>
+                        </div>
                     </div>
 
                     <div>

@@ -6,10 +6,10 @@ import { useForm } from "react-hook-form";
 import {
     fetchUserProfile,
     updateUserProfile,
-    changeUserPassword,
     uploadUserProfileImage,
     uploadAgencyProfileImage,
     UserProfile,
+    changeUserPassword,
 } from "@/_lib/services/admin/profile.service";
 
 import { authService } from "@/_lib/services/auth.service";
@@ -140,15 +140,15 @@ export function useAdminProfile() {
             const data = await fetchUserProfile();
 
             setProfile(data);
-            setProfileTheme(data.ProfileTheme || "slate-teal");
+            setProfileTheme(data.ProfileTheme);
             reset(getProfileFormValues(data));
 
             setUserImagePreview(
-                getImageUrl(data.ProfileImage) || "/default-profile.png"
+                getImageUrl(data.ProfileImage) || null
             );
 
             setAgencyImagePreview(
-                getImageUrl(data.Agency?.ProfileImage) || "/default-profile.png"
+                getImageUrl(data.Agency?.ProfileImage) || null
             );
         } catch (error: any) {
             showError(
@@ -181,62 +181,6 @@ export function useAdminProfile() {
         }
     }, [activeModal, resetPassword]);
 
-    const onSubmitProfile = useCallback(
-        async (values: AdminProfileFormValues) => {
-            if (!profile) return;
-
-            try {
-                setSaving(true);
-
-                const payload = {
-                    full_name: values.fullName.trim(),
-                    email: values.email.trim(),
-                    phone: values.phone.trim(),
-                    biography: values.biography.trim(),
-
-                    agency_name: values.agencyName.trim(),
-                    agency_slug: values.agencySlug.trim(),
-                    contact: values.agencyContact.trim(),
-                    agency_email: values.agencyEmail.trim(),
-                    description: values.agencyDescription.trim(),
-                    website: values.agencyWebsite.trim(),
-                    location: values.agencyLocation.trim(),
-                };
-
-                // Update
-                await updateUserProfile(payload);
-
-                // Ambil profile terbaru
-                const updatedProfile = await fetchUserProfile();
-
-                setProfile(updatedProfile);
-
-                // Sync React Hook Form
-                reset(getProfileFormValues(updatedProfile));
-
-                showSuccess("Profile updated successfully.");
-
-                setActiveModal(null);
-            } catch (error: any) {
-                console.error("UPDATE PROFILE ERROR:", error);
-
-                showError(
-                    error?.response?.data?.error ||
-                    error?.response?.data?.message ||
-                    "Failed to update profile."
-                );
-            } finally {
-                setSaving(false);
-            }
-        },
-        [
-            profile,
-            reset,
-            showError,
-            showSuccess,
-        ]
-    );
-
     const onSubmitPassword = useCallback(
         async (values: PasswordFormValues) => {
             try {
@@ -267,6 +211,54 @@ export function useAdminProfile() {
             showError,
             showSuccess,
         ]
+    );
+
+    const onSubmitProfile = useCallback(
+        async (values: AdminProfileFormValues) => {
+            if (!profile) return;
+
+            try {
+                setSaving(true);
+
+                const payload = {
+                    full_name: values.fullName.trim(),
+                    email: values.email.trim(),
+                    phone: values.phone.trim(),
+                    biography: values.biography.trim(),
+                    profile_theme: profileTheme,
+
+                    agency_name: values.agencyName.trim(),
+                    agency_slug: values.agencySlug.trim(),
+                    contact: values.agencyContact.trim(),
+                    agency_email: values.agencyEmail.trim(),
+                    description: values.agencyDescription.trim(),
+                    website: values.agencyWebsite.trim(),
+                    location: values.agencyLocation.trim(),
+                };
+
+                await updateUserProfile(payload);
+
+                if (userImage) { await uploadUserProfileImage(userImage) }
+                if (agencyImage) { await uploadAgencyProfileImage(agencyImage) }
+                const updatedProfile = await fetchUserProfile();
+
+                setProfile(updatedProfile);
+                setProfileTheme(updatedProfile.ProfileTheme);
+
+                reset(getProfileFormValues(updatedProfile));
+
+                showSuccess("Profile updated successfully.");
+                setActiveModal(null);
+
+            }
+            catch (error: any) {
+                showError(
+                    error?.response?.data?.error ||
+                    error?.response?.data?.message ||
+                    "Failed to update profile."
+                );
+            } finally { setSaving(false); }
+        }, [profile, profileTheme, userImage, agencyImage, reset, showError, showSuccess]
     );
 
     const handleUserImageChange = useCallback(

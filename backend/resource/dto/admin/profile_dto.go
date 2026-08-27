@@ -37,10 +37,11 @@ type AgencyProfileResponse struct {
 }
 
 type UpdateProfileRequest struct {
-	FullName  string `json:"full_name"`
-	Email     string `json:"email"`
-	Phone     string `json:"phone"`
-	Biography string `json:"biography"`
+	FullName     string `json:"full_name"`
+	Email        string `json:"email"`
+	Phone        string `json:"phone"`
+	Biography    string `json:"biography"`
+	ProfileTheme string `json:"profile_theme"`
 
 	AgencyName        string `json:"agency_name"`
 	AgencySlug        string `json:"agency_slug"`

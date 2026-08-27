@@ -73,6 +73,7 @@ interface UpdateProfilePayload {
     email: string;
     phone: string;
     biography: string;
+    profile_theme: ProfileTheme;
 
     agency_name?: string;
     agency_slug?: string;

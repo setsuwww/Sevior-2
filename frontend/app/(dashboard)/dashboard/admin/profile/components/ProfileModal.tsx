@@ -3,6 +3,7 @@
 import { Button } from "@/_components/ui/button";
 import { Input } from "@/_components/ui/input";
 import { Label } from "@/_components/ui/label";
+import { Textarea } from "@/_components/ui/textarea";
 import { PROFILE_THEMES, ProfileTheme } from "@/_constants/theme/profile";
 import { Building2, Camera, Hash, X } from "lucide-react";
 
@@ -55,14 +56,19 @@ export default function ProfileModal({
                 <form onSubmit={onSubmit}>
                     {/* Header */}
                     <div className="flex items-center justify-between border-b border-olive-200 p-6">
-                        <div>
-                            <h2 className="text-2xl font-bold text-olive-900">
-                                Edit Profile
-                            </h2>
+                        <div className="flex items-center gap-4">
+                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm bg-teal-700 shadow-sm">
+                                <Building2 className="h-6 w-6 text-white" />
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-bold text-olive-900">
+                                    Edit Profile
+                                </h2>
 
-                            <p className="mt-1 text-sm text-olive-500">
-                                Update your personal and agency information.
-                            </p>
+                                <p className="text-sm text-olive-500">
+                                    Update your personal and agency information.
+                                </p>
+                            </div>
                         </div>
 
                         <button
@@ -81,7 +87,7 @@ export default function ProfileModal({
                                     Banner Appearance
                                 </h3>
 
-                                <p className="mt-1 text-sm text-olive-500">
+                                <p className="text-sm text-olive-500">
                                     Choose a color theme for your profile banner.
                                 </p>
                             </div>
@@ -126,7 +132,7 @@ export default function ProfileModal({
 
                         <section>
                             <div className="flex items-center gap-5">
-                                <div className="h-20 w-20 overflow-hidden rounded-full border border-olive-200 bg-olive-100">
+                                <div className="h-16 w-16 overflow-hidden rounded-full border border-olive-200 bg-olive-100">
                                     {userImagePreview ? (
                                         <img
                                             src={userImagePreview}
@@ -145,9 +151,7 @@ export default function ProfileModal({
                                 </div>
 
                                 <div>
-                                    <Label className="flex cursor-pointer items-center gap-1 rounded-sm border border-olive-300 bg-white px-2 py-1 text-xs font-medium text-olive-700 transition-colors hover:bg-olive-50">
-                                        <Camera className="h-4 w-4" />
-
+                                    <Label className="flex cursor-pointer text-xs font-medium text-blue-600 hover:text-blue-800 transition-colors">
                                         Change Photo
 
                                         <Input
@@ -196,7 +200,7 @@ export default function ProfileModal({
 
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div>
-                                    <Label className="mb-1 block text-sm font-medium text-olive-700">
+                                    <Label className="mb-2 block text-sm font-medium text-olive-700">
                                         Full Name
                                     </Label>
 
@@ -216,18 +220,12 @@ export default function ProfileModal({
                                 </div>
 
                                 <div>
-                                    <Label className="mb-1 block text-sm font-medium text-olive-700">
+                                    <Label className="mb-2 block text-sm font-medium text-olive-700">
                                         Email
                                     </Label>
 
-                                    <Input
-                                        type="email"
-                                        {...register("email", {
-                                            required:
-                                                "Email is required.",
-                                        })}
-                                        className="w-full rounded-sm border border-olive-300 px-4 py-2.5 outline-none focus:ring-2 focus:ring-teal-500"
-                                    />
+                                    <Input type="email" {...register("email", { required: "Email is required." })}
+                                        className="w-full rounded-sm border border-olive-300 px-4 py-2.5 outline-none focus:ring-2 focus:ring-teal-500" />
 
                                     {errors.email && (
                                         <p className="mt-1 text-xs text-red-500">
@@ -237,33 +235,26 @@ export default function ProfileModal({
                                 </div>
 
                                 <div>
-                                    <Label className="mb-1 block text-sm font-medium text-olive-700">
+                                    <Label className="mb-2 block text-sm font-medium text-olive-700">
                                         Phone
                                     </Label>
 
-                                    <Input
-                                        {...register("phone")}
+                                    <Input {...register("phone")}
                                         className="w-full rounded-sm border border-olive-300 px-4 py-2.5 outline-none focus:ring-2 focus:ring-teal-500"
                                     />
                                 </div>
                             </div>
 
                             <div className="mt-4">
-                                <Label className="mb-1 block text-sm font-medium text-olive-700">
+                                <Label className="mb-2 block text-sm font-medium text-olive-700">
                                     Biography
                                 </Label>
 
-                                <textarea
-                                    rows={4}
-                                    {...register("biography")}
-                                    className="w-full resize-none rounded-sm border border-olive-300 px-4 py-2.5 outline-none focus:ring-2 focus:ring-teal-500"
+                                <Textarea {...register("biography")}
+                                    className="min-h-24"
                                 />
                             </div>
                         </section>
-
-                        {/* ================================================= */}
-                        {/* AGENCY */}
-                        {/* ================================================= */}
 
                         {profile.Agency && (
                             <section className="border-t border-olive-200 pt-6">
@@ -273,54 +264,40 @@ export default function ProfileModal({
 
                                 {/* Agency Image */}
                                 <div className="mb-6 flex items-center gap-5">
-                                    <div className="h-20 w-20 overflow-hidden rounded-full border border-olive-200 bg-olive-800">
+                                    <div className="h-14 w-14 overflow-hidden rounded-full border border-olive-200 bg-olive-800">
                                         {agencyImagePreview ? (
                                             <img
-                                                src={
-                                                    agencyImagePreview
-                                                }
-                                                alt={
-                                                    profile.Agency
-                                                        .AgencyName
-                                                }
+                                                src={agencyImagePreview}
+                                                alt={profile.Agency.AgencyName}
                                                 className="h-full w-full object-cover"
                                             />
                                         ) : (
                                             <div className="flex h-full w-full items-center justify-center">
-                                                <Building2 className="h-8 w-8 text-white" />
+                                                <Building2 className="h-7 w-7 text-white" />
                                             </div>
                                         )}
                                     </div>
 
                                     <div>
-                                        <Label className="flex cursor-pointer items-center gap-1 rounded-sm border border-olive-300 bg-white px-2 py-1 text-xs font-medium text-olive-700 transition-colors hover:bg-olive-50">
-                                            <Camera className="h-4 w-4" />
-
-                                            Change Agency Photo
+                                        <Label className="flex cursor-pointer text-xs font-medium text-blue-600 hover:text-blue-800 transition-colors">
+                                            Change Agency photo
 
                                             <Input
                                                 type="file"
                                                 accept="image/png,image/jpeg,image/webp"
                                                 className="hidden"
-                                                onChange={
-                                                    onAgencyImageChange
-                                                }
+                                                onChange={onAgencyImageChange}
                                             />
                                         </Label>
 
                                         {agencyImage && (
                                             <div className="mt-2 flex items-center gap-2">
                                                 <p className="text-xs text-olive-500">
-                                                    {
-                                                        agencyImage.name
-                                                    }
+                                                    {agencyImage.name}
                                                 </p>
 
-                                                <Button
-                                                    type="button"
-                                                    onClick={
-                                                        resetAgencyImage
-                                                    }
+                                                <Button type="button"
+                                                    onClick={resetAgencyImage}
                                                     className="text-xs text-red-500 hover:underline"
                                                 >
                                                     Remove
@@ -336,101 +313,77 @@ export default function ProfileModal({
 
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div>
-                                        <Label className="mb-1 block text-sm font-medium text-olive-700">
+                                        <Label className="mb-2 block text-sm font-medium text-olive-700">
                                             Agency Name
                                         </Label>
 
-                                        <Input
-                                            {...register(
-                                                "agencyName",
-                                            )}
+                                        <Input {...register("agencyName")}
                                             className="w-full rounded-sm border border-olive-300 px-4 py-2.5"
                                         />
                                     </div>
 
                                     <div>
-                                        <Label className="mb-1 block text-sm font-medium text-olive-700">
+                                        <Label className="mb-2 block text-sm font-medium text-olive-700">
                                             Agency Slug
                                         </Label>
 
                                         <div className="relative">
                                             <Hash className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-olive-400" />
 
-                                            <Input
-                                                {...register(
-                                                    "agencySlug",
-                                                )}
+                                            <Input {...register("agencySlug")}
                                                 className="w-full rounded-sm border border-olive-300 py-2.5 pl-9 pr-4"
                                             />
                                         </div>
                                     </div>
 
                                     <div>
-                                        <Label className="mb-1 block text-sm font-medium text-olive-700">
+                                        <Label className="mb-2 block text-sm font-medium text-olive-700">
                                             Contact
                                         </Label>
 
-                                        <Input
-                                            {...register(
-                                                "agencyContact",
-                                            )}
+                                        <Input {...register("agencyContact")}
                                             className="w-full rounded-sm border border-olive-300 px-4 py-2.5"
                                         />
                                     </div>
 
                                     <div>
-                                        <Label className="mb-1 block text-sm font-medium text-olive-700">
+                                        <Label className="mb-2 block text-sm font-medium text-olive-700">
                                             Agency Email
                                         </Label>
 
-                                        <Input
-                                            type="email"
-                                            {...register(
-                                                "agencyEmail",
-                                            )}
+                                        <Input type="email" {...register("agencyEmail")}
                                             className="w-full rounded-sm border border-olive-300 px-4 py-2.5"
                                         />
                                     </div>
 
                                     <div>
-                                        <Label className="mb-1 block text-sm font-medium text-olive-700">
+                                        <Label className="mb-2 block text-sm font-medium text-olive-700">
                                             Location
                                         </Label>
 
-                                        <Input
-                                            {...register(
-                                                "agencyLocation",
-                                            )}
+                                        <Input {...register("agencyLocation")}
                                             className="w-full rounded-sm border border-olive-300 px-4 py-2.5"
                                         />
                                     </div>
 
                                     <div>
-                                        <Label className="mb-1 block text-sm font-medium text-olive-700">
+                                        <Label className="mb-2 block text-sm font-medium text-olive-700">
                                             Website
                                         </Label>
 
-                                        <Input
-                                            type="url"
-                                            {...register(
-                                                "agencyWebsite",
-                                            )}
+                                        <Input type="url" {...register("agencyWebsite")}
                                             className="w-full rounded-sm border border-olive-300 px-4 py-2.5"
                                         />
                                     </div>
                                 </div>
 
                                 <div className="mt-4">
-                                    <Label className="mb-1 block text-sm font-medium text-olive-700">
+                                    <Label className="mb-2 block text-sm font-medium text-olive-700">
                                         Description
                                     </Label>
 
-                                    <textarea
-                                        rows={4}
-                                        {...register(
-                                            "agencyDescription",
-                                        )}
-                                        className="w-full resize-none rounded-sm border border-olive-300 px-4 py-2.5"
+                                    <Textarea {...register("agencyDescription")}
+                                        className="min-h-24"
                                     />
                                 </div>
                             </section>
@@ -442,6 +395,7 @@ export default function ProfileModal({
                         <Button
                             type="button"
                             onClick={onClose} variant="outline"
+                            className="h-10"
                         >
                             Cancel
                         </Button>
@@ -449,7 +403,7 @@ export default function ProfileModal({
                         <Button
                             type="submit"
                             disabled={saving}
-                            className="flex-1 bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="flex-1 h-10 bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {saving
                                 ? "Saving..."

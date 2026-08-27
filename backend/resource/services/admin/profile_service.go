@@ -3,6 +3,7 @@ package admin
 import (
 	"errors"
 	"fmt"
+	"io"
 	"mime/multipart"
 	"os"
 	"path/filepath"
@@ -158,15 +159,12 @@ func (s *ProfileService) UpdateProfile(userID uint, req adminDTO.UpdateProfileRe
 	// ======================================================
 
 	userData := map[string]interface{}{
-		"full_name": strings.TrimSpace(req.FullName),
-		"email":     strings.TrimSpace(req.Email),
-		"phone":     strings.TrimSpace(req.Phone),
-		"biography": strings.TrimSpace(req.Biography),
+		"full_name":     strings.TrimSpace(req.FullName),
+		"email":         strings.TrimSpace(req.Email),
+		"phone":         strings.TrimSpace(req.Phone),
+		"biography":     strings.TrimSpace(req.Biography),
+		"profile_theme": strings.TrimSpace(req.ProfileTheme),
 	}
-
-	// ======================================================
-	// TRANSACTION
-	// ======================================================
 
 	err = s.Repo.DB.Transaction(func(tx *gorm.DB) error {
 
@@ -183,7 +181,7 @@ func (s *ProfileService) UpdateProfile(userID uint, req adminDTO.UpdateProfileRe
 		// AGENCY
 		// ==================================================
 
-		if agencyID != 0 {
+		if user.AgencyID != nil && user.Agency.ID != 0 {
 
 			agencyData := map[string]interface{}{
 				"agency_name": strings.TrimSpace(req.AgencyName),
@@ -428,37 +426,17 @@ func saveUploadedFile(file *multipart.FileHeader, destination string) error {
 	if err != nil {
 		return err
 	}
-
 	defer src.Close()
 
 	dst, err := os.Create(destination)
 	if err != nil {
 		return err
 	}
-
 	defer dst.Close()
 
-	buffer := make([]byte, 32*1024)
+	_, err = io.Copy(dst, src)
 
-	for {
-		n, readErr := src.Read(buffer)
-
-		if n > 0 {
-			if _, err := dst.Write(buffer[:n]); err != nil {
-				return err
-			}
-		}
-
-		if readErr != nil {
-			if readErr.Error() == "EOF" {
-				break
-			}
-
-			return readErr
-		}
-	}
-
-	return nil
+	return err
 }
 
 func (s *ProfileService) DeleteAccount(userID uint) error {

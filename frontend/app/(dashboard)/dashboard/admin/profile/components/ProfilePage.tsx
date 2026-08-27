@@ -132,9 +132,6 @@ export function AdminProfilePage() {
                                 onEditAgency={() =>
                                     openModal("edit")
                                 }
-                                onEditAgencyPhoto={() =>
-                                    openModal("edit")
-                                }
                             />
                         </div>
                     )}

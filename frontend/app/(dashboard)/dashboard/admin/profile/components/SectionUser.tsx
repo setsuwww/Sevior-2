@@ -30,10 +30,6 @@ interface UserSectionProps {
 }
 
 export default function SectionUser({ profile, userImagePreview, onEditProfile, onEditPhoto }: UserSectionProps) {
-    console.log("PROFILE:", profile);
-    console.log("PROFILE THEME:", profile.ProfileTheme);
-    console.log("AVAILABLE THEMES:", Object.keys(PROFILE_THEMES));
-
     const theme = PROFILE_THEMES[profile.ProfileTheme];
 
     return (
