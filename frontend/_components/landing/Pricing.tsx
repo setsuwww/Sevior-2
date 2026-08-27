@@ -8,11 +8,11 @@ export function Pricing() {
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="text-center max-w-3xl mx-auto mb-20">
           <h2 className="text-sm font-bold text-teal-600 uppercase tracking-widest mb-3">Pricing Plans</h2>
-          <h3 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
+          <h3 className="text-3xl md:text-5xl font-extrabold text-olive-900 mb-6 leading-tight">
             Create your own agencies.<br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-800 via-teal-600 to-sky-400">Scale without limits.</span>
           </h3>
-          <p className="text-gray-600 text-lg">
+          <p className="text-olive-600 text-lg">
             Choose the perfect plan for your agency. Whether you are a solo developer or an enterprise, we have got you covered.
           </p>
         </div>
@@ -28,7 +28,7 @@ export function Pricing() {
                 key={index}
                 className={`
                   relative flex flex-col w-full md:w-1/3 transition-all duration-300
-                  ${isFree ? 'bg-white border border-gray-300 shadow-xs rounded-3xl md:rounded-r-none md:border-r-0 z-10 hover:-translate-y-1' : ''}
+                  ${isFree ? 'bg-white border border-olive-300 shadow-xs rounded-3xl md:rounded-r-none md:border-r-0 z-10 hover:-translate-y-1' : ''}
                   ${isPro ? 'bg-gradient-to-r from-slate-800 to-teal-800 text-white shadow-2xl shadow-slate-900/40 border-0 rounded-3xl md:rounded-xl z-20 md:scale-[1.06] md:min-h-[600px] hover:-translate-y-2 hover:shadow-slate-900/60' : ''}
                   ${isExec ? 'bg-white border border-yellow-500 shadow-sm rounded-3xl ring ring-offset-4 ring-yellow-600 md:rounded-l-none md:border-l-0 z-10 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(234,179,8,0.15)]' : ''}
                   p-8
@@ -41,17 +41,17 @@ export function Pricing() {
                 )}
 
                 <div className="mb-8">
-                  <h4 className={`text-2xl font-bold mb-2 ${isPro ? "text-white" : "text-gray-900"}`}>
+                  <h4 className={`text-2xl font-bold mb-2 ${isPro ? "text-white" : "text-olive-900"}`}>
                     {plan.name}
                   </h4>
-                  <p className={`text-sm h-10 ${isPro ? "text-teal-100" : "text-gray-500"}`}>
+                  <p className={`text-sm h-10 ${isPro ? "text-teal-100" : "text-olive-500"}`}>
                     {plan.description}
                   </p>
                 </div>
 
                 <div className="mb-8 flex items-baseline text-5xl font-extrabold">
-                  <span className={isPro ? "text-white" : "text-gray-900"}>{plan.price}</span>
-                  <span className={`text-lg font-medium ml-2 ${isPro ? "text-teal-200" : "text-gray-500"}`}>{plan.period}</span>
+                  <span className={isPro ? "text-white" : "text-olive-900"}>{plan.price}</span>
+                  <span className={`text-lg font-medium ml-2 ${isPro ? "text-teal-200" : "text-olive-500"}`}>{plan.period}</span>
                 </div>
 
                 <div className="flex-1 space-y-4 mb-8">
@@ -60,11 +60,11 @@ export function Pricing() {
                       {feature.included ? (
                         <CheckCircle2 className={`w-5 h-5 shrink-0 ${isPro ? "text-teal-400" : (isExec ? "text-yellow-600" : "text-green-500")}`} />
                       ) : (
-                        <XCircle className={`w-5 h-5 shrink-0 ${isPro ? "text-slate-500" : "text-gray-300"}`} />
+                        <XCircle className={`w-5 h-5 shrink-0 ${isPro ? "text-slate-500" : "text-olive-300"}`} />
                       )}
                       <span className={`text-sm font-medium ${feature.included
-                        ? (isPro ? "text-white" : "text-gray-700")
-                        : (isPro ? "text-slate-400" : "text-gray-400")
+                        ? (isPro ? "text-white" : "text-olive-700")
+                        : (isPro ? "text-slate-400" : "text-olive-400")
                         }`}>
                         {feature.name}
                       </span>
@@ -74,10 +74,10 @@ export function Pricing() {
 
                 <Button
                   className={`w-full h-12 rounded-xl text-md font-bold transition-all duration-300 mt-auto ${isPro
-                    ? "bg-white text-slate-900 hover:bg-gray-100 shadow-md hover:shadow-lg"
+                    ? "bg-white text-slate-900 hover:bg-olive-100 shadow-md hover:shadow-lg"
                     : (isExec
-                      ? "bg-gray-900 text-white hover:text-white hover:bg-gray-800"
-                      : "bg-gray-900 text-white hover:text-white hover:bg-gray-800"
+                      ? "bg-olive-900 text-white hover:text-white hover:bg-olive-800"
+                      : "bg-olive-900 text-white hover:text-white hover:bg-olive-800"
                     )
                     }`}
                   variant={plan.buttonVariant as any}

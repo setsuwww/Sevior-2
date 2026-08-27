@@ -11,13 +11,13 @@ export function ProgressIndicator({ progress }: ProgressIndicatorProps) {
 
     return (
         <div className="flex items-center space-x-3 w-full max-w-[120px]">
-            <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div 
+            <div className="flex-1 h-2 bg-olive-100 rounded-full overflow-hidden">
+                <div
                     className={`h-full rounded-full ${colorClass} transition-all duration-500`}
                     style={{ width: `${progress}%` }}
                 />
             </div>
-            <span className="text-xs font-medium text-gray-500 w-8">{progress}%</span>
+            <span className="text-xs font-medium text-olive-500 w-8">{progress}%</span>
         </div>
     );
 }

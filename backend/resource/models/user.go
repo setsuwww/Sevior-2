@@ -23,11 +23,14 @@ type User struct {
 	Phone        string `gorm:"type:varchar"`
 	ProfileImage string `gorm:"type:text"`
 	Biography    string `gorm:"type:text"`
-	IsActive     *bool
-	LastLogin    *time.Time
-	CreatedAt    time.Time
-	UpdatedAt    time.Time
-	DeletedAt    gorm.DeletedAt `gorm:"index"`
+
+	ProfileTheme string `gorm:"type:varchar(50);default:'slate-teal'"`
+
+	IsActive  *bool
+	LastLogin *time.Time
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
 
 	Agency Agency `gorm:"foreignKey:AgencyID;constraint:OnDelete:CASCADE"`
 

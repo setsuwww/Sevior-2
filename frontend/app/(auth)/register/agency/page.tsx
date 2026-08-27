@@ -21,7 +21,7 @@ function AgencyOnboardingSteps() {
 
 export default function AgencyRegistrationPage() {
     return (
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-black"><div className="w-8 h-8 border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div></div>}>
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-olive-50 dark:bg-black"><div className="w-8 h-8 border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div></div>}>
             <AgencyOnboardingProvider>
                 <AgencyOnboardingSteps />
             </AgencyOnboardingProvider>

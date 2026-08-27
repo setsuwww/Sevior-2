@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	"backend/resource/models"
+	adminModel "backend/resource/models"
 	adminService "backend/resource/services/admin"
 
 	"github.com/gin-gonic/gin"
@@ -24,7 +24,7 @@ func (c *SubscriptionController) GetSubscription(ctx *gin.Context) {
 		return
 	}
 
-	user, ok := currentUser.(models.User)
+	user, ok := currentUser.(adminModel.User)
 
 	if !ok {
 		ctx.JSON(http.StatusUnauthorized, gin.H{

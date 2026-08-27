@@ -13,7 +13,7 @@ export function FinancialStatCard({ revenue, income, expense, trend }: Financial
     const formatCurrency = (val: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(val);
 
     return (
-        <div className="bg-white rounded-2xl p-6 border border-gray-200/60 shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-hidden group">
+        <div className="bg-white rounded-2xl p-6 border border-olive-200/60 shadow-sm hover:shadow-md transition-shadow duration-300 relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full blur-3xl -mr-10 -mt-10 opacity-60 group-hover:bg-emerald-100 transition-colors"></div>
 
             <div className="flex justify-between items-center mb-4 relative z-10">
@@ -24,28 +24,28 @@ export function FinancialStatCard({ revenue, income, expense, trend }: Financial
             </div>
 
             <div className="mb-6 relative z-10">
-                <p className="text-sm font-medium text-gray-500 mb-1">Total Revenue</p>
-                <h3 className="text-3xl font-extrabold text-gray-900 tracking-tight">{formatCurrency(income)}</h3>
+                <p className="text-sm font-medium text-olive-500 mb-1">Total Revenue</p>
+                <h3 className="text-3xl font-extrabold text-olive-900 tracking-tight">{formatCurrency(income)}</h3>
             </div>
 
-            <div className="pt-4 border-t border-gray-100 space-y-2 relative z-10">
+            <div className="pt-4 border-t border-olive-100 space-y-2 relative z-10">
                 <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500 flex items-center">
+                    <span className="text-olive-500 flex items-center">
                         <span className="w-2 h-2 rounded-full mr-2 bg-emerald-400"></span>
                         Gross Income
                     </span>
                     <span className="font-semibold text-emerald-600">{formatCurrency(income)}</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-500 flex items-center">
+                    <span className="text-olive-500 flex items-center">
                         <span className="w-2 h-2 rounded-full mr-2 bg-rose-400"></span>
                         Expenses
                     </span>
                     <span className="font-semibold text-rose-600">-{formatCurrency(expense)}</span>
                 </div>
-                <div className="flex items-center justify-between text-sm mt-2 pt-4 border-t border-dashed border-gray-200">
-                    <span className="text-gray-700 font-medium">Net Profit</span>
-                    <span className="font-bold text-gray-900 text-base">{formatCurrency(revenue)}</span>
+                <div className="flex items-center justify-between text-sm mt-2 pt-4 border-t border-dashed border-olive-200">
+                    <span className="text-olive-700 font-medium">Net Profit</span>
+                    <span className="font-bold text-olive-900 text-base">{formatCurrency(revenue)}</span>
                 </div>
             </div>
         </div>

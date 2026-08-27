@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	adminDTO "backend/resource/dto/admin"
-	"backend/resource/models"
+	adminModel "backend/resource/models"
 	adminService "backend/resource/services/admin"
 
 	"github.com/gin-gonic/gin"
@@ -25,7 +25,7 @@ func (c *ProfileController) GetProfile(ctx *gin.Context) {
 		return
 	}
 
-	user, ok := currentUser.(models.User)
+	user, ok := currentUser.(adminModel.User)
 
 	if !ok {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
@@ -57,7 +57,7 @@ func (c *ProfileController) UpdateProfile(ctx *gin.Context) {
 		return
 	}
 
-	user, ok := currentUser.(models.User)
+	user, ok := currentUser.(adminModel.User)
 
 	if !ok {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
@@ -133,7 +133,7 @@ func (c *ProfileController) ChangePassword(ctx *gin.Context) {
 		return
 	}
 
-	user, ok := currentUser.(models.User)
+	user, ok := currentUser.(adminModel.User)
 
 	if !ok {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
@@ -192,7 +192,7 @@ func (c *ProfileController) UploadUserProfileImage(ctx *gin.Context) {
 		return
 	}
 
-	user, ok := currentUser.(models.User)
+	user, ok := currentUser.(adminModel.User)
 	if !ok {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
 			"error": "Invalid user",
@@ -236,7 +236,7 @@ func (c *ProfileController) UploadAgencyProfileImage(ctx *gin.Context) {
 		return
 	}
 
-	user, ok := currentUser.(models.User)
+	user, ok := currentUser.(adminModel.User)
 	if !ok {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
 			"error": "Invalid user",
@@ -281,7 +281,7 @@ func (c *ProfileController) DeleteAccount(ctx *gin.Context) {
 		return
 	}
 
-	user, ok := currentUser.(models.User)
+	user, ok := currentUser.(adminModel.User)
 
 	if !ok {
 		ctx.JSON(http.StatusUnauthorized, gin.H{

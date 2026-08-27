@@ -36,7 +36,7 @@ export function Sidebar({ links }: SidebarProps) {
     // Mobile Overlay
     const mobileOverlay = isOpen && (
         <div
-            className="fixed inset-0 z-40 bg-gray-900/40 backdrop-blur-sm lg:hidden transition-opacity duration-300"
+            className="fixed inset-0 z-40 bg-olive-900/40 backdrop-blur-sm lg:hidden transition-opacity duration-300"
             onClick={() => setIsOpen(false)}
         />
     );
@@ -46,7 +46,7 @@ export function Sidebar({ links }: SidebarProps) {
             {mobileOverlay}
 
             <aside
-                className={`fixed inset-y-0 left-0 z-50 bg-white border-r border-gray-200 flex flex-col transition-all duration-300 ease-in-out
+                className={`fixed inset-y-0 left-0 z-50 bg-white border-r border-olive-200 flex flex-col transition-all duration-300 ease-in-out
                     lg:translate-x-0 lg:static lg:inset-auto
                     ${isOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full"}
                     ${isCollapsed ? "w-[72px]" : "w-64"}

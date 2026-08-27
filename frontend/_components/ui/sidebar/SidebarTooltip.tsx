@@ -13,7 +13,7 @@ export function SidebarTooltip({ children, label, isCollapsed }: SidebarTooltipP
         <div className="group/tooltip relative flex items-center justify-center">
             {children}
             <div className="absolute left-full ml-3 hidden group-hover/tooltip:block z-50">
-                <div className="bg-gray-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-md shadow-lg whitespace-nowrap">
+                <div className="bg-olive-900 text-white text-xs font-medium px-2.5 py-1.5 rounded-md shadow-lg whitespace-nowrap">
                     {label}
                 </div>
             </div>

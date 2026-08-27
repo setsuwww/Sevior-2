@@ -27,12 +27,12 @@ export function SidebarItem({ title, href, icon: Icon, isCollapsed }: SidebarIte
                 className={`flex items-center rounded-md transition-colors relative group h-10 ${isCollapsed ? "justify-center w-10 mx-auto" : "px-3"
                     } ${isActive
                         ? "bg-teal-50/50 text-teal-700 font-medium"
-                        : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 font-normal"
+                        : "text-olive-600 hover:text-olive-900 hover:bg-olive-100 font-normal"
                     }`}
             >
                 {Icon && (
                     <Icon
-                        className={`w-5 h-5 shrink-0 ${isCollapsed ? "" : "mr-3"} ${isActive ? "text-teal-600" : "text-gray-400 group-hover:text-gray-600"
+                        className={`w-5 h-5 shrink-0 ${isCollapsed ? "" : "mr-3"} ${isActive ? "text-teal-600" : "text-olive-400 group-hover:text-olive-600"
                             }`}
                     />
                 )}

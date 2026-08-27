@@ -1,10 +1,11 @@
 export type ProfileTheme =
-    | "teal"
-    | "red"
-    | "orange"
-    | "yellow"
-    | "blue"
-    | "purple";
+    | "slate-teal"
+    | "slate-red"
+    | "slate-orange"
+    | "slate-yellow"
+    | "slate-green"
+    | "slate-blue"
+    | "slate-purple";
 
 export const PROFILE_THEMES: Record<
     ProfileTheme,
@@ -15,45 +16,56 @@ export const PROFILE_THEMES: Record<
         label: string;
     }
 > = {
-    teal: {
-        banner: "from-slate-900 via-slate-800 to-teal-800",
-        avatar: "from-slate-600 to-teal-600",
-        color: "bg-teal-600",
+    "slate-teal": {
+        banner: "from-slate-700 to-teal-600",
+        avatar: "from-slate-600 to-teal-500",
+        color: "teal",
         label: "Teal",
     },
 
-    red: {
-        banner: "from-slate-900 via-slate-800 to-red-800",
-        avatar: "from-slate-600 to-red-600",
-        color: "bg-red-600",
+    "slate-red": {
+        banner: "from-slate-700 to-red-600",
+        avatar: "from-slate-600 to-red-500",
+        color: "red",
         label: "Red",
     },
 
-    orange: {
-        banner: "from-slate-900 via-slate-800 to-orange-800",
-        avatar: "from-slate-600 to-orange-600",
-        color: "bg-orange-600",
+    "slate-orange": {
+        banner: "from-slate-700 to-orange-600",
+        avatar: "from-slate-600 to-orange-500",
+        color: "orange",
         label: "Orange",
     },
 
-    yellow: {
-        banner: "from-slate-900 via-slate-800 to-yellow-700",
-        avatar: "from-slate-600 to-yellow-600",
-        color: "bg-yellow-500",
+    "slate-yellow": {
+        banner: "from-slate-700 to-yellow-500",
+        avatar: "from-slate-600 to-yellow-400",
+        color: "yellow",
         label: "Yellow",
     },
 
-    blue: {
-        banner: "from-slate-900 via-slate-800 to-blue-800",
-        avatar: "from-slate-600 to-blue-600",
-        color: "bg-blue-600",
+    "slate-green": {
+        banner: "from-slate-700 to-green-500",
+        avatar: "from-slate-600 to-green-400",
+        color: "green",
+        label: "Green",
+    },
+
+    "slate-blue": {
+        banner: "from-slate-700 to-blue-600",
+        avatar: "from-slate-600 to-blue-500",
+        color: "blue",
         label: "Blue",
     },
 
-    purple: {
-        banner: "from-slate-900 via-slate-800 to-purple-800",
-        avatar: "from-slate-600 to-purple-600",
-        color: "bg-purple-600",
+    "slate-purple": {
+        banner: "from-slate-700 to-purple-600",
+        avatar: "from-slate-600 to-purple-500",
+        color: "purple",
         label: "Purple",
     },
 };
+
+export function isProfileTheme(value: string): value is ProfileTheme {
+    return value in PROFILE_THEMES;
+}

@@ -12,19 +12,19 @@ export function AreaChartCard() {
     const data = MOCK_CHART_DATA[filter];
 
     return (
-        <div className="bg-white rounded-2xl p-6 border border-gray-200/60 shadow-sm col-span-1 lg:col-span-3">
+        <div className="bg-white rounded-2xl p-6 border border-olive-200/60 shadow-sm col-span-1 lg:col-span-3">
             <SectionHeader
                 title="Client Requests"
                 subtitle="Shows incoming project requests over time."
                 action={
-                    <div className="inline-flex bg-gray-50 p-1 rounded-lg border border-gray-100">
+                    <div className="inline-flex bg-olive-50 p-1 rounded-lg border border-olive-100">
                         {(["weekly", "monthly", "yearly"] as const).map((f) => (
                             <button
                                 key={f}
                                 onClick={() => setFilter(f)}
                                 className={`px-4 py-1.5 text-xs font-semibold rounded-md transition-all capitalize ${filter === f
-                                    ? "bg-white text-gray-900 shadow-sm border border-gray-200"
-                                    : "text-gray-500 hover:text-gray-900"
+                                    ? "bg-white text-olive-900 shadow-sm border border-olive-200"
+                                    : "text-olive-500 hover:text-olive-900"
                                     }`}
                             >
                                 {f}
@@ -79,23 +79,23 @@ export function AreaChartCard() {
                 </ResponsiveContainer>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 pt-6 border-t border-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 pt-6 border-t border-olive-100">
                 <div>
-                    <p className="text-sm font-medium text-gray-500 mb-2">Total Requests</p>
+                    <p className="text-sm font-medium text-olive-500 mb-2">Total Requests</p>
                     <div className="flex items-center space-x-3">
-                        <span className="text-2xl font-bold text-gray-900">{MOCK_CHART_STATS.total}</span>
+                        <span className="text-2xl font-bold text-olive-900">{MOCK_CHART_STATS.total}</span>
                         <TrendBadge value={MOCK_CHART_STATS.totalTrend} />
                     </div>
                 </div>
                 <div>
-                    <p className="text-sm font-medium text-gray-500 mb-2">Accepted</p>
+                    <p className="text-sm font-medium text-olive-500 mb-2">Accepted</p>
                     <div className="flex items-center space-x-3">
                         <span className="text-2xl font-bold text-emerald-600">{MOCK_CHART_STATS.accepted}</span>
                         <TrendBadge value={MOCK_CHART_STATS.acceptedTrend} />
                     </div>
                 </div>
                 <div>
-                    <p className="text-sm font-medium text-gray-500 mb-2">Rejected</p>
+                    <p className="text-sm font-medium text-olive-500 mb-2">Rejected</p>
                     <div className="flex items-center space-x-3">
                         <span className="text-2xl font-bold text-rose-600">{MOCK_CHART_STATS.rejected}</span>
                         <TrendBadge value={MOCK_CHART_STATS.rejectedTrend} />

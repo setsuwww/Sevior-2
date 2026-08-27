@@ -47,14 +47,14 @@ const services = [
 
 export function Services() {
   return (
-    <section id="services" className="py-24 bg-gray-50 dark:bg-gray-950">
+    <section id="services" className="py-24 bg-olive-50 dark:bg-olive-950">
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-sm font-bold text-teal-600 uppercase tracking-widest mb-3">Sevior's Services</h2>
-          <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
+          <h3 className="text-3xl md:text-4xl font-extrabold text-olive-900 dark:text-white mb-4">
             Everything you need to run your Agency.
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 text-lg">
+          <p className="text-olive-600 dark:text-olive-400 text-lg">
             Powerful features designed to automate the boring stuff so you can focus on writing great code and delivering value.
           </p>
         </div>
@@ -63,15 +63,15 @@ export function Services() {
           {services.map((service, index) => (
             <div
               key={index}
-              className={`${service.colorHover} bg-white rounded-sm p-8 border border-gray-400 ring ring-offset-4 ring-gray-200 dark:border-gray-800 shadow-xs hover:shadow-sm hover:-translate-y-1 transition-all duration-300 group`}
+              className={`${service.colorHover} bg-white rounded-sm p-8 border border-olive-400 ring ring-offset-4 ring-olive-200 dark:border-olive-800 shadow-xs hover:shadow-sm hover:-translate-y-1 transition-all duration-300 group`}
             >
               <div className={`w-14 h-14 rounded-sm group-hover:rounded-md ${service.color} flex items-center justify-center mb-6 transform group-hover:scale-120 transition-transform duration-300`}>
                 {service.icon}
               </div>
-              <h4 className="text-xl font-bold text-gray-600 dark:text-white mb-3">
+              <h4 className="text-xl font-bold text-olive-600 dark:text-white mb-3">
                 {service.title}
               </h4>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+              <p className="text-olive-600 dark:text-olive-400 leading-relaxed">
                 {service.description}
               </p>
             </div>

@@ -65,7 +65,7 @@ export function ClientFormModal({ isOpen, onClose, client, onSubmit }: ClientFor
                 status: data.status as any,
                 description: data.description,
             };
-            
+
             await onSubmit(parsedData);
             onClose();
         } catch (err) {
@@ -77,7 +77,7 @@ export function ClientFormModal({ isOpen, onClose, client, onSubmit }: ClientFor
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-            <DialogContent className="sm:max-w-[600px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 max-h-[90vh] overflow-y-auto">
+            <DialogContent className="sm:max-w-[600px] bg-white dark:bg-olive-900 border border-olive-200 dark:border-olive-800 max-h-[90vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle className="text-xl">{isEdit ? "Edit Client" : "Add New Client"}</DialogTitle>
                 </DialogHeader>
@@ -93,7 +93,7 @@ export function ClientFormModal({ isOpen, onClose, client, onSubmit }: ClientFor
                             <Input id="industry" {...register("industry")} placeholder="SaaS, Manufacturing, etc." />
                             {errors.industry && <p className="text-sm text-red-500">{errors.industry.message}</p>}
                         </div>
-                        
+
                         <div className="space-y-2">
                             <Label htmlFor="contactName">Primary Contact</Label>
                             <Input id="contactName" {...register("contactName")} placeholder="Jane Doe" />
@@ -126,7 +126,7 @@ export function ClientFormModal({ isOpen, onClose, client, onSubmit }: ClientFor
                             {errors.phone && <p className="text-sm text-red-500">{errors.phone.message}</p>}
                         </div>
                     </div>
-                    
+
                     <div className="space-y-2">
                         <Label htmlFor="website">Website (Optional)</Label>
                         <Input id="website" type="url" {...register("website")} placeholder="https://example.com" />
@@ -139,7 +139,7 @@ export function ClientFormModal({ isOpen, onClose, client, onSubmit }: ClientFor
                         {errors.description && <p className="text-sm text-red-500">{errors.description.message}</p>}
                     </div>
 
-                    <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 dark:border-gray-800">
+                    <div className="flex justify-end gap-3 pt-4 border-t border-olive-100 dark:border-olive-800">
                         <Button type="button" variant="outline" onClick={onClose} disabled={submitting}>Cancel</Button>
                         <Button type="submit" className="bg-teal-600 hover:bg-teal-700 text-white" disabled={submitting}>
                             {submitting ? "Saving..." : (isEdit ? "Update Client" : "Add Client")}

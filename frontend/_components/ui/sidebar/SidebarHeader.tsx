@@ -14,7 +14,7 @@ export function SidebarHeader({ isCollapsed }: SidebarHeaderProps) {
                 </div>
                 {!isCollapsed && (
                     <div className="animate-in fade-in zoom-in duration-300">
-                        <h1 className="text-lg font-bold text-gray-900 tracking-tight">Sevior</h1>
+                        <h1 className="text-lg font-bold text-olive-900 tracking-tight">Sevior</h1>
                     </div>
                 )}
             </div>

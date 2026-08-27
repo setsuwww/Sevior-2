@@ -1,13 +1,8 @@
+import { PlatformRole } from "./User";
+
 export interface RefreshResponse {
   accessToken: string;
 }
-
-export type PlatformRole =
-  | "USER"
-  | "CLIENT"
-  | "ADMIN"
-  | "DEVELOPER"
-  | "SUPER_ADMIN";
 
 export interface AuthUser {
   ID: number;

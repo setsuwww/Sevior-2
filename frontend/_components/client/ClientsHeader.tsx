@@ -26,28 +26,28 @@ export function ClientsHeader({
     return (
         <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between mb-8">
             <div>
-                <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-100 flex items-center gap-2">
+                <h1 className="text-3xl font-bold tracking-tight text-olive-900 dark:text-olive-100 flex items-center gap-2">
                     <Users className="w-8 h-8 text-teal-600 dark:text-teal-500" /> Clients
                 </h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-sm text-olive-500 dark:text-olive-400 mt-1">
                     Manage your agency clients.
                 </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
                 <div className="relative">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-olive-500" />
                     <Input
                         type="text"
                         placeholder="Search clients..."
-                        className="pl-9 w-full sm:w-[250px] bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 focus-visible:ring-teal-500"
+                        className="pl-9 w-full sm:w-[250px] bg-white dark:bg-olive-900 border-olive-200 dark:border-olive-800 focus-visible:ring-teal-500"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
                 </div>
 
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
-                    <SelectTrigger className="w-full sm:w-[140px] bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 focus:ring-teal-500">
+                    <SelectTrigger className="w-full sm:w-[140px] bg-white dark:bg-olive-900 border-olive-200 dark:border-olive-800 focus:ring-teal-500">
                         <SelectValue placeholder="Status" />
                     </SelectTrigger>
                     <SelectContent>
@@ -58,7 +58,7 @@ export function ClientsHeader({
                 </Select>
 
                 <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger className="w-full sm:w-[160px] bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 focus:ring-teal-500">
+                    <SelectTrigger className="w-full sm:w-[160px] bg-white dark:bg-olive-900 border-olive-200 dark:border-olive-800 focus:ring-teal-500">
                         <SelectValue placeholder="Sort by" />
                     </SelectTrigger>
                     <SelectContent>

@@ -20,23 +20,23 @@ export function DashboardHeader() {
     return (
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 space-y-4 md:space-y-0">
             <div>
-                <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+                <h1 className="text-2xl font-bold text-olive-900 tracking-tight">
                     Good Morning, {user?.AgencyName || user?.FullName || "Admin"}
                 </h1>
-                <p className="text-sm text-gray-500 mt-1">Here is what's happening with your agency today.</p>
+                <p className="text-sm text-olive-500 mt-1">Here is what's happening with your agency today.</p>
             </div>
 
             <div className="flex items-center space-x-3">
-                <div className="hidden sm:flex items-center px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg mr-2">
-                    <Search className="w-4 h-4 text-gray-400 mr-2" />
+                <div className="hidden sm:flex items-center px-3 py-1.5 bg-olive-50 border border-olive-200 rounded-lg mr-2">
+                    <Search className="w-4 h-4 text-olive-400 mr-2" />
                     <input
                         type="text"
                         placeholder="Search..."
-                        className="bg-transparent border-none outline-none text-sm w-32 focus:w-48 transition-all duration-300 placeholder:text-gray-400 text-gray-900"
+                        className="bg-transparent border-none outline-none text-sm w-32 focus:w-48 transition-all duration-300 placeholder:text-olive-400 text-olive-900"
                     />
                 </div>
 
-                <div className="hidden sm:flex items-center px-3 py-1.5 bg-white border border-gray-200 rounded-lg text-sm font-medium text-gray-600 shadow-sm">
+                <div className="hidden sm:flex items-center px-3 py-1.5 bg-white border border-olive-200 rounded-lg text-sm font-medium text-olive-600 shadow-sm">
                     {today}
                 </div>
 
@@ -44,7 +44,7 @@ export function DashboardHeader() {
                     {isPro ? "Pro Plan" : "Free Plan"}
                 </div>
 
-                <Button variant="outline" size="icon-sm" className="relative bg-white text-gray-600 border-gray-200 hover:bg-gray-50 rounded-lg shadow-sm w-9 h-9">
+                <Button variant="outline" size="icon-sm" className="relative bg-white text-olive-600 border-olive-200 hover:bg-olive-50 rounded-lg shadow-sm w-9 h-9">
                     <Bell className="w-4 h-4" />
                     <span className="absolute top-2 right-2.5 w-1.5 h-1.5 bg-rose-500 rounded-full border-2 border-white"></span>
                 </Button>

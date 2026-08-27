@@ -22,7 +22,7 @@ export default function ProfileFooterSection({
     loggingOut,
 }: ProfileFooterProps) {
     return (
-        <div className="mt-8 flex flex-wrap gap-3 border-t border-gray-200 pt-6">
+        <div className="mt-8 flex flex-wrap gap-3 border-t border-olive-200 pt-6">
             <Button
                 type="button"
                 onClick={onChangePassword}

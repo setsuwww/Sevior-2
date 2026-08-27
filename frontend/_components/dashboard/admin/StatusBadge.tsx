@@ -6,7 +6,7 @@ interface StatusBadgeProps {
 
 export function StatusBadge({ status }: StatusBadgeProps) {
     let colorClass = "";
-    
+
     switch (status.toLowerCase()) {
         case "completed":
         case "paid":
@@ -24,7 +24,7 @@ export function StatusBadge({ status }: StatusBadgeProps) {
             colorClass = "bg-rose-50 text-rose-700 border-rose-100";
             break;
         default:
-            colorClass = "bg-gray-50 text-gray-700 border-gray-200";
+            colorClass = "bg-olive-50 text-olive-700 border-olive-200";
     }
 
     return (

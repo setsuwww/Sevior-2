@@ -19,6 +19,7 @@ export function AdminProfilePage() {
         openModal,
         closeModal,
 
+        profileTheme, setProfileTheme,
         setShowDeleteConfirm,
 
         successMessage,
@@ -50,7 +51,7 @@ export function AdminProfilePage() {
 
     if (loading) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-gray-50">
+            <div className="flex min-h-screen items-center justify-center bg-olive-50">
                 <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-teal-600" />
             </div>
         );
@@ -58,15 +59,15 @@ export function AdminProfilePage() {
 
     if (!profile) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-gray-50">
+            <div className="flex min-h-screen items-center justify-center bg-olive-50">
                 <div className="text-center">
                     <XCircle className="mx-auto mb-4 h-16 w-16 text-red-500" />
 
-                    <h2 className="text-2xl font-semibold text-gray-700">
+                    <h2 className="text-2xl font-semibold text-olive-700">
                         Profile Not Found
                     </h2>
 
-                    <p className="mt-2 text-gray-500">
+                    <p className="mt-2 text-olive-500">
                         Unable to load profile information.
                     </p>
                 </div>
@@ -75,7 +76,7 @@ export function AdminProfilePage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-olive-50">
             {/* Success */}
             {successMessage && (
                 <div className="fixed right-4 top-4 z-[100]">
@@ -107,7 +108,7 @@ export function AdminProfilePage() {
             )}
 
             <div className="mx-auto">
-                <div className="overflow-hidden rounded-sm border border-gray-200 bg-white shadow-sm">
+                <div className="overflow-hidden rounded-sm border border-olive-200 bg-white shadow-sm">
                     {/* User */}
                     <UserSection
                         profile={profile}
@@ -158,21 +159,17 @@ export function AdminProfilePage() {
             {activeModal === "edit" && (
                 <ProfileModal
                     profile={profile}
+
+                    profileTheme={profileTheme}
+                    onProfileThemeChange={setProfileTheme}
+
                     userImage={userImage}
                     agencyImage={agencyImage}
                     userImagePreview={userImagePreview}
-                    agencyImagePreview={
-                        agencyImagePreview
-                    }
-                    onUserImageChange={
-                        handleUserImageChange
-                    }
-                    onAgencyImageChange={
-                        handleAgencyImageChange
-                    }
-                    onSubmit={handleSubmit(
-                        onSubmitProfile,
-                    )}
+                    agencyImagePreview={agencyImagePreview}
+                    onUserImageChange={handleUserImageChange}
+                    onAgencyImageChange={handleAgencyImageChange}
+                    onSubmit={handleSubmit(onSubmitProfile)}
                     onClose={() => {
                         resetUserImage();
                         resetAgencyImage();

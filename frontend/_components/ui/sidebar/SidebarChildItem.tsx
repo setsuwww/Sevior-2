@@ -19,7 +19,7 @@ export function SidebarChildItem({ title, href, icon: Icon }: NavItemType) {
             }}
             className={`flex items-center rounded-md transition-colors relative group h-9 px-3 pl-3 ${isActive
                 ? "bg-teal-50/40 text-teal-700 font-medium"
-                : "text-gray-500 hover:text-gray-900 hover:bg-gray-100 font-normal"
+                : "text-olive-500 hover:text-olive-900 hover:bg-olive-100 font-normal"
                 }`}
         >
             {isActive && (
@@ -28,11 +28,11 @@ export function SidebarChildItem({ title, href, icon: Icon }: NavItemType) {
 
             {Icon ? (
                 <Icon
-                    className={`w-4.5 h-4.5 mr-2.5 shrink-0 ${isActive ? "text-teal-600" : "text-gray-400 group-hover:text-gray-500"
+                    className={`w-4.5 h-4.5 mr-2.5 shrink-0 ${isActive ? "text-teal-600" : "text-olive-400 group-hover:text-olive-500"
                         }`}
                 />
             ) : (
-                <div className={`w-1.5 h-1.5 rounded-full mr-3 shrink-0 ${isActive ? "bg-teal-500" : "bg-gray-300 group-hover:bg-gray-400"}`} />
+                <div className={`w-1.5 h-1.5 rounded-full mr-3 shrink-0 ${isActive ? "bg-teal-500" : "bg-olive-300 group-hover:bg-olive-400"}`} />
             )}
 
             <span className="text-sm truncate">

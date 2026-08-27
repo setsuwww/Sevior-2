@@ -16,10 +16,10 @@ export function StepReview() {
                     <div className="w-16 h-16 rounded-2xl bg-teal-100 dark:bg-teal-900/50 flex items-center justify-center mb-6 animate-pulse">
                         <Building2 className="w-8 h-8 text-teal-600 dark:text-teal-400" />
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                    <h3 className="text-2xl font-bold text-olive-900 dark:text-white mb-2">
                         {isCreating ? "Creating your account..." : "Automatically signing in..."}
                     </h3>
-                    <p className="text-gray-500 dark:text-gray-400 max-w-md">
+                    <p className="text-olive-500 dark:text-olive-400 max-w-md">
                         {isCreating
                             ? "We are setting up your workspace, provisioning resources, and preparing your dashboard."
                             : "Securing your session and redirecting you to the dashboard..."}

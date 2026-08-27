@@ -35,31 +35,31 @@ export function DeleteConfirmDialog({
 }: DeleteConfirmDialogProps) {
     return (
         <AlertDialog open={isOpen} onOpenChange={(open) => !open && !isDeleting && onClose()}>
-            <AlertDialogContent className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+            <AlertDialogContent className="bg-white dark:bg-olive-900 border border-olive-200 dark:border-olive-800">
                 <AlertDialogHeader>
-                    <AlertDialogTitle className="text-xl text-gray-900 dark:text-gray-100">{title}</AlertDialogTitle>
-                    <AlertDialogDescription className="text-gray-500 dark:text-gray-400">
+                    <AlertDialogTitle className="text-xl text-olive-900 dark:text-olive-100">{title}</AlertDialogTitle>
+                    <AlertDialogDescription className="text-olive-500 dark:text-olive-400">
                         {description}
                     </AlertDialogDescription>
                 </AlertDialogHeader>
 
                 {itemDetails && (
-                    <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg mt-2 mb-4 border border-gray-100 dark:border-gray-800">
-                        <Avatar className="h-12 w-12 border border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center gap-3 p-4 bg-olive-50 dark:bg-olive-800/50 rounded-lg mt-2 mb-4 border border-olive-100 dark:border-olive-800">
+                        <Avatar className="h-12 w-12 border border-olive-200 dark:border-olive-700">
                             <AvatarImage src={itemDetails.avatarUrl} />
                             <AvatarFallback>{itemDetails.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
-                            <p className="font-semibold text-gray-900 dark:text-gray-100">{itemDetails.name}</p>
+                            <p className="font-semibold text-olive-900 dark:text-olive-100">{itemDetails.name}</p>
                             {itemDetails.roleOrCompany && (
-                                <p className="text-sm text-gray-500 dark:text-gray-400">{itemDetails.roleOrCompany}</p>
+                                <p className="text-sm text-olive-500 dark:text-olive-400">{itemDetails.roleOrCompany}</p>
                             )}
                         </div>
                     </div>
                 )}
 
                 <AlertDialogFooter>
-                    <AlertDialogCancel disabled={isDeleting} className="border-gray-200 dark:border-gray-700">
+                    <AlertDialogCancel disabled={isDeleting} className="border-olive-200 dark:border-olive-700">
                         Cancel
                     </AlertDialogCancel>
                     <AlertDialogAction

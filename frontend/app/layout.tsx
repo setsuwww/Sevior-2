@@ -8,10 +8,15 @@ export const metadata: Metadata = {
 
 import { TooltipProvider } from "@/_components/ui/tooltip";
 import { AuthProvider } from "@/providers/AuthProvider";
+import { Geist } from "next/font/google";
+import { cn } from "@/_lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className="antialiased">
         <AuthProvider>
           <TooltipProvider>{children}</TooltipProvider>

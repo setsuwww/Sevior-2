@@ -15,6 +15,7 @@ type UserProfileResponse struct {
 	ProfileImage string     `json:"profile_image"`
 	Biography    string     `json:"biography"`
 	Role         string     `json:"role"`
+	ProfileTheme string     `json:"profile_theme"`
 	IsActive     bool       `json:"is_active"`
 	LastLogin    *time.Time `json:"last_login"`
 }

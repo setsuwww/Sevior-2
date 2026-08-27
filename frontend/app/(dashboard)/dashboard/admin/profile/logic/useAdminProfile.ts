@@ -14,6 +14,7 @@ import {
 
 import { authService } from "@/_lib/services/auth.service";
 import { getImageUrl } from "@/_lib/helpers/url-image";
+import { ProfileTheme } from "@/_constants/theme/profile";
 
 type ActiveModal = | "edit" | "password" | "user-photo" | "agency-photo" | null;
 
@@ -55,6 +56,8 @@ const getProfileFormValues = (profile: UserProfile): AdminProfileFormValues => (
 
 export function useAdminProfile() {
     const [profile, setProfile] = useState<UserProfile | null>(null);
+
+    const [profileTheme, setProfileTheme] = useState<ProfileTheme>("slate-teal");
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -137,7 +140,7 @@ export function useAdminProfile() {
             const data = await fetchUserProfile();
 
             setProfile(data);
-
+            setProfileTheme(data.ProfileTheme || "slate-teal");
             reset(getProfileFormValues(data));
 
             setUserImagePreview(
@@ -422,6 +425,8 @@ export function useAdminProfile() {
 
     return {
         profile, loading,
+
+        profileTheme, setProfileTheme,
 
         activeModal, openModal, closeModal, setActiveModal,
 

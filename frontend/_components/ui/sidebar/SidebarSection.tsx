@@ -13,14 +13,14 @@ export function SidebarSection({ data, isCollapsed }: SidebarSectionProps) {
         <div className="mb-6 last:mb-0">
             {!isCollapsed && data.section && (
                 <div className="px-4 mb-2">
-                    <span className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">
+                    <span className="text-[10px] font-bold tracking-widest text-olive-400 uppercase">
                         {data.section}
                     </span>
                 </div>
             )}
-            
+
             {isCollapsed && data.section && (
-                <div className="w-6 border-b border-gray-200 mx-auto my-3" />
+                <div className="w-6 border-b border-olive-200 mx-auto my-3" />
             )}
 
             <div className="space-y-1">

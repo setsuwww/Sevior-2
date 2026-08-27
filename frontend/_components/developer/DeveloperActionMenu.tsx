@@ -22,17 +22,17 @@ export function DeveloperActionMenu({ developer, onEdit, onDelete }: ActionMenuP
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100">
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-olive-500 hover:text-olive-900 dark:text-olive-400 dark:hover:text-olive-100">
                     <MoreVertical className="h-4 w-4" />
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuItem onClick={() => router.push(`/dashboard/admin/developers/${developer.id}`)} className="cursor-pointer">
-                    <Eye className="w-4 h-4 mr-2 text-gray-500" />
+                    <Eye className="w-4 h-4 mr-2 text-olive-500" />
                     View Profile
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => onEdit(developer)} className="cursor-pointer">
-                    <Edit2 className="w-4 h-4 mr-2 text-gray-500" />
+                    <Edit2 className="w-4 h-4 mr-2 text-olive-500" />
                     Edit
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />

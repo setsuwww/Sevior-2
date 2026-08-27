@@ -64,7 +64,7 @@ export function DeveloperFormModal({ isOpen, onClose, developer, onSubmit }: Dev
                 bio: data.bio,
                 skills: data.skills.split(",").map(s => s.trim()).filter(Boolean),
             };
-            
+
             // Note: password would be handled by backend, adding here if provided
             if (data.password && !isEdit) {
                 (parsedData as any).password = data.password;
@@ -81,7 +81,7 @@ export function DeveloperFormModal({ isOpen, onClose, developer, onSubmit }: Dev
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-            <DialogContent className="sm:max-w-[600px] bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+            <DialogContent className="sm:max-w-[600px] bg-white dark:bg-olive-900 border border-olive-200 dark:border-olive-800">
                 <DialogHeader>
                     <DialogTitle className="text-xl">{isEdit ? "Edit Developer" : "Add New Developer"}</DialogTitle>
                 </DialogHeader>
@@ -130,7 +130,7 @@ export function DeveloperFormModal({ isOpen, onClose, developer, onSubmit }: Dev
                             {errors.status && <p className="text-sm text-red-500">{errors.status.message}</p>}
                         </div>
                     </div>
-                    
+
                     <div className="space-y-2">
                         <Label htmlFor="skills">Skills (Comma separated)</Label>
                         <Input id="skills" {...register("skills")} placeholder="React, Node.js, TypeScript" />
@@ -143,7 +143,7 @@ export function DeveloperFormModal({ isOpen, onClose, developer, onSubmit }: Dev
                         {errors.bio && <p className="text-sm text-red-500">{errors.bio.message}</p>}
                     </div>
 
-                    <div className="flex justify-end gap-3 pt-4 border-t border-gray-100 dark:border-gray-800">
+                    <div className="flex justify-end gap-3 pt-4 border-t border-olive-100 dark:border-olive-800">
                         <Button type="button" variant="outline" onClick={onClose} disabled={submitting}>Cancel</Button>
                         <Button type="submit" className="bg-teal-600 hover:bg-teal-700 text-white" disabled={submitting}>
                             {submitting ? "Saving..." : (isEdit ? "Update Developer" : "Add Developer")}

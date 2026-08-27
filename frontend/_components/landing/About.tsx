@@ -33,7 +33,7 @@ export function AboutCard({
   iconColor,
 }: AboutCardProps) {
   return (
-    <div className="bg-white p-6 rounded-sm border border-gray-300 shadow-xs hover:scale-105 transition-all duration-200 cursor-pointer">
+    <div className="bg-white p-6 rounded-sm border border-olive-300 shadow-xs hover:scale-105 transition-all duration-200 cursor-pointer">
       <div
         className={`w-12 h-12 rounded-sm mb-4 flex items-center justify-center ${iconBg}`}
       >
@@ -44,7 +44,7 @@ export function AboutCard({
         {title}
       </h3>
 
-      <p className="text-sm text-gray-600">
+      <p className="text-sm text-olive-600">
         {description}
       </p>
     </div>
@@ -72,12 +72,12 @@ export function About() {
                 ))}
               </div>
               <div className="space-y-4">
-                <div className="bg-white p-6 rounded-sm border border-gray-300 shadow-xs hover:scale-105 transition-all duration-200 cursor-pointer">
+                <div className="bg-white p-6 rounded-sm border border-olive-300 shadow-xs hover:scale-105 transition-all duration-200 cursor-pointer">
                   <div className="w-12 h-12 bg-green-100 rounded-sm mb-4 flex items-center justify-center">
                     <HeartHandshake className="text-green-600" />
                   </div>
-                  <h3 className="font-bold text-gray-900 dark:text-white mb-2">Collaboration</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Give clients transparent access to their project's status.</p>
+                  <h3 className="font-bold text-olive-900 dark:text-white mb-2">Collaboration</h3>
+                  <p className="text-sm text-olive-600 dark:text-olive-400">Give clients transparent access to their project's status.</p>
                 </div>
                 <div className="bg-gradient-to-r from-slate-800 to-teal-800 p-6 rounded-sm shadow-xl flex flex-col justify-center text-white">
                   <h3 className="text-3xl font-extrabold mb-2">10x</h3>
@@ -89,10 +89,10 @@ export function About() {
 
           <div className="flex-1 lg:pl-10">
             <h2 className="text-sm font-bold text-teal-600 uppercase tracking-widest mb-3">About Sevior</h2>
-            <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
+            <h3 className="text-3xl md:text-4xl font-extrabold text-olive-900 dark:text-white mb-6 leading-tight">
               Built specifically for modern development agencies.
             </h3>
-            <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
+            <p className="text-lg text-olive-600 dark:text-olive-400 mb-8 leading-relaxed">
               We understood that generic project management tools were not enough for development agencies. Sevior bridges the gap between your developers, your management team, and your clients.
             </p>
 
@@ -105,7 +105,7 @@ export function About() {
               ].map((item, idx) => (
                 <li key={idx} className="flex items-start">
                   <CheckCircle2 className="w-6 h-6 text-teal-500 mr-3 shrink-0" />
-                  <span className="text-gray-700 dark:text-gray-300 font-medium">{item}</span>
+                  <span className="text-olive-700 dark:text-olive-300 font-medium">{item}</span>
                 </li>
               ))}
             </ul>

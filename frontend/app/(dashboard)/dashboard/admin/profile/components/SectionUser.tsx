@@ -10,14 +10,16 @@ import {
 
 import { Badge } from "@/_components/ui/badge";
 import { ROLE_COLORS } from "@/_constants/theme/user";
-import { PROFILE_THEMES } from "@/_constants/theme/profile";
+import { PROFILE_THEMES, type ProfileTheme } from "@/_constants/theme/profile";
+import { PlatformRole } from "@/types/User";
 
 interface UserProfile {
     FullName: string;
-    Role: string;
+    Role: PlatformRole;
     Email: string;
     Phone?: string | null;
     Biography?: string | null;
+    ProfileTheme: ProfileTheme;
 }
 
 interface UserSectionProps {
@@ -27,14 +29,13 @@ interface UserSectionProps {
     onEditPhoto: () => void;
 }
 
-const theme = PROFILE_THEMES[profile.ProfileTheme];
+export default function SectionUser({ profile, userImagePreview, onEditProfile, onEditPhoto }: UserSectionProps) {
+    console.log("PROFILE:", profile);
+    console.log("PROFILE THEME:", profile.ProfileTheme);
+    console.log("AVAILABLE THEMES:", Object.keys(PROFILE_THEMES));
 
-export default function SectionUser({
-    profile,
-    userImagePreview,
-    onEditProfile,
-    onEditPhoto,
-}: UserSectionProps) {
+    const theme = PROFILE_THEMES[profile.ProfileTheme];
+
     return (
         <>
             <div
@@ -74,7 +75,7 @@ export default function SectionUser({
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div>
                         <div className="flex items-center">
-                            <h1 className="text-3xl font-bold text-gray-900">
+                            <h1 className="text-3xl font-bold text-olive-900">
                                 {profile.FullName}
                             </h1>
 
@@ -86,13 +87,13 @@ export default function SectionUser({
                             </Badge>
                         </div>
 
-                        <div className="mt-2 flex items-center gap-2 text-gray-600">
+                        <div className="mt-2 flex items-center gap-2 text-olive-600">
                             <Mail className="h-4 w-4" />
                             <span>{profile.Email}</span>
                         </div>
 
                         {profile.Phone && (
-                            <div className="mt-1 flex items-center gap-2 text-gray-600">
+                            <div className="mt-1 flex items-center gap-2 text-olive-600">
                                 <Phone className="h-4 w-4" />
                                 <span>{profile.Phone}</span>
                             </div>
@@ -110,16 +111,16 @@ export default function SectionUser({
                 </div>
 
                 {profile.Biography && (
-                    <div className="mt-6">
+                    <div>
                         <div className="mb-2 flex items-center gap-2">
-                            <FileText className="h-4 w-4 text-gray-500" />
+                            <FileText className="h-4 w-4 text-olive-500" />
 
-                            <h3 className="font-semibold text-gray-900">
+                            <h3 className="font-semibold text-olive-900">
                                 Biography
                             </h3>
                         </div>
 
-                        <p className="leading-relaxed text-gray-600">
+                        <p className="leading-relaxed text-olive-600">
                             {profile.Biography}
                         </p>
                     </div>

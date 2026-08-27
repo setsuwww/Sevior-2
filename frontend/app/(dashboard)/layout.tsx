@@ -27,8 +27,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-teal-600" />
+            <div className="min-h-screen flex items-center justify-center bg-olive-50">
+                <div className="h-8 w-8 animate-spin rounded-full border-4 border-olive-200 border-t-teal-600" />
             </div>
         );
     }
@@ -38,13 +38,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 text-gray-900 flex font-sans selection:bg-teal-500/30">
+        <div className="min-h-screen bg-olive-50 text-olive-900 flex font-sans selection:bg-teal-500/30">
             <AppSidebar />
 
             <div className="flex-1 flex flex-col min-w-0 relative">
                 <AppHeader />
 
-                <main className="flex-1 overflow-y-auto p-6 lg:p-10 scroll-smooth bg-gray-50/50">
+                <main className="flex-1 overflow-y-auto p-6 lg:p-10 scroll-smooth bg-olive-50/50">
                     <div className="max-w-10xl mx-auto">
                         {children}
                     </div>

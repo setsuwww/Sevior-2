@@ -10,8 +10,8 @@ import (
 	"time"
 
 	adminDTO "backend/resource/dto/admin"
-	"backend/resource/models"
-	repository "backend/resource/repositories/admin"
+	adminModel "backend/resource/models"
+	adminRepo "backend/resource/repositories/admin"
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -19,10 +19,10 @@ import (
 )
 
 type ProfileService struct {
-	Repo *repository.ProfileRepository
+	Repo *adminRepo.ProfileRepository
 }
 
-func NewProfileService(repo *repository.ProfileRepository) *ProfileService {
+func NewProfileService(repo *adminRepo.ProfileRepository) *ProfileService {
 	return &ProfileService{
 		Repo: repo,
 	}
@@ -44,6 +44,7 @@ func (s *ProfileService) GetProfile(userID uint) (*adminDTO.ProfileResponse, err
 			ProfileImage: user.ProfileImage,
 			Biography:    user.Biography,
 			Role:         user.Role,
+			ProfileTheme: user.ProfileTheme,
 			IsActive:     user.IsActive != nil && *user.IsActive,
 			LastLogin:    user.LastLogin,
 		},
@@ -89,10 +90,6 @@ func (s *ProfileService) UpdateProfile(userID uint, req adminDTO.UpdateProfileRe
 		return errors.New("email is required")
 	}
 
-	// ======================================================
-	// CHECK EMAIL
-	// ======================================================
-
 	if !strings.EqualFold(user.Email, req.Email) {
 
 		existingUser, err := s.Repo.FindUserByEmail(
@@ -109,10 +106,6 @@ func (s *ProfileService) UpdateProfile(userID uint, req adminDTO.UpdateProfileRe
 			return err
 		}
 	}
-
-	// ======================================================
-	// CHECK AGENCY SLUG
-	// ======================================================
 
 	var agencyID uint
 
@@ -178,7 +171,7 @@ func (s *ProfileService) UpdateProfile(userID uint, req adminDTO.UpdateProfileRe
 	err = s.Repo.DB.Transaction(func(tx *gorm.DB) error {
 
 		userResult := tx.
-			Model(&models.User{}).
+			Model(&adminModel.User{}).
 			Where("id = ?", userID).
 			Updates(userData)
 
@@ -208,7 +201,7 @@ func (s *ProfileService) UpdateProfile(userID uint, req adminDTO.UpdateProfileRe
 			}
 
 			agencyResult := tx.
-				Model(&models.Agency{}).
+				Model(&adminModel.Agency{}).
 				Where("id = ?", agencyID).
 				Updates(agencyData)
 
@@ -348,6 +341,7 @@ func (s *ProfileService) UploadUserProfileImage(userID uint, file *multipart.Fil
 
 	return imageURL, nil
 }
+
 func (s *ProfileService) UploadAgencyProfileImage(userID uint, file *multipart.FileHeader) (string, error) {
 
 	if file == nil {
@@ -428,6 +422,7 @@ func (s *ProfileService) UploadAgencyProfileImage(userID uint, file *multipart.F
 
 	return imageURL, nil
 }
+
 func saveUploadedFile(file *multipart.FileHeader, destination string) error {
 	src, err := file.Open()
 	if err != nil {

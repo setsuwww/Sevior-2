@@ -21,18 +21,18 @@ export function StepChoosePlan() {
                             }
                             className={`h-full md:h-auto cursor-pointer rounded-2xl p-6 transition-all duration-300 flex flex-col border-2 ${isSelected
                                 ? "bg-teal-50/50 dark:bg-teal-900/20 border-teal-500 shadow-lg shadow-teal-500/10 scale-[1.02]"
-                                : "bg-white dark:bg-zinc-900 border-gray-200 dark:border-gray-800 hover:border-teal-300"
+                                : "bg-white dark:bg-zinc-900 border-olive-200 dark:border-olive-800 hover:border-teal-300"
                                 }`}
                         >
                             <div className="mb-4">
-                                <h4 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+                                <h4 className="text-xl font-bold text-olive-900 dark:text-white mb-1">
                                     {plan.name}
                                 </h4>
 
-                                <div className="flex items-baseline text-3xl font-extrabold text-gray-900 dark:text-white">
+                                <div className="flex items-baseline text-3xl font-extrabold text-olive-900 dark:text-white">
                                     {plan.price}
 
-                                    <span className="text-sm font-medium text-gray-500 ml-1">
+                                    <span className="text-sm font-medium text-olive-500 ml-1">
                                         {plan.period}
                                     </span>
                                 </div>
@@ -44,12 +44,12 @@ export function StepChoosePlan() {
                                     .map((feature) => (
                                         <li
                                             key={feature.name}
-                                            className="flex items-start text-sm text-gray-600 dark:text-gray-300"
+                                            className="flex items-start text-sm text-olive-600 dark:text-olive-300"
                                         >
                                             <CheckCircle2
                                                 className={`w-4 h-4 mr-2 shrink-0 mt-0.5 ${isSelected
                                                     ? "text-teal-500"
-                                                    : "text-gray-400"
+                                                    : "text-olive-400"
                                                     }`}
                                             />
 

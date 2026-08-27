@@ -1,9 +1,9 @@
 package router
 
 import (
-	"backend/resource/controllers/admin"
+	adminCtrl "backend/resource/controllers/admin"
 	"backend/resource/middleware"
-	"backend/resource/models"
+	adminModel "backend/resource/models"
 	adminRepo "backend/resource/repositories/admin"
 	adminService "backend/resource/services/admin"
 
@@ -11,10 +11,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func AgencyAdminRoutes(
-	r *gin.Engine,
-	db *gorm.DB,
-) {
+func AgencyAdminRoutes(r *gin.Engine, db *gorm.DB) {
 	// ==========================================================
 	// PROFILE
 	// ==========================================================
@@ -27,7 +24,7 @@ func AgencyAdminRoutes(
 		Repo: profileRepo,
 	}
 
-	profileController := &admin.ProfileController{
+	profileController := &adminCtrl.ProfileController{
 		Service: profileService,
 	}
 
@@ -43,7 +40,7 @@ func AgencyAdminRoutes(
 		Repo: subscriptionRepo,
 	}
 
-	subscriptionController := &admin.SubscriptionController{
+	subscriptionController := &adminCtrl.SubscriptionController{
 		Service: subscriptionService,
 	}
 
@@ -55,7 +52,7 @@ func AgencyAdminRoutes(
 
 	adminGroup.Use(
 		middleware.AuthMiddleware(db),
-		middleware.RoleMiddleware(models.RoleAdmin),
+		middleware.RoleMiddleware(adminModel.RoleAdmin),
 	)
 
 	{

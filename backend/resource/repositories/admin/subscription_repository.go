@@ -1,7 +1,7 @@
 package admin
 
 import (
-	"backend/resource/models"
+	adminModel "backend/resource/models"
 
 	"gorm.io/gorm"
 )
@@ -12,17 +12,17 @@ type SubscriptionRepository struct {
 
 func (r *SubscriptionRepository) GetCurrentSubscription(
 	agencyID uint,
-) (*models.Subscription, error) {
+) (*adminModel.Subscription, error) {
 
-	var subscription models.Subscription
+	var subscription adminModel.Subscription
 
 	err := r.DB.
 		Where("agency_id = ?", agencyID).
 		Where(
 			"status IN ?",
-			[]models.SubscriptionStatus{
-				models.SubscriptionStatusActive,
-				models.SubscriptionStatusTrialing,
+			[]adminModel.SubscriptionStatus{
+				adminModel.SubscriptionStatusActive,
+				adminModel.SubscriptionStatusTrialing,
 			},
 		).
 		Order("end_date DESC").
@@ -36,9 +36,9 @@ func (r *SubscriptionRepository) GetCurrentSubscription(
 	return &subscription, nil
 }
 
-func (r *SubscriptionRepository) GetPayments(agencyID uint, subscriptionID uint) ([]models.Payment, error) {
+func (r *SubscriptionRepository) GetPayments(agencyID uint, subscriptionID uint) ([]adminModel.Payment, error) {
 
-	var payments []models.Payment
+	var payments []adminModel.Payment
 
 	err := r.DB.
 		Where(

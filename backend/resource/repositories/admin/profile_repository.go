@@ -3,7 +3,7 @@ package admin
 import (
 	"errors"
 
-	"backend/resource/models"
+	adminModel "backend/resource/models"
 
 	"gorm.io/gorm"
 )
@@ -12,8 +12,8 @@ type ProfileRepository struct {
 	DB *gorm.DB
 }
 
-func (r *ProfileRepository) GetUserByID(userID uint) (*models.User, error) {
-	var user models.User
+func (r *ProfileRepository) GetUserByID(userID uint) (*adminModel.User, error) {
+	var user adminModel.User
 
 	err := r.DB.
 		Preload("Agency").
@@ -29,7 +29,7 @@ func (r *ProfileRepository) GetUserByID(userID uint) (*models.User, error) {
 
 func (r *ProfileRepository) UpdateUser(userID uint, data map[string]interface{}) error {
 	return r.DB.
-		Model(&models.User{}).
+		Model(&adminModel.User{}).
 		Where("id = ?", userID).
 		Updates(data).
 		Error
@@ -37,14 +37,14 @@ func (r *ProfileRepository) UpdateUser(userID uint, data map[string]interface{})
 
 func (r *ProfileRepository) UpdateAgency(agencyID uint, data map[string]interface{}) error {
 	return r.DB.
-		Model(&models.Agency{}).
+		Model(&adminModel.Agency{}).
 		Where("id = ?", agencyID).
 		Updates(data).
 		Error
 }
 
-func (r *ProfileRepository) FindUserByEmail(email string, excludeUserID uint) (*models.User, error) {
-	var user models.User
+func (r *ProfileRepository) FindUserByEmail(email string, excludeUserID uint) (*adminModel.User, error) {
+	var user adminModel.User
 
 	err := r.DB.
 		Where("email = ? AND id != ?", email, excludeUserID).
@@ -58,8 +58,8 @@ func (r *ProfileRepository) FindUserByEmail(email string, excludeUserID uint) (*
 	return &user, nil
 }
 
-func (r *ProfileRepository) FindAgencyBySlug(slug string, excludeAgencyID uint) (*models.Agency, error) {
-	var agency models.Agency
+func (r *ProfileRepository) FindAgencyBySlug(slug string, excludeAgencyID uint) (*adminModel.Agency, error) {
+	var agency adminModel.Agency
 
 	err := r.DB.
 		Where("agency_slug = ? AND id != ?", slug, excludeAgencyID).
@@ -74,7 +74,7 @@ func (r *ProfileRepository) FindAgencyBySlug(slug string, excludeAgencyID uint) 
 }
 
 func (r *ProfileRepository) DeleteUser(userID uint) error {
-	result := r.DB.Delete(&models.User{}, userID)
+	result := r.DB.Delete(&adminModel.User{}, userID)
 
 	if result.Error != nil {
 		return result.Error

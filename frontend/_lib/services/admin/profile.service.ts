@@ -1,3 +1,8 @@
+import {
+    PROFILE_THEMES,
+    ProfileTheme,
+    isProfileTheme,
+} from "@/_constants/theme/profile";
 import { api } from "@/_lib/axiosInstance";
 import { isPlatformRole } from "@/_lib/helpers/role-helper";
 import { PlatformRole } from "@/types/User";
@@ -24,6 +29,7 @@ export interface UserProfile {
     Email: string;
     Phone: string;
     ProfileImage: string;
+    ProfileTheme: ProfileTheme;
     Biography: string;
     Role: PlatformRole;
     IsActive: boolean;
@@ -38,6 +44,7 @@ interface ProfileResponse {
         email: string;
         phone: string;
         profile_image: string;
+        profile_theme: string;
         biography: string;
         role: string;
         is_active: boolean;
@@ -90,16 +97,23 @@ function mapProfile(data: ProfileResponse): UserProfile {
         throw new Error(`Invalid platform role: ${data.user.role}`);
     }
 
+    if (!isProfileTheme(data.user.profile_theme)) {
+        throw new Error(
+            `Invalid profile theme: ${data.user.profile_theme}`
+        );
+    }
+
     return {
         ID: data.user.id,
         FullName: data.user.full_name,
         Email: data.user.email,
         Phone: data.user.phone,
         ProfileImage: data.user.profile_image,
+
+        ProfileTheme: data.user.profile_theme,
+
         Biography: data.user.biography,
-
         Role: data.user.role,
-
         IsActive: data.user.is_active,
         LastLogin: data.user.last_login,
 
@@ -122,6 +136,7 @@ function mapProfile(data: ProfileResponse): UserProfile {
             : null,
     };
 }
+
 export async function fetchUserProfile(): Promise<UserProfile> {
     const response = await api.get<ProfileResponse>("/api/v1/agency-admin/profile");
 

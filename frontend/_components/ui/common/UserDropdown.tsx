@@ -43,11 +43,11 @@ export default function UserDropdown() {
 
                 {/* User Info */}
                 <div className="hidden md:block text-left">
-                    <p className="text-sm font-semibold text-gray-900">
+                    <p className="text-sm font-semibold text-olive-900">
                         {user?.FullName || "User"}
                     </p>
 
-                    <p className="text-xs text-gray-500 capitalize">
+                    <p className="text-xs text-olive-500 capitalize">
                         {user?.Role
                             ?.replace("_", " ")
                             .toLowerCase() || "Role"}
@@ -56,10 +56,10 @@ export default function UserDropdown() {
             </button>
 
             {/* Dropdown */}
-            <div className="absolute -right-1 mt-5 w-58 bg-white border border-gray-200 rounded-sm shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top-right">
+            <div className="absolute -right-1 mt-5 w-58 bg-white border border-olive-200 rounded-sm shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top-right">
 
                 {/* User Header */}
-                <div className="p-3 border-b border-gray-100">
+                <div className="p-3 border-b border-olive-100">
                     <div className="flex items-center gap-3">
 
                         {/* Bigger Avatar */}
@@ -78,11 +78,11 @@ export default function UserDropdown() {
                         </div>
 
                         <div className="min-w-0">
-                            <p className="text-sm font-semibold text-gray-900 truncate">
+                            <p className="text-sm font-semibold text-olive-900 truncate">
                                 {user?.FullName || "User"}
                             </p>
 
-                            <p className="text-xs text-gray-500 truncate">
+                            <p className="text-xs text-olive-500 truncate">
                                 {user?.Email || ""}
                             </p>
                         </div>
@@ -95,7 +95,7 @@ export default function UserDropdown() {
 
                     <button
                         type="button"
-                        className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-teal-600 rounded-sm transition-colors"
+                        className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-olive-600 hover:bg-olive-50 hover:text-teal-600 rounded-sm transition-colors"
                     >
                         <UserIcon className="w-4 h-4" />
                         <span>Profile</span>
@@ -103,7 +103,7 @@ export default function UserDropdown() {
 
                     <button
                         type="button"
-                        className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-teal-600 rounded-lg transition-colors"
+                        className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-olive-600 hover:bg-olive-50 hover:text-teal-600 rounded-lg transition-colors"
                     >
                         <Settings className="w-4 h-4" />
                         <span>Account Settings</span>
@@ -112,7 +112,7 @@ export default function UserDropdown() {
                 </div>
 
                 {/* Logout */}
-                <div className="p-1 border-t border-gray-100">
+                <div className="p-1 border-t border-olive-100">
 
                     <button
                         type="button"
