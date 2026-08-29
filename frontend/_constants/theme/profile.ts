@@ -38,14 +38,14 @@ export const PROFILE_THEMES: Record<
     },
 
     "slate-yellow": {
-        banner: "from-slate-900 to-yellow-500",
+        banner: "from-slate-900 to-yellow-800",
         avatar: "from-slate-600 to-yellow-400",
         color: "yellow",
         label: "Yellow",
     },
 
     "slate-green": {
-        banner: "from-slate-900 to-green-500",
+        banner: "from-slate-900 to-green-800",
         avatar: "from-slate-600 to-green-400",
         color: "green",
         label: "Green",

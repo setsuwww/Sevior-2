@@ -58,20 +58,29 @@ export function SidebarParentItem({ title, icon: Icon, children, isCollapsed }: 
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={`w-full flex items-center justify-between px-3 h-10 rounded-md transition-all duration-200 group ${hasActiveChild || isOpen
-                        ? "text-olive-900"
-                        : "text-olive-600 hover:bg-olive-100 hover:text-olive-900"
+                    ? "text-olive-900"
+                    : "text-olive-600 hover:bg-olive-100 hover:text-olive-900"
                     }`}
             >
                 <div className="flex items-center">
                     {Icon && (
                         <Icon
                             className={`w-5 h-5 mr-3 transition-colors ${hasActiveChild
-                                    ? "text-teal-600"
-                                    : "text-olive-400 group-hover:text-olive-600"
+                                ? "text-teal-600"
+                                : "text-olive-400 group-hover:text-olive-600"
                                 }`}
                         />
                     )}
-                    <span className="text-sm font-medium">{title}</span>
+                    <span
+                        className={`text-sm font-medium transition-colors ${hasActiveChild
+                            ? "text-olive-800"
+                            : isOpen
+                                ? "text-olive-500"
+                                : "text-olive-300"
+                            }`}
+                    >
+                        {title}
+                    </span>
                 </div>
                 <ChevronRight
                     className={`w-4 h-4 text-olive-400 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`}
