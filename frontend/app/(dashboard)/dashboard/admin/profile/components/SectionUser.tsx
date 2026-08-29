@@ -58,7 +58,7 @@ export default function SectionUser({ profile, userImagePreview, onEditProfile, 
                             onClick={onEditPhoto}
                             className="absolute bottom-0 right-0 rounded-full border-2 border-white bg-teal-600 p-2 shadow-md transition-colors hover:bg-teal-700"
                         >
-                            <Camera className="h-4 w-4 text-white" />
+                            <SquarePen className="h-4 w-4 text-white" />
                         </button>
                     </div>
                 </div>
@@ -87,7 +87,7 @@ export default function SectionUser({ profile, userImagePreview, onEditProfile, 
                         </div>
 
                         {profile.Phone && (
-                            <div className="mt-1 flex items-center gap-2 text-olive-600">
+                            <div className="mt-2 flex items-center gap-2 text-olive-600">
                                 <Phone className="h-4 w-4" />
                                 <span>{profile.Phone}</span>
                             </div>

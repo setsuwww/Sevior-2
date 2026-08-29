@@ -76,7 +76,7 @@ export function SidebarParentItem({ title, icon: Icon, children, isCollapsed }: 
                             ? "text-olive-800"
                             : isOpen
                                 ? "text-olive-500"
-                                : "text-olive-300"
+                                : "text-olive-500 group-hover:text-olive-800"
                             }`}
                     >
                         {title}

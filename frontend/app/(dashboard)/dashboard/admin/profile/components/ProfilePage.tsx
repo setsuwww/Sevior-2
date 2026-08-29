@@ -129,9 +129,6 @@ export function AdminProfilePage() {
                                 agencyImagePreview={
                                     agencyImagePreview
                                 }
-                                onEditAgency={() =>
-                                    openModal("edit")
-                                }
                             />
                         </div>
                     )}
@@ -152,7 +149,6 @@ export function AdminProfilePage() {
                 </div>
             </div>
 
-            {/* Edit Profile */}
             {activeModal === "edit" && (
                 <ProfileModal
                     profile={profile}

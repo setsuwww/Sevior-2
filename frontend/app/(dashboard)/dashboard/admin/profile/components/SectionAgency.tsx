@@ -7,7 +7,6 @@ import {
     Mail,
     MapPin,
     Phone,
-    SquarePen,
 } from "lucide-react";
 
 interface Agency {
@@ -27,13 +26,11 @@ interface Agency {
 interface AgencySectionProps {
     agency: Agency;
     agencyImagePreview: string | null;
-    onEditAgency: () => void;
 }
 
 export default function SectionAgency({
     agency,
     agencyImagePreview,
-    onEditAgency,
 }: AgencySectionProps) {
     return (
         <div className="mt-8 rounded-sm border border-olive-200 bg-olive-50 p-6">
@@ -84,22 +81,12 @@ export default function SectionAgency({
                         </div>
 
                         {agency.AgencySlug && (
-                            <div className="mt-1 flex items-center gap-1 text-sm italic text-olive-500">
-                                <Hash className="h-3 w-3" />
-                                <span>{agency.AgencySlug}</span>
+                            <div className="flex items-center gap-1 text-sm italic text-olive-500">
+                                <span>#{agency.AgencySlug}</span>
                             </div>
                         )}
                     </div>
                 </div>
-
-                <button
-                    type="button"
-                    onClick={onEditAgency}
-                    className="flex items-center gap-2 rounded-sm border border-olive-300 bg-white px-3 py-2 text-sm font-medium text-olive-700 transition-colors hover:bg-olive-100"
-                >
-                    <SquarePen className="h-4 w-4" />
-                    Edit Agency
-                </button>
             </div>
 
             {/* Description */}
@@ -111,25 +98,11 @@ export default function SectionAgency({
 
             {/* Agency Contact */}
             <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-                {agency.Contact && (
-                    <div className="flex items-center gap-3">
-                        <Phone className="h-5 w-5 text-olive-500" />
-
-                        <div>
-                            <p className="text-xs font-semibold uppercase tracking-wide text-olive-400">
-                                Agency Phone
-                            </p>
-
-                            <p className="mt-1 text-olive-700">
-                                {agency.Contact}
-                            </p>
-                        </div>
-                    </div>
-                )}
-
                 {agency.Email && (
                     <div className="flex items-center gap-3">
-                        <Mail className="h-5 w-5 text-olive-500" />
+                        <div className="rounded-sm bg-olive-200 p-2">
+                            <Mail className="h-4 w-4 text-olive-500" />
+                        </div>
 
                         <div>
                             <p className="text-xs font-semibold uppercase tracking-wide text-olive-400">
@@ -145,7 +118,9 @@ export default function SectionAgency({
 
                 {agency.Location && (
                     <div className="flex items-center gap-3">
-                        <MapPin className="h-5 w-5 text-olive-500" />
+                        <div className="rounded-sm bg-olive-200 p-2">
+                            <MapPin className="h-4 w-4 text-olive-500" />
+                        </div>
 
                         <div>
                             <p className="text-xs font-semibold uppercase tracking-wide text-olive-400">
@@ -159,9 +134,29 @@ export default function SectionAgency({
                     </div>
                 )}
 
+                {agency.Contact && (
+                    <div className="flex items-center gap-3">
+                        <div className="rounded-sm bg-olive-200 p-2">
+                            <Phone className="h-4 w-4 text-olive-500" />
+                        </div>
+
+                        <div>
+                            <p className="text-xs font-semibold uppercase tracking-wide text-olive-400">
+                                Agency Phone
+                            </p>
+
+                            <p className="mt-1 text-olive-700">
+                                {agency.Contact}
+                            </p>
+                        </div>
+                    </div>
+                )}
+
                 {agency.Website && (
                     <div className="flex items-center gap-3">
-                        <Globe className="h-5 w-5 text-olive-500" />
+                        <div className="rounded-sm bg-olive-200 p-2">
+                            <Globe className="h-4 w-4 text-olive-500" />
+                        </div>
 
                         <div className="min-w-0">
                             <p className="text-xs font-semibold uppercase tracking-wide text-olive-400">
