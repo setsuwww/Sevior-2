@@ -3,7 +3,6 @@
 import {
     Building2,
     Globe,
-    Hash,
     Mail,
     MapPin,
     Phone,
