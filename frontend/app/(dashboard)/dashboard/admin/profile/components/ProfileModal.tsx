@@ -403,7 +403,7 @@ export default function ProfileModal({
                         <Button
                             type="submit"
                             disabled={saving}
-                            className="flex-1 h-10 bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="flex-1 h-10 bg-teal-600 hover:bg-teal-700 border border-teal-600 hover:border-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {saving
                                 ? "Saving..."

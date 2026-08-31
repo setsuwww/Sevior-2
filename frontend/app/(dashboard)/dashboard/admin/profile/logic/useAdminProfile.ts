@@ -4,19 +4,20 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import {
+    UserProfile,
     fetchUserProfile,
     updateUserProfile,
     uploadUserProfileImage,
     uploadAgencyProfileImage,
-    UserProfile,
     changeUserPassword,
+    deleteUserAccount,
 } from "@/_lib/services/admin/profile.service";
 
 import { authService } from "@/_lib/services/auth.service";
 import { getImageUrl } from "@/_lib/helpers/url-image";
 import { ProfileTheme } from "@/_constants/theme/profile";
 
-type ActiveModal = | "edit" | "password" | "user-photo" | "agency-photo" | null;
+type ActiveModal = "edit" | "password" | null;
 
 export interface AdminProfileFormValues {
     fullName: string;
@@ -39,7 +40,24 @@ export interface PasswordFormValues {
     confirmPassword: string;
 }
 
-const getProfileFormValues = (profile: UserProfile): AdminProfileFormValues => ({
+const EMPTY_PROFILE_FORM: AdminProfileFormValues = {
+    fullName: "",
+    email: "",
+    phone: "",
+    biography: "",
+
+    agencyName: "",
+    agencySlug: "",
+    agencyContact: "",
+    agencyEmail: "",
+    agencyDescription: "",
+    agencyWebsite: "",
+    agencyLocation: "",
+};
+
+const getProfileFormValues = (
+    profile: UserProfile
+): AdminProfileFormValues => ({
     fullName: profile.FullName || "",
     email: profile.Email || "",
     phone: profile.Phone || "",
@@ -54,68 +72,56 @@ const getProfileFormValues = (profile: UserProfile): AdminProfileFormValues => (
     agencyLocation: profile.Agency?.Location || "",
 });
 
-export function useAdminProfile() {
-    const [profile, setProfile] = useState<UserProfile | null>(null);
+const getErrorMessage = (
+    error: any,
+    fallback: string
+): string => {
+    return (
+        error?.response?.data?.error ||
+        error?.response?.data?.message ||
+        fallback
+    );
+};
 
-    const [profileTheme, setProfileTheme] = useState<ProfileTheme>("slate-teal");
+export function useAdminProfile() {
+    // ==========================================================
+    // PROFILE
+    // ==========================================================
+
+    const [profile, setProfile] = useState<UserProfile | null>(null);
+    const [profileTheme, setProfileTheme] =
+        useState<ProfileTheme>("slate-teal");
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    const [changingPassword, setChangingPassword] = useState(false);
-    const [loggingOut, setLoggingOut] = useState(false);
-    const [deletingAccount, setDeletingAccount] = useState(false);
 
-    const [activeModal, setActiveModal] = useState<ActiveModal>(null);
-    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-    const [userImage, setUserImage] = useState<File | null>(null);
-    const [agencyImage, setAgencyImage] = useState<File | null>(null);
-    const [userImagePreview, setUserImagePreview] = useState<string | null>(null);
-    const [agencyImagePreview, setAgencyImagePreview] = useState<string | null>(null);
+    // ==========================================================
+    // MODALS
+    // ==========================================================
+
+    const [activeModal, setActiveModal] =
+        useState<ActiveModal>(null);
+
+    const [showDeleteConfirm, setShowDeleteConfirm] =
+        useState(false);
+
+    const openModal = useCallback(
+        (modal: Exclude<ActiveModal, null>) => {
+            setActiveModal(modal);
+        },
+        []
+    );
+
+    const closeModal = useCallback(() => {
+        setActiveModal(null);
+    }, []);
+
+    // ==========================================================
+    // NOTIFICATION
+    // ==========================================================
+
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
-
-    const profileForm = useForm<AdminProfileFormValues>({
-        defaultValues: {
-            fullName: "",
-            email: "",
-            phone: "",
-            biography: "",
-
-            agencyName: "",
-            agencySlug: "",
-            agencyContact: "",
-            agencyEmail: "",
-            agencyDescription: "",
-            agencyWebsite: "",
-            agencyLocation: "",
-        },
-
-        mode: "onChange",
-    });
-
-    const { register, handleSubmit, reset,
-        formState: {
-            errors: profileErrors,
-            isDirty: profileIsDirty,
-        },
-    } = profileForm;
-
-    const {
-        register: registerPassword,
-        handleSubmit: handlePasswordSubmit,
-        getValues,
-        reset: resetPassword,
-        formState: {
-            errors: passwordErrors,
-            isSubmitting: isPasswordSubmitting,
-        },
-    } = useForm<PasswordFormValues>({
-        defaultValues: {
-            currentPassword: "",
-            newPassword: "",
-            confirmPassword: "",
-        },
-    });
 
     const showSuccess = useCallback((message: string) => {
         setSuccessMessage(message);
@@ -133,6 +139,140 @@ export function useAdminProfile() {
         }, 3000);
     }, []);
 
+    // ==========================================================
+    // PROFILE FORM
+    // ==========================================================
+
+    const profileForm =
+        useForm<AdminProfileFormValues>({
+            defaultValues: EMPTY_PROFILE_FORM,
+            mode: "onChange",
+        });
+
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: {
+            errors: profileErrors,
+        },
+    } = profileForm;
+
+    // ==========================================================
+    // PASSWORD FORM
+    // ==========================================================
+
+    const passwordForm =
+        useForm<PasswordFormValues>({
+            defaultValues: {
+                currentPassword: "",
+                newPassword: "",
+                confirmPassword: "",
+            },
+            mode: "onChange",
+        });
+
+    const {
+        register: registerPassword,
+        handleSubmit: handlePasswordSubmit,
+        reset: resetPassword,
+        formState: {
+            errors: passwordErrors,
+            isSubmitting: changingPassword,
+        },
+    } = passwordForm;
+
+    // ==========================================================
+    // IMAGE
+    // ==========================================================
+
+    const [userImage, setUserImage] =
+        useState<File | null>(null);
+
+    const [agencyImage, setAgencyImage] =
+        useState<File | null>(null);
+
+    const [userImagePreview, setUserImagePreview] =
+        useState<string | null>(null);
+
+    const [agencyImagePreview, setAgencyImagePreview] =
+        useState<string | null>(null);
+
+    const validateImage = useCallback(
+        (file: File): boolean => {
+            if (!file.type.startsWith("image/")) {
+                showError("Please select a valid image.");
+                return false;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                showError("Image size must be less than 5MB.");
+                return false;
+            }
+
+            return true;
+        },
+        [showError]
+    );
+
+    const handleImageChange = useCallback(
+        (
+            event: React.ChangeEvent<HTMLInputElement>,
+            type: "user" | "agency"
+        ) => {
+            const file = event.target.files?.[0];
+
+            if (!file || !validateImage(file)) {
+                return;
+            }
+
+            const preview = URL.createObjectURL(file);
+
+            if (type === "user") {
+                setUserImage(file);
+                setUserImagePreview(preview);
+            } else {
+                setAgencyImage(file);
+                setAgencyImagePreview(preview);
+            }
+        },
+        [validateImage]
+    );
+
+    const handleUserImageChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            handleImageChange(event, "user");
+        },
+        [handleImageChange]
+    );
+
+    const handleAgencyImageChange = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            handleImageChange(event, "agency");
+        },
+        [handleImageChange]
+    );
+
+    const resetUserImage = useCallback(() => {
+        setUserImage(null);
+
+        setUserImagePreview(
+            getImageUrl(profile?.ProfileImage)
+        );
+    }, [profile?.ProfileImage]);
+
+    const resetAgencyImage = useCallback(() => {
+        setAgencyImage(null);
+
+        setAgencyImagePreview(
+            getImageUrl(profile?.Agency?.ProfileImage)
+        );
+    }, [profile?.Agency?.ProfileImage]);
+
+    // ==========================================================
+    // LOAD PROFILE
+    // ==========================================================
+
     const loadProfile = useCallback(async () => {
         try {
             setLoading(true);
@@ -141,20 +281,22 @@ export function useAdminProfile() {
 
             setProfile(data);
             setProfileTheme(data.ProfileTheme);
+
             reset(getProfileFormValues(data));
 
             setUserImagePreview(
-                getImageUrl(data.ProfileImage) || null
+                getImageUrl(data.ProfileImage)
             );
 
             setAgencyImagePreview(
-                getImageUrl(data.Agency?.ProfileImage) || null
+                getImageUrl(data.Agency?.ProfileImage)
             );
-        } catch (error: any) {
+        } catch (error) {
             showError(
-                error?.response?.data?.error ||
-                error?.response?.data?.message ||
-                "Failed to load profile."
+                getErrorMessage(
+                    error,
+                    "Failed to load profile."
+                )
             );
         } finally {
             setLoading(false);
@@ -165,53 +307,9 @@ export function useAdminProfile() {
         loadProfile();
     }, [loadProfile]);
 
-
-    const openModal = useCallback(
-        (modal: Exclude<ActiveModal, null>) => {
-            setActiveModal(modal);
-        },
-        []
-    );
-
-    const closeModal = useCallback(() => {
-        setActiveModal(null);
-
-        if (activeModal === "password") {
-            resetPassword();
-        }
-    }, [activeModal, resetPassword]);
-
-    const onSubmitPassword = useCallback(
-        async (values: PasswordFormValues) => {
-            try {
-                setChangingPassword(true);
-
-                await changeUserPassword({
-                    current_password: values.currentPassword,
-                    new_password: values.newPassword,
-                });
-
-                showSuccess("Password changed successfully.");
-
-                resetPassword();
-                setActiveModal(null);
-            }
-            catch (error: any) {
-                showError(
-                    error?.response?.data?.error ||
-                    error?.response?.data?.message ||
-                    "Failed to change password."
-                );
-            } finally {
-                setChangingPassword(false);
-            }
-        },
-        [
-            resetPassword,
-            showError,
-            showSuccess,
-        ]
-    );
+    // ==========================================================
+    // UPDATE PROFILE
+    // ==========================================================
 
     const onSubmitProfile = useCallback(
         async (values: AdminProfileFormValues) => {
@@ -220,11 +318,12 @@ export function useAdminProfile() {
             try {
                 setSaving(true);
 
-                const payload = {
+                await updateUserProfile({
                     full_name: values.fullName.trim(),
                     email: values.email.trim(),
                     phone: values.phone.trim(),
                     biography: values.biography.trim(),
+
                     profile_theme: profileTheme,
 
                     agency_name: values.agencyName.trim(),
@@ -234,153 +333,104 @@ export function useAdminProfile() {
                     description: values.agencyDescription.trim(),
                     website: values.agencyWebsite.trim(),
                     location: values.agencyLocation.trim(),
-                };
+                });
 
-                await updateUserProfile(payload);
-
-                if (userImage) { await uploadUserProfileImage(userImage) }
-                if (agencyImage) { await uploadAgencyProfileImage(agencyImage) }
-                const updatedProfile = await fetchUserProfile();
-
-                setProfile(updatedProfile);
-                setProfileTheme(updatedProfile.ProfileTheme);
-
-                reset(getProfileFormValues(updatedProfile));
-
-                showSuccess("Profile updated successfully.");
-                setActiveModal(null);
-
-            }
-            catch (error: any) {
-                showError(
-                    error?.response?.data?.error ||
-                    error?.response?.data?.message ||
-                    "Failed to update profile."
-                );
-            } finally { setSaving(false); }
-        }, [profile, profileTheme, userImage, agencyImage, reset, showError, showSuccess]
-    );
-
-    const handleUserImageChange = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            const file = event.target.files?.[0];
-
-            if (!file) return;
-
-            if (!file.type.startsWith("image/")) {
-                showError("Please select a valid image.");
-                return;
-            }
-
-            if (file.size > 5 * 1024 * 1024) {
-                showError("Image size must be less than 5MB.");
-                return;
-            }
-
-            setUserImage(file);
-
-            const preview = URL.createObjectURL(file);
-
-            setUserImagePreview(preview);
-        },
-        [showError]
-    );
-
-    const handleAgencyImageChange = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            const file = event.target.files?.[0];
-
-            if (!file) return;
-
-            if (!file.type.startsWith("image/")) {
-                showError("Please select a valid image.");
-                return;
-            }
-
-            if (file.size > 5 * 1024 * 1024) {
-                showError("Image size must be less than 5MB.");
-                return;
-            }
-
-            setAgencyImage(file);
-
-            const preview = URL.createObjectURL(file);
-
-            setAgencyImagePreview(preview);
-        },
-        [showError]
-    );
-
-    const resetUserImage = useCallback(() => {
-        setUserImage(null);
-        setUserImagePreview(
-            getImageUrl(profile?.ProfileImage)
-        );
-    }, [profile?.ProfileImage]);
-
-    const resetAgencyImage = useCallback(() => {
-        setAgencyImage(null);
-        setAgencyImagePreview(
-            getImageUrl(profile?.Agency?.ProfileImage)
-        );
-    }, [profile?.Agency?.ProfileImage]);
-
-    const uploadUserImage = useCallback(async () => {
-        if (!userImage) return;
-
-        try {
-            const response = await uploadUserProfileImage(userImage);
-
-            setProfile((current) => {
-                if (!current) return current;
-
-                return {
-                    ...current,
-                    ProfileImage: response.profile_image,
-                };
-            });
-
-            setUserImagePreview(
-                getImageUrl(response.profile_image)
-            );
-            setUserImage(null);
-            setActiveModal(null);
-            showSuccess("Profile image selected.");
-        }
-        catch (error: any) { showError(error?.response?.data?.error || "Failed to upload profile image.") }
-    }, [userImage, showError, showSuccess]);
-
-    const uploadAgencyImage = useCallback(async () => {
-        if (!agencyImage) return;
-
-        try {
-            const response = await uploadAgencyProfileImage(agencyImage);
-
-            setProfile((current) => {
-                if (!current || !current.Agency) {
-                    return current;
+                if (userImage) {
+                    await uploadUserProfileImage(userImage);
                 }
 
-                return {
-                    ...current,
+                if (agencyImage) {
+                    await uploadAgencyProfileImage(agencyImage);
+                }
 
-                    Agency: {
-                        ...current.Agency,
-                        ProfileImage: response.profile_image,
-                    },
-                };
-            });
+                const updatedProfile =
+                    await fetchUserProfile();
 
-            setAgencyImagePreview(
-                getImageUrl(response.profile_image)
-            );
-            setAgencyImage(null);
-            setActiveModal(null);
+                setProfile(updatedProfile);
+                setProfileTheme(
+                    updatedProfile.ProfileTheme
+                );
 
-            showSuccess("Agency image updated successfully.");
-        }
-        catch (error: any) { showError(error?.response?.data?.error || "Failed to upload agency image.") }
-    }, [agencyImage, showError, showSuccess]);
+                reset(
+                    getProfileFormValues(updatedProfile)
+                );
+
+                setUserImage(null);
+                setAgencyImage(null);
+
+                showSuccess(
+                    "Profile updated successfully."
+                );
+
+                closeModal();
+            } catch (error) {
+                showError(
+                    getErrorMessage(
+                        error,
+                        "Failed to update profile."
+                    )
+                );
+            } finally {
+                setSaving(false);
+            }
+        },
+        [
+            profile,
+            profileTheme,
+            userImage,
+            agencyImage,
+            reset,
+            closeModal,
+            showError,
+            showSuccess,
+        ]
+    );
+
+    // ==========================================================
+    // CHANGE PASSWORD
+    // ==========================================================
+
+    const onSubmitPassword = useCallback(
+        async (values: PasswordFormValues) => {
+            try {
+                await changeUserPassword({
+                    current_password:
+                        values.currentPassword,
+                    new_password:
+                        values.newPassword,
+                    confirm_password:
+                        values.confirmPassword,
+                });
+
+                resetPassword();
+                closeModal();
+
+                showSuccess(
+                    "Password changed successfully."
+                );
+            } catch (error) {
+                showError(
+                    getErrorMessage(
+                        error,
+                        "Failed to change password."
+                    )
+                );
+            }
+        },
+        [
+            resetPassword,
+            closeModal,
+            showError,
+            showSuccess,
+        ]
+    );
+
+    // ==========================================================
+    // LOGOUT
+    // ==========================================================
+
+    const [loggingOut, setLoggingOut] =
+        useState(false);
 
     const handleLogout = useCallback(async () => {
         try {
@@ -389,62 +439,111 @@ export function useAdminProfile() {
             await authService.logout();
 
             window.location.href = "/login";
-        } catch (error: any) {
+        } catch (error) {
             showError(
-                error?.response?.data?.error ||
-                "Logout failed."
+                getErrorMessage(
+                    error,
+                    "Logout failed."
+                )
             );
 
             setLoggingOut(false);
         }
     }, [showError]);
 
-    const handleDeleteAccount = useCallback(async () => {
-        try {
-            setDeletingAccount(true);
+    // ==========================================================
+    // DELETE ACCOUNT
+    // ==========================================================
 
-            /*
-             * TODO:
-             *
-             * await deleteAccount();
-             */
+    const [deletingAccount, setDeletingAccount] =
+        useState(false);
 
-            window.location.href = "/goodbye";
-        }
-        catch (error: any) { showError(error?.response?.data?.error || "Failed to delete account.") }
-        finally { setDeletingAccount(false) }
-    }, [showError]);
+    const handleDeleteAccount = useCallback(
+        async () => {
+            try {
+                setDeletingAccount(true);
+
+                await deleteUserAccount();
+
+                localStorage.removeItem(
+                    "accessToken"
+                );
+
+                window.dispatchEvent(
+                    new Event("auth:logout")
+                );
+
+                window.location.href = "/login";
+            } catch (error) {
+                showError(
+                    getErrorMessage(
+                        error,
+                        "Failed to delete account."
+                    )
+                );
+
+                setDeletingAccount(false);
+            }
+        },
+        [showError]
+    );
+
+    // ==========================================================
+    // RETURN
+    // ==========================================================
 
     return {
-        profile, loading,
+        // Profile
+        profile,
+        loading,
 
-        profileTheme, setProfileTheme,
+        // Profile modal
+        activeModal,
+        openModal,
+        closeModal,
 
-        activeModal, openModal, closeModal, setActiveModal,
+        // Profile form
+        profileTheme,
+        setProfileTheme,
 
-        showDeleteConfirm, setShowDeleteConfirm,
-        successMessage, errorMessage,
+        register,
+        handleSubmit,
+        onSubmitProfile,
+        profileErrors,
+        saving,
 
-        register, handleSubmit, onSubmitProfile,
-        profileErrors, profileIsDirty, saving,
+        // Images
+        userImage,
+        agencyImage,
 
-        registerPassword, handlePasswordSubmit, onSubmitPassword,
-        passwordErrors, changingPassword, getValues,
+        userImagePreview,
+        agencyImagePreview,
 
-        userImage, agencyImage,
+        handleUserImageChange,
+        handleAgencyImageChange,
 
-        userImagePreview, agencyImagePreview,
+        resetUserImage,
+        resetAgencyImage,
 
-        handleUserImageChange, handleAgencyImageChange,
+        // Password
+        registerPassword,
+        handlePasswordSubmit,
+        onSubmitPassword,
+        passwordErrors,
+        changingPassword,
 
-        uploadUserImage, uploadAgencyImage,
+        // Notifications
+        successMessage,
+        errorMessage,
 
-        resetUserImage, resetAgencyImage,
+        // Logout
+        handleLogout,
+        loggingOut,
 
-        handleLogout, loggingOut,
-
-        handleDeleteAccount, deletingAccount,
-
-        loadProfile,
+        // Delete
+        showDeleteConfirm,
+        setShowDeleteConfirm,
+        handleDeleteAccount,
+        deletingAccount,
     };
 }

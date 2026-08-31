@@ -1,5 +1,4 @@
 import {
-    PROFILE_THEMES,
     ProfileTheme,
     isProfileTheme,
 } from "@/_constants/theme/profile";
@@ -87,6 +86,7 @@ interface UpdateProfilePayload {
 interface ChangePasswordPayload {
     current_password: string;
     new_password: string;
+    confirm_password: string;
 }
 
 interface UploadImageResponse {
@@ -150,6 +150,10 @@ export async function updateUserProfile(payload: UpdateProfilePayload): Promise<
 
 export async function changeUserPassword(payload: ChangePasswordPayload): Promise<void> {
     await api.patch("/api/v1/agency-admin/profile/password", payload);
+}
+
+export async function deleteUserAccount(): Promise<void> {
+    await api.delete("/api/v1/agency-admin/profile");
 }
 
 export async function uploadUserProfileImage(file: File): Promise<UploadImageResponse> {

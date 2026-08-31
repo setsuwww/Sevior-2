@@ -1,52 +1,45 @@
 "use client";
 
-import { CheckCircle, XCircle } from "lucide-react";
+import {
+    CheckCircle,
+    XCircle,
+} from "lucide-react";
 
 import { useAdminProfile } from "../logic/useAdminProfile";
 
 import UserSection from "../components/SectionUser";
 import AgencySection from "../components/SectionAgency";
 import ProfileFooter from "../components/ProfileFooterSection";
-
 import ProfileModal from "../components/ProfileModal";
+import { ChangePasswordDialog } from "./modals/ChangePassword";
+import { DeleteAccountDialog } from "./modals/DeleteAccount";
 
 export function AdminProfilePage() {
     const {
-        profile,
-        loading,
+        profile, loading,
 
-        activeModal,
-        openModal,
-        closeModal,
+        activeModal, openModal, closeModal,
 
         profileTheme, setProfileTheme,
-        setShowDeleteConfirm,
 
-        successMessage,
-        errorMessage,
+        successMessage, errorMessage,
 
-        register,
-        handleSubmit,
-        onSubmitProfile,
-        profileErrors,
-        saving,
+        register, handleSubmit, onSubmitProfile, profileErrors, saving,
 
-        userImage,
-        agencyImage,
+        userImage, agencyImage,
+        userImagePreview, agencyImagePreview,
 
-        userImagePreview,
-        agencyImagePreview,
+        handleUserImageChange, handleAgencyImageChange,
+        resetUserImage, resetAgencyImage,
 
-        handleUserImageChange,
-        handleAgencyImageChange,
+        handleLogout, loggingOut,
 
-        resetUserImage,
-        resetAgencyImage,
+        // Password
+        registerPassword, handlePasswordSubmit,
+        onSubmitPassword, passwordErrors, changingPassword,
 
-        handleLogout,
-        loggingOut,
-
-        setActiveModal,
+        // Delete
+        showDeleteConfirm, setShowDeleteConfirm, handleDeleteAccount, deletingAccount,
     } = useAdminProfile();
 
     if (loading) {
@@ -77,7 +70,6 @@ export function AdminProfilePage() {
 
     return (
         <div className="min-h-screen">
-            {/* Success */}
             {successMessage && (
                 <div className="fixed right-4 top-4 z-[100]">
                     <div className="rounded-sm border border-green-200 bg-green-50 p-4 shadow-lg">
@@ -92,7 +84,6 @@ export function AdminProfilePage() {
                 </div>
             )}
 
-            {/* Error */}
             {errorMessage && (
                 <div className="fixed right-4 top-4 z-[100]">
                     <div className="rounded-sm border border-red-200 bg-red-50 p-4 shadow-lg">
@@ -107,28 +98,20 @@ export function AdminProfilePage() {
                 </div>
             )}
 
+
             <div className="mx-auto">
                 <div className="overflow-hidden rounded-sm border border-olive-200 bg-white shadow-sm">
+
                     {/* User */}
-                    <UserSection
-                        profile={profile}
-                        userImagePreview={userImagePreview}
-                        onEditProfile={() =>
-                            openModal("edit")
-                        }
-                        onEditPhoto={() =>
-                            openModal("edit")
-                        }
+                    <UserSection profile={profile} userImagePreview={userImagePreview}
+                        onEdit={() => openModal("edit")}
                     />
 
                     {/* Agency */}
                     {profile.Agency && (
                         <div className="px-8">
-                            <AgencySection
-                                agency={profile.Agency}
-                                agencyImagePreview={
-                                    agencyImagePreview
-                                }
+                            <AgencySection agency={profile.Agency}
+                                agencyImagePreview={agencyImagePreview}
                             />
                         </div>
                     )}
@@ -136,48 +119,72 @@ export function AdminProfilePage() {
                     {/* Footer */}
                     <div className="px-8 pb-8">
                         <ProfileFooter
-                            onChangePassword={() =>
-                                openModal("password")
-                            }
+                            onChangePassword={() => openModal("password")}
                             onLogout={handleLogout}
-                            onDeleteAccount={() =>
-                                setShowDeleteConfirm(true)
-                            }
+                            onDeleteAccount={() => setShowDeleteConfirm(true)}
                             loggingOut={loggingOut}
                         />
                     </div>
                 </div>
             </div>
 
+            {/* ==================================================
+                EDIT PROFILE
+            ================================================== */}
+
             {activeModal === "edit" && (
-                <ProfileModal
-                    profile={profile}
+                <ProfileModal profile={profile}
 
                     profileTheme={profileTheme}
                     onProfileThemeChange={setProfileTheme}
 
                     userImage={userImage}
                     agencyImage={agencyImage}
+
                     userImagePreview={userImagePreview}
                     agencyImagePreview={agencyImagePreview}
+
                     onUserImageChange={handleUserImageChange}
                     onAgencyImageChange={handleAgencyImageChange}
+
                     onSubmit={handleSubmit(onSubmitProfile)}
+
                     onClose={() => {
                         resetUserImage();
                         resetAgencyImage();
-                        setActiveModal(null);
+                        closeModal();
                     }}
+
                     register={register}
                     errors={profileErrors}
                     saving={saving}
+
                     resetUserImage={resetUserImage}
                     resetAgencyImage={resetAgencyImage}
                 />
             )}
 
-            {/* Password + Delete Modal */}
-            {/* Tetap gunakan modal component yang sudah lu punya / kita pisahkan berikutnya */}
+            <ChangePasswordDialog
+                open={activeModal === "password"}
+                onClose={() => {
+                    closeModal();
+                }}
+                register={registerPassword}
+                errors={passwordErrors}
+                onSubmit={handlePasswordSubmit(
+                    onSubmitPassword
+                )}
+                submitting={changingPassword}
+            />
+
+            <DeleteAccountDialog
+                open={showDeleteConfirm}
+                onClose={() =>
+                    setShowDeleteConfirm(false)
+                }
+                onConfirm={handleDeleteAccount}
+                deleting={deletingAccount}
+            />
         </div>
     );
 }

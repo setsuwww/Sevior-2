@@ -52,7 +52,7 @@ export default function ProfileFooterSection({
                 <Button
                     type="button"
                     onClick={onDeleteAccount}
-                    variant="outline"
+                    variant="destructive"
                     size="sm"
                     className="text-red-500"
                 >

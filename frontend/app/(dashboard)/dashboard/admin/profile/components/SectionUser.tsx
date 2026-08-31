@@ -1,7 +1,6 @@
 "use client";
 
 import {
-    Camera,
     FileText,
     Mail,
     Phone,
@@ -25,11 +24,10 @@ interface UserProfile {
 interface UserSectionProps {
     profile: UserProfile;
     userImagePreview: string | null;
-    onEditProfile: () => void;
-    onEditPhoto: () => void;
+    onEdit: () => void;
 }
 
-export default function SectionUser({ profile, userImagePreview, onEditProfile, onEditPhoto }: UserSectionProps) {
+export default function SectionUser({ profile, userImagePreview, onEdit }: UserSectionProps) {
     const theme = PROFILE_THEMES[profile.ProfileTheme];
 
     return (
@@ -55,7 +53,7 @@ export default function SectionUser({ profile, userImagePreview, onEditProfile, 
 
                         <button
                             type="button"
-                            onClick={onEditPhoto}
+                            onClick={onEdit}
                             className="absolute bottom-0 right-0 rounded-full border-2 border-white bg-teal-600 p-2 shadow-md transition-colors hover:bg-teal-700"
                         >
                             <SquarePen className="h-4 w-4 text-white" />
@@ -96,7 +94,7 @@ export default function SectionUser({ profile, userImagePreview, onEditProfile, 
 
                     <button
                         type="button"
-                        onClick={onEditProfile}
+                        onClick={onEdit}
                         className="flex items-center justify-center gap-2 rounded-sm bg-teal-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-teal-700"
                     >
                         <SquarePen className="h-4 w-4" />
