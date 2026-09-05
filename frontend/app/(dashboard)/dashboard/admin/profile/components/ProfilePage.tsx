@@ -13,6 +13,7 @@ import ProfileFooter from "../components/ProfileFooterSection";
 import ProfileModal from "../components/ProfileModal";
 import { ChangePasswordDialog } from "./modals/ChangePassword";
 import { DeleteAccountDialog } from "./modals/DeleteAccount";
+import ProfileSkeleton from "../skeleton";
 
 export function AdminProfilePage() {
     const {
@@ -42,13 +43,7 @@ export function AdminProfilePage() {
         showDeleteConfirm, setShowDeleteConfirm, handleDeleteAccount, deletingAccount,
     } = useAdminProfile();
 
-    if (loading) {
-        return (
-            <div className="flex min-h-screen items-center justify-center bg-olive-50">
-                <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-teal-600" />
-            </div>
-        );
-    }
+    if (loading) { return <ProfileSkeleton /> }
 
     if (!profile) {
         return (

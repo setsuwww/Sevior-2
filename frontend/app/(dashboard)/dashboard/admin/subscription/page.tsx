@@ -12,7 +12,7 @@ import { CalendarHeart } from "lucide-react";
 export default function SubscriptionPage() {
     const { data, subscription, recentPayments, isExpired, isLoading, error } = useAdminSubscription();
 
-    if (isLoading) { return (<SubscriptionSkeleton />) }
+    if (isLoading) { return <SubscriptionSkeleton /> }
 
     if (error) {
         return (
