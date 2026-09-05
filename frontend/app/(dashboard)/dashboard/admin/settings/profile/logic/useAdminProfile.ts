@@ -11,7 +11,7 @@ import {
     uploadAgencyProfileImage,
     changeUserPassword,
     deleteUserAccount,
-} from "@/_lib/services/admin/profile.service";
+} from "@/_lib/services/admin/settings/profile.service";
 
 import { authService } from "@/_lib/services/auth.service";
 import { getImageUrl } from "@/_lib/helpers/url-image";

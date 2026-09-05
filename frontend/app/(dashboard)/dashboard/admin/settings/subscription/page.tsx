@@ -8,6 +8,7 @@ import { useAdminSubscription } from "./logic/useAdminSubscription";
 
 import SubscriptionSkeleton from "./skeleton";
 import { CalendarHeart } from "lucide-react";
+import { SectionHeader } from "@/_components/ui/common/SectionHeader";
 
 export default function SubscriptionPage() {
     const { data, subscription, recentPayments, isExpired, isLoading, error } = useAdminSubscription();
@@ -33,21 +34,11 @@ export default function SubscriptionPage() {
     return (
         <div className="space-y-6 p-6">
             {/* Header */}
-            <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm bg-teal-700 shadow-sm">
-                    <CalendarHeart className="h-6 w-6 text-white" />
-                </div>
-
-                <div>
-                    <h1 className="text-2xl font-bold tracking-tight text-olive-900">
-                        Subscription
-                    </h1>
-
-                    <p className="mt-1 text-sm text-olive-500">
-                        Kelola subscription dan lihat informasi billing agency kamu.
-                    </p>
-                </div>
-            </div>
+            <SectionHeader
+                icon={CalendarHeart}
+                title="Subscription"
+                description="Kelola subscription dan lihat informasi billing agency kamu."
+            />
 
             {/* Stats */}
             <SubscriptionStats subscription={subscription} isExpired={isExpired} />

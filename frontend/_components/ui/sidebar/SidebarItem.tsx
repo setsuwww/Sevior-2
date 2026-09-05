@@ -27,7 +27,7 @@ export function SidebarItem({ title, href, icon: Icon, isCollapsed }: SidebarIte
                 className={`flex items-center rounded-md transition-colors relative group h-10 ${isCollapsed ? "justify-center w-10 mx-auto" : "px-3"
                     } ${isActive
                         ? "text-olive-800 font-medium"
-                        : "text-olive-500 hover:text-olive-900 hover:bg-olive-100 font-normal"
+                        : "text-olive-500 hover:text-olive-900 hover:bg-olive-900 font-normal"
                     }`}
             >
                 {Icon && (

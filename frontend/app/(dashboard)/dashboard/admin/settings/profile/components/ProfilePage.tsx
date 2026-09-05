@@ -7,10 +7,10 @@ import {
 
 import { useAdminProfile } from "../logic/useAdminProfile";
 
-import UserSection from "../components/SectionUser";
-import AgencySection from "../components/SectionAgency";
-import ProfileFooter from "../components/ProfileFooterSection";
-import ProfileModal from "../components/ProfileModal";
+import UserSection from "./SectionUser";
+import AgencySection from "./SectionAgency";
+import ProfileFooter from "./ProfileFooterSection";
+import ProfileModal from "./ProfileModal";
 import { ChangePasswordDialog } from "./modals/ChangePassword";
 import { DeleteAccountDialog } from "./modals/DeleteAccount";
 import ProfileSkeleton from "../skeleton";

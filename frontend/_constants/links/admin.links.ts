@@ -57,12 +57,12 @@ export const adminLinks = [
                     {
                         icon: User,
                         title: "Profile",
-                        href: "/dashboard/admin/profile"
+                        href: "/dashboard/admin/settings/profile"
                     },
                     {
                         icon: DollarSign,
                         title: "Subscription",
-                        href: "/dashboard/admin/subscription"
+                        href: "/dashboard/admin/settings/subscription"
                     }
                 ]
             }

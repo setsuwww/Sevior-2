@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
     fetchSubscription,
     SubscriptionResponse,
-} from "@/_lib/services/admin/subscription.service";
+} from "@/_lib/services/admin/settings/subscription.service";
 
 export function formatCurrency(value: number) {
     return new Intl.NumberFormat("id-ID", {

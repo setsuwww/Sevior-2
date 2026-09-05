@@ -19,7 +19,7 @@ export default function AppSidebar() {
 
     if (!mounted || isLoading) return null;
 
-    let links = [];
+    let links: any[] = [];
 
     if (user?.Role === "SUPER_ADMIN") {
         links = superAdminLinks;

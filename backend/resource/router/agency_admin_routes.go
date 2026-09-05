@@ -12,10 +12,6 @@ import (
 )
 
 func AgencyAdminRoutes(r *gin.Engine, db *gorm.DB) {
-	// ==========================================================
-	// PROFILE
-	// ==========================================================
-
 	profileRepo := &adminRepo.ProfileRepository{
 		DB: db,
 	}
@@ -28,10 +24,6 @@ func AgencyAdminRoutes(r *gin.Engine, db *gorm.DB) {
 		Service: profileService,
 	}
 
-	// ==========================================================
-	// SUBSCRIPTION
-	// ==========================================================
-
 	subscriptionRepo := &adminRepo.SubscriptionRepository{
 		DB: db,
 	}
@@ -42,6 +34,18 @@ func AgencyAdminRoutes(r *gin.Engine, db *gorm.DB) {
 
 	subscriptionController := &adminCtrl.SubscriptionController{
 		Service: subscriptionService,
+	}
+
+	developerRepo := &adminRepo.DeveloperRepository{
+		DB: db,
+	}
+
+	developerService := &adminService.DeveloperService{
+		Repo: developerRepo,
+	}
+
+	developerController := &adminCtrl.DeveloperController{
+		Service: developerService,
 	}
 
 	// ==========================================================
@@ -56,7 +60,6 @@ func AgencyAdminRoutes(r *gin.Engine, db *gorm.DB) {
 	)
 
 	{
-		// Profile
 		adminGroup.GET("/profile", profileController.GetProfile)
 		adminGroup.PATCH("/profile", profileController.UpdateProfile)
 		adminGroup.PATCH("/profile/password", profileController.ChangePassword)
@@ -64,7 +67,13 @@ func AgencyAdminRoutes(r *gin.Engine, db *gorm.DB) {
 		adminGroup.PATCH("/profile/agency-image", profileController.UploadAgencyProfileImage)
 		adminGroup.DELETE("/profile", profileController.DeleteAccount)
 
-		// Subscription
 		adminGroup.GET("/subscription", subscriptionController.GetSubscription)
+
+		adminGroup.GET("/developers", developerController.GetDevelopers)
+		adminGroup.GET("/developers/:id", developerController.GetDeveloperByID)
+		adminGroup.POST("/developers", developerController.CreateDeveloper)
+		adminGroup.PATCH("/developers/:id", developerController.UpdateDeveloper)
+		adminGroup.DELETE("/developers/:id", developerController.DeleteDeveloper)
 	}
+
 }
