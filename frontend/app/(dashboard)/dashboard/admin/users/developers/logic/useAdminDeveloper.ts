@@ -16,19 +16,22 @@ import {
     updateDeveloper,
     type Developer,
 } from "@/_lib/services/admin/users/developer.service";
+import { getErrorMessage } from "./adminDeveloperHelpers";
 
 export type DeveloperForm = {
     full_name: string;
     email: string;
     phone: string;
+    password: string;
     biography: string;
     is_active: boolean;
 };
 
-const emptyForm: DeveloperForm = {
+const INITIAL_FORM: DeveloperForm = {
     full_name: "",
     email: "",
     phone: "",
+    password: "password123",
     biography: "",
     is_active: true,
 };
@@ -52,10 +55,12 @@ export function useAdminDeveloper() {
     const [detailLoading, setDetailLoading] = useState(false);
 
     const [deleteTarget, setDeleteTarget] = useState<Developer | null>(null);
-    const [form, setForm] = useState<DeveloperForm>(emptyForm);
+    const [form, setForm] = useState<DeveloperForm>(INITIAL_FORM);
 
     const [error, setError] = useState("");
     const [formError, setFormError] = useState("");
+
+    const [copiedField, setCopiedField] = useState<string | null>(null);
 
     // ==========================================================
     // LOAD DEVELOPERS
@@ -102,7 +107,7 @@ export function useAdminDeveloper() {
 
     const handleOpenCreate = useCallback(() => {
         setEditingDeveloper(null);
-        setForm(emptyForm);
+        setForm(INITIAL_FORM);
         setFormError("");
         setShowForm(true);
     }, []);
@@ -119,6 +124,7 @@ export function useAdminDeveloper() {
                 full_name: developer.FullName,
                 email: developer.Email,
                 phone: developer.Phone,
+                password: "",
                 biography: developer.Biography,
                 is_active: developer.IsActive,
             });
@@ -140,7 +146,7 @@ export function useAdminDeveloper() {
 
         setShowForm(false);
         setEditingDeveloper(null);
-        setForm(emptyForm);
+        setForm(INITIAL_FORM);
         setFormError("");
     }, [submitting]);
 
@@ -212,18 +218,20 @@ export function useAdminDeveloper() {
 
                 else {
                     await createDeveloper({
-                        full_name: fullName,
-                        email,
-                        phone,
-                        biography,
+                        full_name: form.full_name.trim(),
+                        email: form.email.trim(),
+                        phone: form.phone.trim(),
+                        password: form.password,
+                        biography: form.biography.trim(),
                     });
+
                 }
 
                 await loadDevelopers();
 
                 setShowForm(false);
                 setEditingDeveloper(null);
-                setForm(emptyForm);
+                setForm(INITIAL_FORM);
                 setFormError("");
             } catch (err) {
                 console.error(err);
@@ -354,6 +362,27 @@ export function useAdminDeveloper() {
         setError("");
     }, []);
 
+    const handleCopy = useCallback(
+        async (value: string, field: string) => {
+            if (!value) {
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(value);
+
+                setCopiedField(field);
+
+                setTimeout(() => {
+                    setCopiedField(null);
+                }, 1500);
+            } catch (err) {
+                console.error("Failed to copy:", err);
+            }
+        },
+        []
+    );
+
     // ==========================================================
     // RETURN
     // ==========================================================
@@ -388,6 +417,10 @@ export function useAdminDeveloper() {
         // General error
         error,
 
+        // Copy
+        copiedField,
+        handleCopy,
+
         // Actions
         loadDevelopers,
         handleOpenCreate,
@@ -405,85 +438,4 @@ export function useAdminDeveloper() {
 
         handleClearError,
     };
-}
-
-// ==========================================================
-// HELPERS
-// ==========================================================
-
-export function getInitials(name: string) {
-    const words = name
-        .trim()
-        .split(/\s+/)
-        .filter(Boolean);
-
-    if (words.length === 0) {
-        return "?";
-    }
-
-    if (words.length === 1) {
-        return words[0].slice(0, 2).toUpperCase();
-    }
-
-    return `${words[0][0]}${words[words.length - 1][0]}`.toUpperCase();
-}
-
-export function formatDate(date: string) {
-    if (!date) {
-        return "-";
-    }
-
-    const parsedDate = new Date(date);
-
-    if (Number.isNaN(parsedDate.getTime())) {
-        return date;
-    }
-
-    return parsedDate.toLocaleString("id-ID", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-    });
-}
-
-export function getErrorMessage(
-    error: unknown,
-    fallback: string
-) {
-    if (
-        typeof error === "object" &&
-        error !== null
-    ) {
-        const axiosError = error as {
-            response?: {
-                data?: {
-                    error?: string;
-                    message?: string;
-                };
-            };
-            message?: string;
-        };
-
-        const responseError =
-            axiosError.response?.data?.error;
-
-        if (responseError) {
-            return responseError;
-        }
-
-        const responseMessage =
-            axiosError.response?.data?.message;
-
-        if (responseMessage) {
-            return responseMessage;
-        }
-
-        if (axiosError.message) {
-            return axiosError.message;
-        }
-    }
-
-    return fallback;
 }

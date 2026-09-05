@@ -16,219 +16,124 @@ type DeveloperService struct {
 	Repo *adminRepo.DeveloperRepository
 }
 
-func NewDeveloperService(
-	repo *adminRepo.DeveloperRepository,
-) *DeveloperService {
-	return &DeveloperService{
-		Repo: repo,
-	}
+func boolPtr(value bool) *bool {
+	return &value
 }
 
-// ==========================================================
-// GET ALL
-// ==========================================================
-
-func (s *DeveloperService) GetDevelopers(
-	agencyID uint,
-) (*adminDTO.DevelopersResponse, error) {
-
-	developers, err := s.Repo.GetDevelopers(agencyID)
-
-	if err != nil {
-		return nil, err
-	}
-
-	response := &adminDTO.DevelopersResponse{
-		Developers: make(
-			[]adminDTO.DeveloperResponse,
-			0,
-			len(developers),
-		),
-	}
-
-	for _, developer := range developers {
-		response.Developers = append(
-			response.Developers,
-			mapDeveloperResponse(developer),
-		)
-	}
-
-	return response, nil
+func NewDeveloperService(repo *adminRepo.DeveloperRepository) *DeveloperService {
+	return &DeveloperService{Repo: repo}
 }
 
-// ==========================================================
-// GET DETAIL
-// ==========================================================
-
-func (s *DeveloperService) GetDeveloperByID(
-	agencyID uint,
-	developerID uint,
-) (*adminDTO.DeveloperResponse, error) {
-
-	developer, err := s.Repo.GetDeveloperByID(
-		agencyID,
-		developerID,
-	)
-
-	if err != nil {
-		return nil, err
-	}
-
-	response := mapDeveloperResponse(*developer)
-
-	return &response, nil
+func (s *DeveloperService) GetDevelopers(agencyID uint) ([]adminModel.User, error) {
+	return s.Repo.GetDevelopers(agencyID)
 }
 
-// ==========================================================
-// CREATE
-// ==========================================================
+func (s *DeveloperService) GetDeveloperByID(agencyID uint, developerID uint) (*adminModel.User, error) {
+	return s.Repo.GetDeveloperByID(agencyID, developerID)
+}
 
-func (s *DeveloperService) CreateDeveloper(
-	agencyID uint,
-	req adminDTO.CreateDeveloperRequest,
-) (*adminDTO.DeveloperResponse, error) {
+func (s *DeveloperService) CreateDeveloper(agencyID uint, req adminDTO.CreateDeveloperRequest) (*adminModel.User, error) {
 
-	req.FullName = strings.TrimSpace(req.FullName)
-	req.Email = strings.TrimSpace(req.Email)
-	req.Phone = strings.TrimSpace(req.Phone)
-	req.Biography = strings.TrimSpace(req.Biography)
+	fullName := strings.TrimSpace(req.FullName)
+	email := strings.TrimSpace(strings.ToLower(req.Email))
+	phone := strings.TrimSpace(req.Phone)
+	biography := strings.TrimSpace(req.Biography)
+	password := strings.TrimSpace(req.Password)
 
-	if req.FullName == "" {
+	if fullName == "" {
 		return nil, errors.New("full name is required")
 	}
-
-	if req.Email == "" {
+	if email == "" {
 		return nil, errors.New("email is required")
 	}
-
-	// ======================================================
-	// CHECK EMAIL
-	// ======================================================
-
-	existingUser, err := s.Repo.FindUserByEmail(
-		req.Email,
-		0,
-	)
-
-	if err == nil && existingUser != nil {
-		return nil, errors.New("email already in use")
+	if phone == "" {
+		return nil, errors.New("phone is required")
+	}
+	if password == "" {
+		return nil, errors.New("password is required")
+	}
+	if biography == "" {
+		biography = "I'm a developer and I love Sevior."
 	}
 
-	if err != nil &&
-		!errors.Is(err, gorm.ErrRecordNotFound) {
-
+	existingUser, err := s.Repo.FindUserByEmail(email, 0)
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
 		return nil, err
 	}
+	if existingUser != nil {
+		return nil, errors.New("email already exists")
+	}
 
-	// ======================================================
-	// DEFAULT PASSWORD
-	// ======================================================
-
-	// Untuk sementara password default.
-	// Nanti bisa kita ubah menjadi generated password
-	// atau invitation flow.
-
-	hashedPassword, err := bcrypt.GenerateFromPassword(
-		[]byte("developer123"),
-		bcrypt.DefaultCost,
-	)
-
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return nil, err
 	}
-
-	isActive := true
 
 	developer := &adminModel.User{
 		AgencyID:  &agencyID,
-		FullName:  req.FullName,
-		Email:     req.Email,
+		FullName:  fullName,
+		Email:     email,
+		Phone:     phone,
 		Password:  string(hashedPassword),
+		Biography: biography,
 		Role:      adminModel.RoleDeveloper,
-		Phone:     req.Phone,
-		Biography: req.Biography,
-		IsActive:  &isActive,
+		IsActive:  boolPtr(true),
 	}
 
 	if err := s.Repo.CreateDeveloper(developer); err != nil {
 		return nil, err
 	}
 
-	response := mapDeveloperResponse(*developer)
-
-	return &response, nil
+	return developer, nil
 }
 
-// ==========================================================
-// UPDATE
-// ==========================================================
+func (s *DeveloperService) UpdateDeveloper(agencyID uint, developerID uint, req adminDTO.UpdateDeveloperRequest) (*adminModel.User, error) {
+	fullName := strings.TrimSpace(req.FullName)
+	email := strings.TrimSpace(strings.ToLower(req.Email))
+	phone := strings.TrimSpace(req.Phone)
+	biography := strings.TrimSpace(req.Biography)
 
-func (s *DeveloperService) UpdateDeveloper(
-	agencyID uint,
-	developerID uint,
-	req adminDTO.UpdateDeveloperRequest,
-) (*adminDTO.DeveloperResponse, error) {
+	if fullName == "" {
+		return nil, errors.New("full name is required")
+	}
 
-	developer, err := s.Repo.GetDeveloperByID(
+	if email == "" {
+		return nil, errors.New("email is required")
+	}
+
+	if phone == "" {
+		return nil, errors.New("phone is required")
+	}
+
+	// Pastikan developer memang milik agency tersebut.
+	_, err := s.Repo.GetDeveloperByID(
 		agencyID,
 		developerID,
 	)
 
 	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errors.New("developer not found")
-		}
-
 		return nil, err
 	}
 
-	req.FullName = strings.TrimSpace(req.FullName)
-	req.Email = strings.TrimSpace(req.Email)
-	req.Phone = strings.TrimSpace(req.Phone)
-	req.Biography = strings.TrimSpace(req.Biography)
+	// Cek email hanya kalau email berubah / dipakai user lain.
+	existingUser, err := s.Repo.FindUserByEmail(
+		email,
+		developerID,
+	)
 
-	if req.FullName == "" {
-		return nil, errors.New("full name is required")
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		return nil, err
 	}
 
-	if req.Email == "" {
-		return nil, errors.New("email is required")
+	if existingUser != nil {
+		return nil, errors.New("email already in use")
 	}
-
-	// ======================================================
-	// CHECK EMAIL
-	// ======================================================
-
-	if !strings.EqualFold(
-		developer.Email,
-		req.Email,
-	) {
-
-		existingUser, err := s.Repo.FindUserByEmail(
-			req.Email,
-			developer.ID,
-		)
-
-		if err == nil && existingUser != nil {
-			return nil, errors.New("email already in use")
-		}
-
-		if err != nil &&
-			!errors.Is(err, gorm.ErrRecordNotFound) {
-
-			return nil, err
-		}
-	}
-
-	// ======================================================
-	// UPDATE DATA
-	// ======================================================
 
 	data := map[string]interface{}{
-		"full_name": req.FullName,
-		"email":     req.Email,
-		"phone":     req.Phone,
-		"biography": req.Biography,
+		"full_name": fullName,
+		"email":     email,
+		"phone":     phone,
+		"biography": biography,
 	}
 
 	if req.IsActive != nil {
@@ -243,58 +148,12 @@ func (s *DeveloperService) UpdateDeveloper(
 		return nil, err
 	}
 
-	updatedDeveloper, err := s.Repo.GetDeveloperByID(
-		agencyID,
-		developerID,
-	)
-
-	if err != nil {
-		return nil, err
-	}
-
-	response := mapDeveloperResponse(
-		*updatedDeveloper,
-	)
-
-	return &response, nil
-}
-
-// ==========================================================
-// DELETE
-// ==========================================================
-
-func (s *DeveloperService) DeleteDeveloper(
-	agencyID uint,
-	developerID uint,
-) error {
-
-	return s.Repo.DeleteDeveloper(
+	return s.Repo.GetDeveloperByID(
 		agencyID,
 		developerID,
 	)
 }
 
-// ==========================================================
-// MAPPER
-// ==========================================================
-
-func mapDeveloperResponse(
-	developer adminModel.User,
-) adminDTO.DeveloperResponse {
-
-	return adminDTO.DeveloperResponse{
-		ID:           developer.ID,
-		AgencyID:     developer.AgencyID,
-		FullName:     developer.FullName,
-		Email:        developer.Email,
-		Phone:        developer.Phone,
-		ProfileImage: developer.ProfileImage,
-		Biography:    developer.Biography,
-		Role:         developer.Role,
-		IsActive: developer.IsActive != nil &&
-			*developer.IsActive,
-		LastLogin: developer.LastLogin,
-		CreatedAt: developer.CreatedAt,
-		UpdatedAt: developer.UpdatedAt,
-	}
+func (s *DeveloperService) DeleteDeveloper(agencyID uint, developerID uint) error {
+	return s.Repo.DeleteDeveloper(agencyID, developerID)
 }

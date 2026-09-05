@@ -18,7 +18,7 @@ export function SectionHeader({
             </div>
 
             <div>
-                <h1 className="text-2xl font-bold tracking-tight text-olive-900">
+                <h1 className="text-2xl font-bold tracking-tight text-olive-600">
                     {title}
                 </h1>
 

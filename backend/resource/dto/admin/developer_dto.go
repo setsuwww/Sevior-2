@@ -24,14 +24,15 @@ type DevelopersResponse struct {
 type CreateDeveloperRequest struct {
 	FullName  string `json:"full_name" binding:"required"`
 	Email     string `json:"email" binding:"required,email"`
-	Phone     string `json:"phone"`
+	Phone     string `json:"phone" binding:"required"`
+	Password  string `json:"password" binding:"required,min=8"`
 	Biography string `json:"biography"`
 }
 
 type UpdateDeveloperRequest struct {
 	FullName  string `json:"full_name" binding:"required"`
 	Email     string `json:"email" binding:"required,email"`
-	Phone     string `json:"phone"`
+	Phone     string `json:"phone" binding:"required"`
 	Biography string `json:"biography"`
 	IsActive  *bool  `json:"is_active"`
 }

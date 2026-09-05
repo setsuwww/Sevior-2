@@ -18,14 +18,7 @@ func NewDeveloperRepository(db *gorm.DB) *DeveloperRepository {
 	}
 }
 
-// ==========================================================
-// GET ALL DEVELOPERS
-// ==========================================================
-
-func (r *DeveloperRepository) GetDevelopers(
-	agencyID uint,
-) ([]adminModel.User, error) {
-
+func (r *DeveloperRepository) GetDevelopers(agencyID uint) ([]adminModel.User, error) {
 	var developers []adminModel.User
 
 	err := r.DB.
@@ -35,8 +28,7 @@ func (r *DeveloperRepository) GetDevelopers(
 			adminModel.RoleDeveloper,
 		).
 		Order("created_at DESC").
-		Find(&developers).
-		Error
+		Find(&developers).Error
 
 	if err != nil {
 		return nil, err
@@ -45,15 +37,7 @@ func (r *DeveloperRepository) GetDevelopers(
 	return developers, nil
 }
 
-// ==========================================================
-// GET DEVELOPER BY ID
-// ==========================================================
-
-func (r *DeveloperRepository) GetDeveloperByID(
-	agencyID uint,
-	developerID uint,
-) (*adminModel.User, error) {
-
+func (r *DeveloperRepository) GetDeveloperByID(agencyID uint, developerID uint) (*adminModel.User, error) {
 	var developer adminModel.User
 
 	err := r.DB.
@@ -63,8 +47,7 @@ func (r *DeveloperRepository) GetDeveloperByID(
 			agencyID,
 			adminModel.RoleDeveloper,
 		).
-		First(&developer).
-		Error
+		First(&developer).Error
 
 	if err != nil {
 		return nil, err
@@ -73,25 +56,16 @@ func (r *DeveloperRepository) GetDeveloperByID(
 	return &developer, nil
 }
 
-// ==========================================================
-// FIND EMAIL
-// ==========================================================
-
-func (r *DeveloperRepository) FindUserByEmail(
-	email string,
-	excludeUserID uint,
-) (*adminModel.User, error) {
-
+func (r *DeveloperRepository) FindUserByEmail(email string, excludeUserID uint) (*adminModel.User, error) {
 	var user adminModel.User
 
-	err := r.DB.
-		Where(
-			"email = ? AND id != ?",
-			email,
-			excludeUserID,
-		).
-		First(&user).
-		Error
+	query := r.DB.Where("email = ?", email)
+
+	if excludeUserID > 0 {
+		query = query.Where("id != ?", excludeUserID)
+	}
+
+	err := query.First(&user).Error
 
 	if err != nil {
 		return nil, err
@@ -100,29 +74,12 @@ func (r *DeveloperRepository) FindUserByEmail(
 	return &user, nil
 }
 
-// ==========================================================
-// CREATE
-// ==========================================================
-
-func (r *DeveloperRepository) CreateDeveloper(
-	developer *adminModel.User,
-) error {
-
+func (r *DeveloperRepository) CreateDeveloper(developer *adminModel.User) error {
 	return r.DB.Create(developer).Error
 }
 
-// ==========================================================
-// UPDATE
-// ==========================================================
-
-func (r *DeveloperRepository) UpdateDeveloper(
-	agencyID uint,
-	developerID uint,
-	data map[string]interface{},
-) error {
-
-	result := r.DB.
-		Model(&adminModel.User{}).
+func (r *DeveloperRepository) UpdateDeveloper(agencyID uint, developerID uint, data map[string]interface{}) error {
+	result := r.DB.Model(&adminModel.User{}).
 		Where(
 			"id = ? AND agency_id = ? AND role = ?",
 			developerID,
@@ -134,15 +91,7 @@ func (r *DeveloperRepository) UpdateDeveloper(
 	return result.Error
 }
 
-// ==========================================================
-// DELETE
-// ==========================================================
-
-func (r *DeveloperRepository) DeleteDeveloper(
-	agencyID uint,
-	developerID uint,
-) error {
-
+func (r *DeveloperRepository) DeleteDeveloper(agencyID uint, developerID uint) error {
 	result := r.DB.
 		Where(
 			"id = ? AND agency_id = ? AND role = ?",
