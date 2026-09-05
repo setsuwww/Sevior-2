@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { Button } from "@/_components/ui/button";
 import { Input } from "@/_components/ui/input";
+import { FormHeader } from "@/_components/ui/common/FormHeader";
 
 interface DeveloperForm {
     full_name: string;
@@ -40,32 +41,23 @@ export function DeveloperCreateForm({
 
     return (
         <div>
-            <div className="mb-4">
-                <Link
-                    href="/dashboard/admin/users/developers"
-                    className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
-                >
-                    <ArrowLeft className="h-4 w-4" />
-                    Back to Developers
-                </Link>
-            </div>
-
             <div className="rounded-sm border border-border bg-card">
-                <div className="border-b border-border px-6 py-5">
-                    <h2 className="text-base font-semibold text-foreground">
-                        Developer Information
-                    </h2>
+                <div className="border-b border-border px-6 py-5 flex items-center justify-between">
+                    <FormHeader
+                        title="Developer Information"
+                        description="Fill in the information below to create a developer account."
+                    />
 
-                    <p className="mt-1 text-sm text-muted-foreground">
-                        Fill in the information below to create a developer
-                        account.
-                    </p>
+                    <Link
+                        href="/dashboard/admin/users/developers"
+                        className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
+                    >
+                        <ArrowLeft className="h-4 w-4" />
+                        Back to Developers
+                    </Link>
                 </div>
 
-                <form
-                    onSubmit={handleSubmit}
-                    className="space-y-5 p-6"
-                >
+                <form onSubmit={handleSubmit} className="space-y-5 p-6">
                     {formError && (
                         <div className="rounded-sm border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
                             {formError}
@@ -163,7 +155,7 @@ export function DeveloperCreateForm({
                                     setShowPassword((value) => !value)
                                 }
                                 disabled={submitting}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-sm p-1.5 text-muted-foreground transition hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
+                                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-sm p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
                                 aria-label={
                                     showPassword
                                         ? "Hide password"
