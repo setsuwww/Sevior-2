@@ -203,11 +203,11 @@ export function useAdminDeveloper() {
                     await updateDeveloper(
                         editingDeveloper.ID,
                         {
-                            FullName: fullName,
-                            Email: email,
-                            Phone: phone,
-                            Biography: biography,
-                            IsActive: form.is_active,
+                            full_name: fullName,
+                            email: email,
+                            phone: phone,
+                            biography: biography,
+                            is_active: form.is_active,
                         }
                     );
                 }
@@ -218,11 +218,11 @@ export function useAdminDeveloper() {
 
                 else {
                     await createDeveloper({
-                        FullName: form.full_name.trim(),
-                        Email: form.email.trim(),
-                        Phone: form.phone.trim(),
-                        Password: form.password,
-                        Biography: form.biography.trim(),
+                        full_name: form.full_name.trim(),
+                        email: form.email.trim(),
+                        phone: form.phone.trim(),
+                        password: form.password,
+                        biography: form.biography.trim(),
                     });
 
                 }

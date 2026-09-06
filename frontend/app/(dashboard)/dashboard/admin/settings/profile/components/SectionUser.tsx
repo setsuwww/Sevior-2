@@ -1,6 +1,7 @@
 "use client";
 
 import {
+    Eye,
     FileText,
     Mail,
     Phone,
@@ -11,6 +12,7 @@ import { Badge } from "@/_components/ui/badge";
 import { ROLE_COLORS } from "@/_constants/theme/user";
 import { PROFILE_THEMES, type ProfileTheme } from "@/_constants/theme/profile";
 import { PlatformRole } from "@/types/User";
+import { ProfileViewer } from "./modals/ProfileViewer";
 
 interface UserProfile {
     FullName: string;
@@ -25,9 +27,12 @@ interface UserSectionProps {
     profile: UserProfile;
     userImagePreview: string | null;
     onEdit: () => void;
+
+    isImagePreviewOpen: boolean;
+    onImagePreviewOpenChange: (open: boolean) => void;
 }
 
-export default function SectionUser({ profile, userImagePreview, onEdit }: UserSectionProps) {
+export default function SectionUser({ profile, userImagePreview, onEdit, isImagePreviewOpen, onImagePreviewOpenChange }: UserSectionProps) {
     const theme = PROFILE_THEMES[profile.ProfileTheme];
 
     return (
@@ -35,21 +40,31 @@ export default function SectionUser({ profile, userImagePreview, onEdit }: UserS
             <div className={`relative h-48 bg-gradient-to-r ${theme.banner}`}>
                 <div className="absolute -bottom-16 left-8">
                     <div className="relative">
-                        <div className="h-32 w-32 overflow-hidden rounded-full border-4 border-white bg-white shadow-lg">
+                        <button
+                            type="button"
+                            onClick={() => onImagePreviewOpenChange(true)}
+                            className="group relative h-32 w-32 overflow-hidden rounded-full border-4 border-white bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                        >
                             {userImagePreview ? (
                                 <img
                                     src={userImagePreview}
                                     alt={profile.FullName}
-                                    className="h-full w-full object-cover"
+                                    className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
                                 />
                             ) : (
-                                <div className={`flex h-full w-full items-center justify-center bg-gradient-to-br ${theme.avatar}`}>
+                                <div
+                                    className={`flex h-full w-full items-center justify-center bg-gradient-to-br ${theme.avatar}`}
+                                >
                                     <span className="text-4xl font-bold text-white">
                                         {profile.FullName?.charAt(0) || "A"}
                                     </span>
                                 </div>
                             )}
-                        </div>
+
+                            <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/0 transition-colors group-hover:bg-black/25">
+                                <Eye strokeWidth={1.5} className="size-6 text-white opacity-0 transition-opacity group-hover:opacity-100" />
+                            </div>
+                        </button>
 
                         <button
                             type="button"
@@ -118,6 +133,14 @@ export default function SectionUser({ profile, userImagePreview, onEdit }: UserS
                     </div>
                 )}
             </div>
+
+            <ProfileViewer
+                open={isImagePreviewOpen}
+                onOpenChange={onImagePreviewOpenChange}
+                fullName={profile.FullName}
+                image={userImagePreview}
+                avatarClassName={theme.avatar}
+            />
         </>
     );
 }

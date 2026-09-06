@@ -55,9 +55,7 @@ const EMPTY_PROFILE_FORM: AdminProfileFormValues = {
     agencyLocation: "",
 };
 
-const getProfileFormValues = (
-    profile: UserProfile
-): AdminProfileFormValues => ({
+const getProfileFormValues = (profile: UserProfile): AdminProfileFormValues => ({
     fullName: profile.FullName || "",
     email: profile.Email || "",
     phone: profile.Phone || "",
@@ -89,8 +87,7 @@ export function useAdminProfile() {
     // ==========================================================
 
     const [profile, setProfile] = useState<UserProfile | null>(null);
-    const [profileTheme, setProfileTheme] =
-        useState<ProfileTheme>("slate-teal");
+    const [profileTheme, setProfileTheme] = useState<ProfileTheme>("slate-teal");
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -99,11 +96,9 @@ export function useAdminProfile() {
     // MODALS
     // ==========================================================
 
-    const [activeModal, setActiveModal] =
-        useState<ActiveModal>(null);
-
-    const [showDeleteConfirm, setShowDeleteConfirm] =
-        useState(false);
+    const [isImagePreviewOpen, setIsImagePreviewOpen] = useState(false);
+    const [activeModal, setActiveModal] = useState<ActiveModal>(null);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     const openModal = useCallback(
         (modal: Exclude<ActiveModal, null>) => {
@@ -496,6 +491,9 @@ export function useAdminProfile() {
         // Profile
         profile,
         loading,
+
+        isImagePreviewOpen,
+        setIsImagePreviewOpen,
 
         // Profile modal
         activeModal,

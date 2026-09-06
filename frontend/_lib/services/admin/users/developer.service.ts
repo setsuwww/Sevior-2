@@ -17,19 +17,19 @@ export interface Developer {
 }
 
 export interface CreateDeveloperPayload {
-    FullName: string;
-    Email: string;
-    Phone: string;
-    Password: string;
-    Biography: string;
+    full_name: string;
+    email: string;
+    phone: string;
+    password: string;
+    biography: string;
 }
 
 export interface UpdateDeveloperPayload {
-    FullName: string;
-    Email: string;
-    Phone: string;
-    Biography: string;
-    IsActive: boolean;
+    full_name: string;
+    email: string;
+    phone: string;
+    biography: string;
+    is_active: boolean;
 }
 
 export async function fetchDevelopers(): Promise<Developer[]> {

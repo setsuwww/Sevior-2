@@ -18,6 +18,8 @@ import ProfileSkeleton from "../skeleton";
 export function AdminProfilePage() {
     const {
         profile, loading,
+        isImagePreviewOpen,
+        setIsImagePreviewOpen,
 
         activeModal, openModal, closeModal,
 
@@ -100,6 +102,8 @@ export function AdminProfilePage() {
                     {/* User */}
                     <UserSection profile={profile} userImagePreview={userImagePreview}
                         onEdit={() => openModal("edit")}
+                        isImagePreviewOpen={isImagePreviewOpen}
+                        onImagePreviewOpenChange={setIsImagePreviewOpen}
                     />
 
                     {/* Agency */}
