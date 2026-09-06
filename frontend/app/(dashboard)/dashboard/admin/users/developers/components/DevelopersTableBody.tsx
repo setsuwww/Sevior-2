@@ -22,7 +22,7 @@ import {
 
 import type { Developer } from "@/_lib/services/admin/users/developer.service";
 import { StatusBadge } from "./StatusBadge";
-import { formatDateShortTime } from "@/_lib/helpers/date-formatter";
+import { formatDate } from "@/_lib/helpers/date-formatter";
 
 interface DevelopersTableBodyProps {
     developers: Developer[];
@@ -147,7 +147,7 @@ export function DevelopersTableBody({
                                 <Calendar className="h-3.5 w-3.5 shrink-0 text-gray-600" />
 
                                 <span className="min-w-0 truncate text-sm">
-                                    {formatDateShortTime(developer.CreatedAt)}
+                                    {formatDate(developer.CreatedAt)}
                                 </span>
                             </div>
 
@@ -156,7 +156,7 @@ export function DevelopersTableBody({
                                 <Calendar className="h-3 w-3 shrink-0 text-gray-400" />
 
                                 <span className="min-w-0 truncate text-xs">
-                                    {formatDateShortTime(developer.UpdatedAt)}
+                                    {formatDate(developer.UpdatedAt)}
                                 </span>
                             </div>
 

@@ -1,10 +1,11 @@
-import { ArrowLeft, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
 import { Button } from "@/_components/ui/button";
 import { Input } from "@/_components/ui/input";
 import { FormHeader } from "@/_components/ui/common/FormHeader";
+import { FormLink } from "@/_components/ui/common/FormLink";
 
 interface DeveloperForm {
     full_name: string;
@@ -20,23 +21,11 @@ interface DeveloperCreateFormProps {
     formError: string | null;
     submitting: boolean;
 
-    handleFormChange: (
-        field: keyof DeveloperForm,
-        value: string | boolean
-    ) => void;
-
-    handleSubmit: (
-        event: React.FormEvent<HTMLFormElement>
-    ) => void;
+    handleFormChange: (field: keyof DeveloperForm, value: string | boolean) => void;
+    handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export function DeveloperCreateForm({
-    form,
-    formError,
-    submitting,
-    handleFormChange,
-    handleSubmit,
-}: DeveloperCreateFormProps) {
+export function DeveloperCreateForm({ form, formError, submitting, handleFormChange, handleSubmit }: DeveloperCreateFormProps) {
     const [showPassword, setShowPassword] = useState(false);
 
     return (
@@ -48,13 +37,7 @@ export function DeveloperCreateForm({
                         description="Fill in the information below to create a developer account."
                     />
 
-                    <Link
-                        href="/dashboard/admin/users/developers"
-                        className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
-                    >
-                        <ArrowLeft className="h-4 w-4" />
-                        Back to Developers
-                    </Link>
+                    <FormLink href="/dashboard/admin/users/developers" link="Developers" />
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-5 p-6">
@@ -70,15 +53,8 @@ export function DeveloperCreateForm({
                             Full Name
                         </label>
 
-                        <Input
-                            type="text"
-                            value={form.full_name}
-                            onChange={(event) =>
-                                handleFormChange(
-                                    "full_name",
-                                    event.target.value
-                                )
-                            }
+                        <Input type="text" value={form.full_name}
+                            onChange={(event) => handleFormChange("full_name", event.target.value)}
                             placeholder="John Doe"
                             disabled={submitting}
                             required
@@ -91,15 +67,8 @@ export function DeveloperCreateForm({
                             Email
                         </label>
 
-                        <Input
-                            type="email"
-                            value={form.email}
-                            onChange={(event) =>
-                                handleFormChange(
-                                    "email",
-                                    event.target.value
-                                )
-                            }
+                        <Input type="email" value={form.email}
+                            onChange={(event) => handleFormChange("email", event.target.value)}
                             placeholder="john@sevior.com"
                             disabled={submitting}
                             required
@@ -112,15 +81,8 @@ export function DeveloperCreateForm({
                             Phone
                         </label>
 
-                        <Input
-                            type="tel"
-                            value={form.phone}
-                            onChange={(event) =>
-                                handleFormChange(
-                                    "phone",
-                                    event.target.value
-                                )
-                            }
+                        <Input type="tel" value={form.phone}
+                            onChange={(event) => handleFormChange("phone", event.target.value)}
                             placeholder="08123456789"
                             disabled={submitting}
                             required
@@ -134,15 +96,9 @@ export function DeveloperCreateForm({
                         </label>
 
                         <div className="relative">
-                            <Input
-                                type={showPassword ? "text" : "password"}
+                            <Input type={showPassword ? "text" : "password"}
                                 value={form.password}
-                                onChange={(event) =>
-                                    handleFormChange(
-                                        "password",
-                                        event.target.value
-                                    )
-                                }
+                                onChange={(event) => handleFormChange("password", event.target.value)}
                                 placeholder="Enter password"
                                 disabled={submitting}
                                 required
@@ -151,16 +107,10 @@ export function DeveloperCreateForm({
 
                             <button
                                 type="button"
-                                onClick={() =>
-                                    setShowPassword((value) => !value)
-                                }
+                                onClick={() => setShowPassword((value) => !value)}
                                 disabled={submitting}
                                 className="absolute right-2 top-1/2 -translate-y-1/2 rounded-sm p-1 text-muted-foreground transition hover:bg-muted hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
-                                aria-label={
-                                    showPassword
-                                        ? "Hide password"
-                                        : "Show password"
-                                }
+                                aria-label={showPassword ? "Hide password" : "Show password"}
                             >
                                 {showPassword ? (
                                     <EyeOff className="h-4 w-4" />

@@ -34,12 +34,9 @@ export default function AgencyLists() {
                 const response = await api.get("/api/v1/client/agencies");
 
                 setAgencies(response.data.agencies ?? []);
-            } catch (error) {
-                console.error("Failed to fetch agencies:", error);
-                setError("Failed to load agencies.");
-            } finally {
-                setLoading(false);
             }
+            catch (error) { setError("Failed to load agencies."); }
+            finally { setLoading(false); }
         };
 
         fetchAgencies();
