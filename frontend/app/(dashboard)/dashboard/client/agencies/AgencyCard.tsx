@@ -59,17 +59,17 @@ export function AgencyCard({ agency }: AgencyCardProps) {
             {/* Content */}
             <div className="px-6 pb-6 pt-14">
                 {/* Agency Name */}
-                <h3 className="text-xl font-bold text-olive-600">
+                <h3 className="text-xl font-bold text-gray-600">
                     {agency.AgencyName}
                 </h3>
 
                 <div className="mt-2 flex flex-col gap-1">
-                    <p className="flex items-center gap-2 text-sm text-olive-500">
+                    <p className="flex items-center gap-2 text-sm text-gray-500">
                         <Phone className="h-4 w-4" />
                         {getPhoneFormat(agency.Contact)}
                     </p>
 
-                    <p className="flex items-center gap-2 text-sm text-olive-500">
+                    <p className="flex items-center gap-2 text-sm text-gray-500">
                         <MailIcon className="h-4 w-4" />
                         {agency.Email}
                     </p>
@@ -93,16 +93,16 @@ export function AgencyCard({ agency }: AgencyCardProps) {
                 </div>
 
                 {/* Description */}
-                <p className="mt-4 text-sm line-clamp-3 leading-relaxed text-olive-500">
+                <p className="mt-4 text-sm line-clamp-3 leading-relaxed text-gray-500">
                     {agency.Description || "No description available."}
                 </p>
 
                 {/* Stats */}
                 <div className="mt-4">
                     <div className="flex items-center gap-2">
-                        <Folder className="h-4 w-4 text-olive-600" />
+                        <Folder className="h-4 w-4 text-gray-600" />
 
-                        <p className="text-xs font-medium text-olive-700">
+                        <p className="text-xs font-medium text-gray-700">
                             {projectsCompleted} Projects Completed
                         </p>
                     </div>

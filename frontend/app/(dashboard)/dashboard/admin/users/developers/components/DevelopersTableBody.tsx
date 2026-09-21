@@ -90,15 +90,15 @@ export function DevelopersTableBody({
 
                             {/* EMAIL */}
                             <div className="group flex items-center gap-2 leading-none">
-                                <MailIcon className="h-3.5 w-3.5 shrink-0 text-olive-600" />
+                                <MailIcon className="h-3.5 w-3.5 shrink-0 text-gray-600" />
 
-                                <span className="min-w-0 truncate text-sm text-olive-700">
+                                <span className="min-w-0 truncate text-sm text-gray-700">
                                     {developer.Email}
                                 </span>
 
                                 <Button type="button" size="icon" variant="ghost"
                                     onClick={() => handleCopy(developer.Email, `email-${developer.ID}`)}
-                                    className="h-5 w-5 shrink-0 opacity-0 transition group-hover:opacity-100 hover:bg-olive-100 hover:text-olive-700"
+                                    className="h-5 w-5 shrink-0 opacity-0 transition group-hover:opacity-100 hover:bg-gray-100 hover:text-gray-700"
                                 >
                                     {copiedField === `email-${developer.ID}`
                                         ? (<Check className="h-3 w-3" />)
@@ -109,16 +109,16 @@ export function DevelopersTableBody({
 
                             {/* PHONE */}
                             <div className="group flex items-center gap-2 leading-none">
-                                <Phone className="h-3 w-3 shrink-0 text-olive-400" />
+                                <Phone className="h-3 w-3 shrink-0 text-gray-400" />
 
-                                <span className="min-w-0 truncate text-xs text-olive-500">
+                                <span className="min-w-0 truncate text-xs text-gray-500">
                                     {getPhoneFormat(developer.Phone)}
                                 </span>
 
                                 {developer.Phone && (
                                     <Button type="button" size="icon" variant="ghost"
                                         onClick={() => handleCopy(developer.Phone, `phone-${developer.ID}`)}
-                                        className="h-5 w-5 shrink-0 opacity-0 transition group-hover:opacity-100 hover:bg-olive-100 hover:text-olive-700"
+                                        className="h-5 w-5 shrink-0 opacity-0 transition group-hover:opacity-100 hover:bg-gray-100 hover:text-gray-700"
                                     >
                                         {copiedField === `phone-${developer.ID}`
                                             ? (<Check className="h-3 w-3" />)

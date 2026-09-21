@@ -6,11 +6,11 @@ interface FormHeaderProps {
 export function FormHeader({ title, description }: FormHeaderProps) {
     return (
         <div>
-            <h2 className="text-base font-semibold text-olive-700">
+            <h2 className="text-base font-semibold text-gray-700">
                 {title}
             </h2>
 
-            <p className="mt-1 text-sm text-olive-500">
+            <p className="mt-1 text-sm text-gray-500">
                 {description}
             </p>
         </div>

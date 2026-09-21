@@ -9,7 +9,7 @@ import { Label } from "@/_components/ui/label";
 import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 import { OnboardingLayout } from "./components/OnboardingLayout";
 import toast from "react-hot-toast";
-import { useAuth } from "@/providers/AuthProvider";
+import { useAuth } from "@/_providers/AuthProvider";
 
 export default function ClientRegistrationPage() {
     const [form, setForm] = useState({
@@ -106,7 +106,7 @@ export default function ClientRegistrationPage() {
                         disabled={isSubmitting}
                         value={form.full_name}
                         onChange={(e) => setForm({ ...form, full_name: e.target.value })}
-                        className="h-11 bg-white border-olive-200 dark:bg-olive-900 dark:border-olive-800 disabled:opacity-50"
+                        className="h-11 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-800 disabled:opacity-50"
                     />
                 </div>
                 <div className="space-y-3">
@@ -118,7 +118,7 @@ export default function ClientRegistrationPage() {
                         disabled={isSubmitting}
                         value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
-                        className="h-11 bg-white border-olive-200 dark:bg-olive-900 dark:border-olive-800 disabled:opacity-50"
+                        className="h-11 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-800 disabled:opacity-50"
                     />
                 </div>
                 <div className="space-y-3">
@@ -130,7 +130,7 @@ export default function ClientRegistrationPage() {
                         disabled={isSubmitting}
                         value={form.phone}
                         onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                        className="h-11 bg-white border-olive-200 dark:bg-olive-900 dark:border-olive-800 disabled:opacity-50"
+                        className="h-11 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-800 disabled:opacity-50"
                     />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -144,7 +144,7 @@ export default function ClientRegistrationPage() {
                             disabled={isSubmitting}
                             value={form.password}
                             onChange={(e) => setForm({ ...form, password: e.target.value })}
-                            className="h-11 bg-white border-olive-200 dark:bg-olive-900 dark:border-olive-800 disabled:opacity-50"
+                            className="h-11 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-800 disabled:opacity-50"
                         />
                     </div>
                     <div className="space-y-3">
@@ -157,7 +157,7 @@ export default function ClientRegistrationPage() {
                             disabled={isSubmitting}
                             value={form.confirm_password}
                             onChange={(e) => setForm({ ...form, confirm_password: e.target.value })}
-                            className="h-11 bg-white border-olive-200 dark:bg-olive-900 dark:border-olive-800 disabled:opacity-50"
+                            className="h-11 bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-800 disabled:opacity-50"
                         />
                     </div>
                 </div>

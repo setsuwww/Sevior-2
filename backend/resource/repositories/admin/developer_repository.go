@@ -37,6 +37,26 @@ func (r *DeveloperRepository) GetDevelopers(agencyID uint) ([]adminModel.User, e
 	return developers, nil
 }
 
+func (r *DeveloperRepository) GetDeveloperProjects(agencyID uint, developerID uint ) ([]adminModel.Project, error) {
+	var projects []adminModel.Project
+
+	err := r.DB.
+		Joins("JOIN project_members pm ON pm.project_id = projects.id").
+		Where(
+			"projects.agency_id = ? AND pm.developer_id = ?",
+			agencyID,
+			developerID,
+		).
+		Order("projects.created_at DESC").
+		Find(&projects).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return projects, nil
+}
+
 func (r *DeveloperRepository) GetDeveloperByID(agencyID uint, developerID uint) (*adminModel.User, error) {
 	var developer adminModel.User
 

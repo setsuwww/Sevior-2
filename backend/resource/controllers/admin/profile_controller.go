@@ -118,10 +118,6 @@ func (c *ProfileController) UpdateProfile(ctx *gin.Context) {
 	})
 }
 
-// ==========================================================
-// CHANGE PASSWORD
-// ==========================================================
-
 func (c *ProfileController) ChangePassword(ctx *gin.Context) {
 
 	currentUser, exists := ctx.Get("currentUser")

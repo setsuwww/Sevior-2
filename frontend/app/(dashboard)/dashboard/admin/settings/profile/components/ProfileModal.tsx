@@ -5,7 +5,7 @@ import { Input } from "@/_components/ui/input";
 import { Label } from "@/_components/ui/label";
 import { Textarea } from "@/_components/ui/textarea";
 import { PROFILE_THEMES, ProfileTheme } from "@/_constants/theme/profile";
-import { Building2, Camera, Hash, X } from "lucide-react";
+import { Building2, Hash, Loader, X } from "lucide-react";
 
 interface ProfileModalProps {
     profile: any;
@@ -55,17 +55,17 @@ export default function ProfileModal({
             <div className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-sm bg-white">
                 <form onSubmit={onSubmit}>
                     {/* Header */}
-                    <div className="flex items-center justify-between border-b border-olive-200 p-6">
+                    <div className="flex items-center justify-between border-b border-gray-200 p-6">
                         <div className="flex items-center gap-4">
                             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-sm bg-teal-700 shadow-sm">
                                 <Building2 className="h-6 w-6 text-white" />
                             </div>
                             <div>
-                                <h2 className="text-xl font-bold text-olive-900">
+                                <h2 className="text-xl font-bold text-gray-900">
                                     Edit Profile
                                 </h2>
 
-                                <p className="text-sm text-olive-500">
+                                <p className="text-sm text-gray-500">
                                     Update your personal and agency information.
                                 </p>
                             </div>
@@ -74,7 +74,7 @@ export default function ProfileModal({
                         <button
                             type="button"
                             onClick={onClose}
-                            className="rounded-sm p-2 transition-colors hover:bg-olive-100"
+                            className="rounded-sm p-2 transition-colors hover:bg-gray-100"
                         >
                             <X className="h-5 w-5" />
                         </button>
@@ -83,11 +83,11 @@ export default function ProfileModal({
                     <div className="space-y-6 p-6">
                         <section>
                             <div className="mb-5">
-                                <h3 className="text-lg font-semibold text-olive-900">
+                                <h3 className="text-lg font-semibold text-gray-900">
                                     Banner Appearance
                                 </h3>
 
-                                <p className="text-sm text-olive-500">
+                                <p className="text-sm text-gray-500">
                                     Choose a color theme for your profile banner.
                                 </p>
                             </div>
@@ -103,7 +103,7 @@ export default function ProfileModal({
                                         >
                                             <div className={`relative h-12 w-12 rounded-full bg-gradient-to-br ${config.avatar} transition-all duration-200
                                                     ${isSelected
-                                                    ? "ring-2 ring-olive-400 ring-offset-2"
+                                                    ? "ring-2 ring-gray-400 ring-offset-2"
                                                     : "hover:scale-105"
                                                 }`}
                                             >
@@ -116,8 +116,8 @@ export default function ProfileModal({
 
                                             <span
                                                 className={`text-xs font-medium ${isSelected
-                                                    ? "text-olive-900"
-                                                    : "text-olive-500"
+                                                    ? "text-gray-900"
+                                                    : "text-gray-500"
                                                     }`}
                                             >
                                                 {config.label}
@@ -132,7 +132,7 @@ export default function ProfileModal({
 
                         <section>
                             <div className="flex items-center gap-5">
-                                <div className="h-16 w-16 overflow-hidden rounded-full border border-olive-200 bg-olive-100">
+                                <div className="h-16 w-16 overflow-hidden rounded-full border border-gray-200 bg-gray-100">
                                     {userImagePreview ? (
                                         <img
                                             src={userImagePreview}
@@ -166,7 +166,7 @@ export default function ProfileModal({
 
                                     {userImage && (
                                         <div className="mt-2 flex items-center gap-2">
-                                            <p className="text-xs text-olive-500">
+                                            <p className="text-xs text-gray-500">
                                                 {userImage.name}
                                             </p>
 
@@ -182,7 +182,7 @@ export default function ProfileModal({
                                         </div>
                                     )}
 
-                                    <p className="mt-1 text-xs text-olive-400">
+                                    <p className="mt-1 text-xs text-gray-400">
                                         PNG, JPG or WEBP
                                     </p>
                                 </div>
@@ -194,13 +194,13 @@ export default function ProfileModal({
                         {/* ================================================= */}
 
                         <section>
-                            <h3 className="mb-4 text-lg font-semibold text-olive-900">
+                            <h3 className="mb-4 text-lg font-semibold text-gray-900">
                                 Personal Information
                             </h3>
 
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div>
-                                    <Label className="mb-2 block text-sm font-medium text-olive-700">
+                                    <Label className="mb-2 block text-sm font-medium text-gray-700">
                                         Full Name
                                     </Label>
 
@@ -209,7 +209,7 @@ export default function ProfileModal({
                                             required:
                                                 "Full name is required.",
                                         })}
-                                        className="w-full rounded-sm border border-olive-300 px-4 py-2.5 outline-none focus:ring-2 focus:ring-teal-500"
+                                        className="w-full rounded-sm border border-gray-300 px-4 py-2.5 outline-none focus:ring-2 focus:ring-teal-500"
                                     />
 
                                     {errors.fullName && (
@@ -220,12 +220,12 @@ export default function ProfileModal({
                                 </div>
 
                                 <div>
-                                    <Label className="mb-2 block text-sm font-medium text-olive-700">
+                                    <Label className="mb-2 block text-sm font-medium text-gray-700">
                                         Email
                                     </Label>
 
                                     <Input type="email" {...register("email", { required: "Email is required." })}
-                                        className="w-full rounded-sm border border-olive-300 px-4 py-2.5 outline-none focus:ring-2 focus:ring-teal-500" />
+                                        className="w-full rounded-sm border border-gray-300 px-4 py-2.5 outline-none focus:ring-2 focus:ring-teal-500" />
 
                                     {errors.email && (
                                         <p className="mt-1 text-xs text-red-500">
@@ -235,18 +235,18 @@ export default function ProfileModal({
                                 </div>
 
                                 <div>
-                                    <Label className="mb-2 block text-sm font-medium text-olive-700">
+                                    <Label className="mb-2 block text-sm font-medium text-gray-700">
                                         Phone
                                     </Label>
 
                                     <Input {...register("phone")}
-                                        className="w-full rounded-sm border border-olive-300 px-4 py-2.5 outline-none focus:ring-2 focus:ring-teal-500"
+                                        className="w-full rounded-sm border border-gray-300 px-4 py-2.5 outline-none focus:ring-2 focus:ring-teal-500"
                                     />
                                 </div>
                             </div>
 
                             <div className="mt-4">
-                                <Label className="mb-2 block text-sm font-medium text-olive-700">
+                                <Label className="mb-2 block text-sm font-medium text-gray-700">
                                     Biography
                                 </Label>
 
@@ -257,14 +257,14 @@ export default function ProfileModal({
                         </section>
 
                         {profile.Agency && (
-                            <section className="border-t border-olive-200 pt-6">
-                                <h3 className="mb-4 text-lg font-semibold text-olive-900">
+                            <section className="border-t border-gray-200 pt-6">
+                                <h3 className="mb-4 text-lg font-semibold text-gray-900">
                                     Agency Information
                                 </h3>
 
                                 {/* Agency Image */}
                                 <div className="mb-6 flex items-center gap-5">
-                                    <div className="h-14 w-14 overflow-hidden rounded-full border border-olive-200 bg-olive-800">
+                                    <div className="h-14 w-14 overflow-hidden rounded-full border border-gray-200 bg-gray-800">
                                         {agencyImagePreview ? (
                                             <img
                                                 src={agencyImagePreview}
@@ -292,7 +292,7 @@ export default function ProfileModal({
 
                                         {agencyImage && (
                                             <div className="mt-2 flex items-center gap-2">
-                                                <p className="text-xs text-olive-500">
+                                                <p className="text-xs text-gray-500">
                                                     {agencyImage.name}
                                                 </p>
 
@@ -305,7 +305,7 @@ export default function ProfileModal({
                                             </div>
                                         )}
 
-                                        <p className="mt-1 text-xs text-olive-400">
+                                        <p className="mt-1 text-xs text-gray-400">
                                             PNG, JPG or WEBP
                                         </p>
                                     </div>
@@ -313,72 +313,72 @@ export default function ProfileModal({
 
                                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                     <div>
-                                        <Label className="mb-2 block text-sm font-medium text-olive-700">
+                                        <Label className="mb-2 block text-sm font-medium text-gray-700">
                                             Agency Name
                                         </Label>
 
                                         <Input {...register("agencyName")}
-                                            className="w-full rounded-sm border border-olive-300 px-4 py-2.5"
+                                            className="w-full rounded-sm border border-gray-300 px-4 py-2.5"
                                         />
                                     </div>
 
                                     <div>
-                                        <Label className="mb-2 block text-sm font-medium text-olive-700">
+                                        <Label className="mb-2 block text-sm font-medium text-gray-700">
                                             Agency Slug
                                         </Label>
 
                                         <div className="relative">
-                                            <Hash className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-olive-400" />
+                                            <Hash className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
 
                                             <Input {...register("agencySlug")}
-                                                className="w-full rounded-sm border border-olive-300 py-2.5 pl-9 pr-4"
+                                                className="w-full rounded-sm border border-gray-300 py-2.5 pl-9 pr-4"
                                             />
                                         </div>
                                     </div>
 
                                     <div>
-                                        <Label className="mb-2 block text-sm font-medium text-olive-700">
+                                        <Label className="mb-2 block text-sm font-medium text-gray-700">
                                             Contact
                                         </Label>
 
                                         <Input {...register("agencyContact")}
-                                            className="w-full rounded-sm border border-olive-300 px-4 py-2.5"
+                                            className="w-full rounded-sm border border-gray-300 px-4 py-2.5"
                                         />
                                     </div>
 
                                     <div>
-                                        <Label className="mb-2 block text-sm font-medium text-olive-700">
+                                        <Label className="mb-2 block text-sm font-medium text-gray-700">
                                             Agency Email
                                         </Label>
 
                                         <Input type="email" {...register("agencyEmail")}
-                                            className="w-full rounded-sm border border-olive-300 px-4 py-2.5"
+                                            className="w-full rounded-sm border border-gray-300 px-4 py-2.5"
                                         />
                                     </div>
 
                                     <div>
-                                        <Label className="mb-2 block text-sm font-medium text-olive-700">
+                                        <Label className="mb-2 block text-sm font-medium text-gray-700">
                                             Location
                                         </Label>
 
                                         <Input {...register("agencyLocation")}
-                                            className="w-full rounded-sm border border-olive-300 px-4 py-2.5"
+                                            className="w-full rounded-sm border border-gray-300 px-4 py-2.5"
                                         />
                                     </div>
 
                                     <div>
-                                        <Label className="mb-2 block text-sm font-medium text-olive-700">
+                                        <Label className="mb-2 block text-sm font-medium text-gray-700">
                                             Website
                                         </Label>
 
                                         <Input type="url" {...register("agencyWebsite")}
-                                            className="w-full rounded-sm border border-olive-300 px-4 py-2.5"
+                                            className="w-full rounded-sm border border-gray-300 px-4 py-2.5"
                                         />
                                     </div>
                                 </div>
 
                                 <div className="mt-4">
-                                    <Label className="mb-2 block text-sm font-medium text-olive-700">
+                                    <Label className="mb-2 block text-sm font-medium text-gray-700">
                                         Description
                                     </Label>
 
@@ -391,7 +391,7 @@ export default function ProfileModal({
                     </div>
 
                     {/* Footer */}
-                    <div className="flex gap-3 border-t border-olive-200 p-6">
+                    <div className="flex gap-3 border-t border-gray-200 p-6">
                         <Button
                             type="button"
                             onClick={onClose} variant="outline"
@@ -406,8 +406,9 @@ export default function ProfileModal({
                             className="flex-1 h-10 bg-teal-600 hover:bg-teal-700 border border-teal-600 hover:border-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {saving
-                                ? "Saving..."
-                                : "Save Changes"}
+                                ? (<><Loader className="h-4 w-4 animate-spin" />Saving...</>)
+                                : (<><Loader className="h-4 w-4 animate-spin" />Saving...</>)
+                            }
                         </Button>
                     </div>
                 </form>

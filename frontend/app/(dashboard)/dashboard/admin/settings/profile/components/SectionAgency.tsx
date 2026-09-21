@@ -32,12 +32,12 @@ export default function SectionAgency({
     agencyImagePreview,
 }: AgencySectionProps) {
     return (
-        <div className="mt-8 rounded-sm border border-olive-200 bg-olive-50 p-6">
+        <div className="mt-8 rounded-sm border border-gray-200 bg-gray-50 p-6">
             {/* Agency Header */}
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div className="flex items-center gap-3">
                     <div className="relative">
-                        <div className="h-16 w-16 overflow-hidden rounded-full border border-olive-900 bg-olive-800">
+                        <div className="h-16 w-16 overflow-hidden rounded-full border border-gray-900 bg-gray-800">
                             {agencyImagePreview ? (
                                 <img
                                     src={agencyImagePreview}
@@ -53,7 +53,7 @@ export default function SectionAgency({
                             ) : null}
 
                             <div
-                                className={`agency-fallback h-full w-full items-center justify-center bg-olive-800 ${agencyImagePreview ? "hidden" : "flex"
+                                className={`agency-fallback h-full w-full items-center justify-center bg-gray-800 ${agencyImagePreview ? "hidden" : "flex"
                                     }`}
                             >
                                 <Building2 className="h-7 w-7 text-white" />
@@ -63,7 +63,7 @@ export default function SectionAgency({
 
                     <div>
                         <div className="flex items-center gap-2">
-                            <h2 className="text-xl font-semibold text-olive-900">
+                            <h2 className="text-xl font-semibold text-gray-900">
                                 {agency.AgencyName}
                             </h2>
 
@@ -71,7 +71,7 @@ export default function SectionAgency({
                                 <span
                                     className={`rounded-sm px-2 py-1 text-xs font-semibold ${agency.Status === "ACTIVE"
                                         ? "bg-green-100 text-green-700"
-                                        : "bg-olive-100 text-olive-700"
+                                        : "bg-gray-100 text-gray-700"
                                         }`}
                                 >
                                     {agency.Status}
@@ -80,7 +80,7 @@ export default function SectionAgency({
                         </div>
 
                         {agency.AgencySlug && (
-                            <div className="flex items-center gap-1 text-sm italic text-olive-500">
+                            <div className="flex items-center gap-1 text-sm italic text-gray-500">
                                 <span>#{agency.AgencySlug}</span>
                             </div>
                         )}
@@ -90,7 +90,7 @@ export default function SectionAgency({
 
             {/* Description */}
             {agency.Description && (
-                <p className="mt-5 max-w-xl text-md leading-relaxed text-olive-700">
+                <p className="mt-5 max-w-xl text-md leading-relaxed text-gray-700">
                     {agency.Description}
                 </p>
             )}
@@ -99,16 +99,16 @@ export default function SectionAgency({
             <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                 {agency.Email && (
                     <div className="flex items-center gap-3">
-                        <div className="rounded-sm bg-olive-200 p-2">
-                            <Mail className="h-4 w-4 text-olive-500" />
+                        <div className="rounded-sm bg-gray-200 p-2">
+                            <Mail className="h-4 w-4 text-gray-500" />
                         </div>
 
                         <div>
-                            <p className="text-xs font-semibold uppercase tracking-wide text-olive-400">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
                                 Agency Email
                             </p>
 
-                            <p className="mt-1 text-olive-700">
+                            <p className="mt-1 text-gray-700">
                                 {agency.Email}
                             </p>
                         </div>
@@ -117,16 +117,16 @@ export default function SectionAgency({
 
                 {agency.Location && (
                     <div className="flex items-center gap-3">
-                        <div className="rounded-sm bg-olive-200 p-2">
-                            <MapPin className="h-4 w-4 text-olive-500" />
+                        <div className="rounded-sm bg-gray-200 p-2">
+                            <MapPin className="h-4 w-4 text-gray-500" />
                         </div>
 
                         <div>
-                            <p className="text-xs font-semibold uppercase tracking-wide text-olive-400">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
                                 Location
                             </p>
 
-                            <p className="mt-1 text-olive-700">
+                            <p className="mt-1 text-gray-700">
                                 {agency.Location}
                             </p>
                         </div>
@@ -135,16 +135,16 @@ export default function SectionAgency({
 
                 {agency.Contact && (
                     <div className="flex items-center gap-3">
-                        <div className="rounded-sm bg-olive-200 p-2">
-                            <Phone className="h-4 w-4 text-olive-500" />
+                        <div className="rounded-sm bg-gray-200 p-2">
+                            <Phone className="h-4 w-4 text-gray-500" />
                         </div>
 
                         <div>
-                            <p className="text-xs font-semibold uppercase tracking-wide text-olive-400">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
                                 Agency Phone
                             </p>
 
-                            <p className="mt-1 text-olive-700">
+                            <p className="mt-1 text-gray-700">
                                 {agency.Contact}
                             </p>
                         </div>
@@ -153,12 +153,12 @@ export default function SectionAgency({
 
                 {agency.Website && (
                     <div className="flex items-center gap-3">
-                        <div className="rounded-sm bg-olive-200 p-2">
-                            <Globe className="h-4 w-4 text-olive-500" />
+                        <div className="rounded-sm bg-gray-200 p-2">
+                            <Globe className="h-4 w-4 text-gray-500" />
                         </div>
 
                         <div className="min-w-0">
-                            <p className="text-xs font-semibold uppercase tracking-wide text-olive-400">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
                                 Website
                             </p>
 
@@ -176,24 +176,24 @@ export default function SectionAgency({
             </div>
 
             {/* Subscription */}
-            <div className="mt-6 border-t border-olive-200 pt-5">
+            <div className="mt-6 border-t border-gray-200 pt-5">
                 <div className="flex flex-wrap gap-8">
                     <div>
-                        <p className="text-xs uppercase tracking-wide text-olive-400">
+                        <p className="text-xs uppercase tracking-wide text-gray-400">
                             Subscription Plan
                         </p>
 
-                        <p className="mt-1 text-sm font-semibold capitalize text-olive-800">
+                        <p className="mt-1 text-sm font-semibold capitalize text-gray-800">
                             {agency.SubscriptionPlan || "-"}
                         </p>
                     </div>
 
                     <div>
-                        <p className="text-xs uppercase tracking-wide text-olive-400">
+                        <p className="text-xs uppercase tracking-wide text-gray-400">
                             Subscription Status
                         </p>
 
-                        <p className="mt-1 text-sm font-semibold text-olive-800">
+                        <p className="mt-1 text-sm font-semibold text-gray-800">
                             {agency.SubscriptionStatus || "-"}
                         </p>
                     </div>

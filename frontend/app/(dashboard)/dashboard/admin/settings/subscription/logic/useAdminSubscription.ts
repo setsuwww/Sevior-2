@@ -39,10 +39,10 @@ export function getStatusClass(status: string) {
             return "border-red-200 bg-red-50 text-red-700";
 
         case "expired":
-            return "border-olive-200 bg-olive-100 text-olive-600";
+            return "border-gray-200 bg-gray-100 text-gray-600";
 
         default:
-            return "border-olive-200 bg-olive-50 text-olive-600";
+            return "border-gray-200 bg-gray-50 text-gray-600";
     }
 }
 

@@ -1,0 +1,17 @@
+# production
+
+/build
+
+.DS_Store
+
+.env
+
+/node_modules
+
+node_modules/
+.next/
+out/
+.env*
+
+node_modules/
+.next/

@@ -12,41 +12,21 @@ import (
 )
 
 func AgencyAdminRoutes(r *gin.Engine, db *gorm.DB) {
-	profileRepo := &adminRepo.ProfileRepository{
-		DB: db,
-	}
+	profileRepo := &adminRepo.ProfileRepository{DB: db}
+	profileService := &adminService.ProfileService{Repo: profileRepo}
+	profileController := &adminCtrl.ProfileController{Service: profileService}
 
-	profileService := &adminService.ProfileService{
-		Repo: profileRepo,
-	}
+	subscriptionRepo := &adminRepo.SubscriptionRepository{DB: db}
+	subscriptionService := &adminService.SubscriptionService{Repo: subscriptionRepo}
+	subscriptionController := &adminCtrl.SubscriptionController{Service: subscriptionService}
 
-	profileController := &adminCtrl.ProfileController{
-		Service: profileService,
-	}
+	developerRepo := &adminRepo.DeveloperRepository{DB: db}
+	developerService := &adminService.DeveloperService{Repo: developerRepo}
+	developerController := &adminCtrl.DeveloperController{Service: developerService}
 
-	subscriptionRepo := &adminRepo.SubscriptionRepository{
-		DB: db,
-	}
-
-	subscriptionService := &adminService.SubscriptionService{
-		Repo: subscriptionRepo,
-	}
-
-	subscriptionController := &adminCtrl.SubscriptionController{
-		Service: subscriptionService,
-	}
-
-	developerRepo := &adminRepo.DeveloperRepository{
-		DB: db,
-	}
-
-	developerService := &adminService.DeveloperService{
-		Repo: developerRepo,
-	}
-
-	developerController := &adminCtrl.DeveloperController{
-		Service: developerService,
-	}
+	projectRepo := &adminRepo.ProjectRepository{DB: db}
+	projectService := &adminService.ProjectService{Repo: projectRepo}
+	projectController := &adminCtrl.ProjectController{Service: projectService}
 
 	// ==========================================================
 	// ROUTES
@@ -74,6 +54,11 @@ func AgencyAdminRoutes(r *gin.Engine, db *gorm.DB) {
 		adminGroup.POST("/developers", developerController.CreateDeveloper)
 		adminGroup.PATCH("/developers/:id", developerController.UpdateDeveloper)
 		adminGroup.DELETE("/developers/:id", developerController.DeleteDeveloper)
-	}
 
+		adminGroup.GET("/projects", projectController.GetProjects)
+		adminGroup.GET("/projects/:id", projectController.GetProject)
+		adminGroup.GET("/projects/:id/developers", projectController.GetProjectDevelopers)
+		adminGroup.POST("/projects/:id/developers", projectController.AssignDeveloper)
+		adminGroup.DELETE("/projects/:id/developers/:developerId", projectController.RemoveDeveloper)
+	}
 }

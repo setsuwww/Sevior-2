@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { AgencyForm, EntryPoint, Step, ValidationErrors } from "../../types";
 import { validateAgencyProfile, validatePasswords, validatePlanSelection } from "../../types"
 import toast from "react-hot-toast";
-import { useAuth } from "@/providers/AuthProvider";
+import { useAuth } from "@/_providers/AuthProvider";
 import { authService } from "@/_lib/services/auth.service";
 
 interface AgencyOnboardingContextType {

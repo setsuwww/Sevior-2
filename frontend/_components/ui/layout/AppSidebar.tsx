@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAuth } from "@/providers/AuthProvider";
+import { useAuth } from "@/_providers/AuthProvider";
 
 import { superAdminLinks } from "@/_constants/links/superadmin.links";
 import { adminLinks } from "@/_constants/links/admin.links";

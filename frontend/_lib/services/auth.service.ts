@@ -1,6 +1,6 @@
 import { api, authApi } from "@/_lib/axiosInstance";
 import { AuthResponse, RefreshResponse } from "@/types/Auth"
-import { LoginFormValues, ForgotPasswordFormValues } from "@/validators/auth.validators";
+import { LoginFormValues, ForgotPasswordFormValues } from "@/_validators/auth.validators";
 
 let isRefreshing = false;
 let failedQueue: any[] = [];

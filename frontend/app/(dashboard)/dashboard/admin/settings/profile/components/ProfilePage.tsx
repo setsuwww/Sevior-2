@@ -49,15 +49,15 @@ export function AdminProfilePage() {
 
     if (!profile) {
         return (
-            <div className="flex min-h-screen items-center justify-center bg-olive-50">
+            <div className="flex min-h-screen items-center justify-center bg-gray-50">
                 <div className="text-center">
                     <XCircle className="mx-auto mb-4 h-16 w-16 text-red-500" />
 
-                    <h2 className="text-2xl font-semibold text-olive-700">
+                    <h2 className="text-2xl font-semibold text-gray-700">
                         Profile Not Found
                     </h2>
 
-                    <p className="mt-2 text-olive-500">
+                    <p className="mt-2 text-gray-500">
                         Unable to load profile information.
                     </p>
                 </div>
@@ -97,7 +97,7 @@ export function AdminProfilePage() {
 
 
             <div className="mx-auto">
-                <div className="overflow-hidden rounded-sm border border-olive-200 bg-white shadow-sm">
+                <div className="overflow-hidden rounded-sm border border-gray-200 bg-white shadow-sm">
 
                     {/* User */}
                     <UserSection profile={profile} userImagePreview={userImagePreview}

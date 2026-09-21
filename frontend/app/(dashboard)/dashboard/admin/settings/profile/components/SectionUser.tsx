@@ -82,7 +82,7 @@ export default function SectionUser({ profile, userImagePreview, onEdit, isImage
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div>
                         <div className="flex items-center">
-                            <h1 className="text-3xl font-bold text-olive-900">
+                            <h1 className="text-3xl font-bold text-gray-900">
                                 {profile.FullName}
                             </h1>
 
@@ -94,13 +94,13 @@ export default function SectionUser({ profile, userImagePreview, onEdit, isImage
                             </Badge>
                         </div>
 
-                        <div className="mt-2 flex items-center gap-2 text-olive-600">
+                        <div className="mt-2 flex items-center gap-2 text-gray-600">
                             <Mail className="h-4 w-4" />
                             <span>{profile.Email}</span>
                         </div>
 
                         {profile.Phone && (
-                            <div className="mt-2 flex items-center gap-2 text-olive-600">
+                            <div className="mt-2 flex items-center gap-2 text-gray-600">
                                 <Phone className="h-4 w-4" />
                                 <span>{profile.Phone}</span>
                             </div>
@@ -120,14 +120,14 @@ export default function SectionUser({ profile, userImagePreview, onEdit, isImage
                 {profile.Biography && (
                     <div className="mt-10">
                         <div className="mb-2 flex items-center gap-2">
-                            <FileText className="h-4 w-4 text-olive-500" />
+                            <FileText className="h-4 w-4 text-gray-500" />
 
-                            <h3 className="font-semibold text-olive-900">
+                            <h3 className="font-semibold text-gray-900">
                                 Biography
                             </h3>
                         </div>
 
-                        <p className="leading-relaxed text-olive-600">
+                        <p className="leading-relaxed text-gray-600">
                             {profile.Biography}
                         </p>
                     </div>

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 import { TooltipProvider } from "@/_components/ui/tooltip";
-import { AuthProvider } from "@/providers/AuthProvider";
+import { AuthProvider } from "@/_providers/AuthProvider";
 import { Geist } from "next/font/google";
 import { cn } from "@/_lib/utils";
 

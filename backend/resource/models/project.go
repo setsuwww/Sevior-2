@@ -5,7 +5,7 @@ import "time"
 type Project struct {
 	ID               uint       `gorm:"primaryKey"`
 	AgencyID         *uint      `gorm:"index"`
-	ProjectRequestID *uint      `gorm:"index"`
+	ProjectRequestID *uint      `gorm:"uniqueIndex"`
 	ClientID         *uint      `gorm:"index"`
 	Title            string     `gorm:"type:varchar"`
 	Description      string     `gorm:"type:text"`

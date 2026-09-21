@@ -12,9 +12,9 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 bg-olive-50 dark:bg-olive-950">
+    <section id="contact" className="py-24 bg-slate-50 dark:bg-slate-950">
       <div className="container mx-auto px-6 max-w-7xl">
-        <div className="bg-gradient-to-r from-olive-800 to-teal-600 rounded-3xl overflow-hidden shadow-2xl relative">
+        <div className="bg-gradient-to-r from-slate-800 to-teal-600 rounded-3xl overflow-hidden shadow-2xl relative">
 
           {/* Decorative Elements */}
           <div className="relative z-10 flex flex-col lg:flex-row items-center">
@@ -44,27 +44,27 @@ export function Contact() {
 
             {/* Right Form */}
             <div className="flex-1 w-full p-10 md:p-16 lg:bg-white/10 lg:backdrop-blur-sm lg:border-l lg:border-white/20">
-              <div className="bg-white border border-olive-600 rounded-2xl p-8 shadow-xl">
-                <h3 className="text-2xl font-bold text-olive-900 dark:text-white mb-6">Request a Demo</h3>
+              <div className="bg-white border border-slate-600 rounded-2xl p-8 shadow-xl">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Request a Demo</h3>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-olive-700 dark:text-olive-300 mb-1">Full Name</label>
-                    <Input id="name" placeholder="John Doe" required className="rounded-sm border-olive-200 dark:border-olive-700" />
+                    <label htmlFor="name" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Full Name</label>
+                    <Input id="name" placeholder="John Doe" required className="rounded-sm border-slate-200 dark:border-slate-700" />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-olive-700 dark:text-olive-300 mb-1">Work Email</label>
-                    <Input id="email" type="email" placeholder="john@agency.com" required className="rounded-sm border-olive-200 dark:border-olive-700" />
+                    <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Work Email</label>
+                    <Input id="email" type="email" placeholder="john@agency.com" required className="rounded-sm border-slate-200 dark:border-slate-700" />
                   </div>
                   <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-olive-700 dark:text-olive-300 mb-1">Company Name</label>
-                    <Input id="company" placeholder="Acme Digital" required className="rounded-sm border-olive-200 dark:border-olive-700" />
+                    <label htmlFor="company" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Company Name</label>
+                    <Input id="company" placeholder="Acme Digital" required className="rounded-sm border-slate-200 dark:border-slate-700" />
                   </div>
-                  <Button type="submit" className="w-full h-12 bg-olive-900 hover:bg-olive-800 dark:bg-teal-600 dark:hover:bg-teal-700 text-white rounded-xl font-bold text-md mt-2 shadow-md flex items-center justify-center">
+                  <Button type="submit" className="w-full h-12 bg-slate-900 hover:bg-slate-800 text-white rounded-sm font-bold text-md mt-2 shadow-md flex items-center justify-center">
                     Get in Touch
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </form>
-                <p className="text-xs text-center text-olive-500 mt-6">
+                <p className="text-xs text-center text-slate-500 mt-6">
                   By submitting this form, you agree to our Privacy Policy and Terms of Service.
                 </p>
               </div>

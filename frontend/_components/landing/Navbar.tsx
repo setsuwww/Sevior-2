@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/_components/ui/button";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -29,7 +29,7 @@ export function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-        ? "bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-olive-200 dark:border-olive-800 shadow-sm py-5"
+        ? "bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm py-5"
         : "bg-transparent py-5"
         }`}
     >
@@ -40,7 +40,7 @@ export function Navbar() {
             <div className="relative w-12 h-12 rotate-[2deg] rounded-lg flex items-center justify-center transform group-hover:scale-105 transition-transform duration-300 overflow-hidden">
               <Image src="/1.png" alt="Sevior Logo" fill className="object-cover" />
             </div>
-            <span className="text-xl font-extrabold tracking-tight text-olive-900 dark:text-white">
+            <span className="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white">
               Sevior<span className="text-teal-600">.</span>
             </span>
           </Link>
@@ -51,7 +51,7 @@ export function Navbar() {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium text-olive-600 hover:text-teal-600 dark:text-olive-300 dark:hover:text-teal-400 transition-colors"
+                className="text-sm font-medium text-slate-600 hover:text-teal-600 dark:text-slate-300 dark:hover:text-teal-400 transition-colors"
               >
                 {link.name}
               </a>
@@ -61,12 +61,12 @@ export function Navbar() {
           {/* Auth Buttons */}
           <div className="hidden md:flex items-center space-x-3">
             <Link href="/login">
-              <Button variant="ghost" className="bg-olive-200 hover:bg-olive-300 hover:text-olive-900 text-olive-700">
+              <Button variant="ghost" className="bg-slate-200 hover:bg-slate-300 hover:text-slate-900 text-slate-700">
                 Sign In
               </Button>
             </Link>
             <Link href="/login?tab=register">
-              <Button className="bg-gradient-to-r from-olive-800 hover:from-olive-700 to-teal-600 hover:to-teal-500">
+              <Button className="bg-gradient-to-r from-slate-800 hover:from-slate-700 to-teal-600 hover:to-teal-500">
                 Register
               </Button>
             </Link>
@@ -74,7 +74,7 @@ export function Navbar() {
 
           {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden text-olive-900 dark:text-white"
+            className="md:hidden text-slate-900 dark:text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -84,13 +84,13 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-black border-b border-olive-200 dark:border-olive-800 shadow-xl py-4 px-6 flex flex-col space-y-4">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-black border-b border-slate-200 dark:border-slate-800 shadow-xl py-4 px-6 flex flex-col space-y-4">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
               onClick={() => setMobileMenuOpen(false)}
-              className="text-lg font-medium text-olive-900 dark:text-white block py-2 border-b border-olive-100 dark:border-olive-900"
+              className="text-lg font-medium text-slate-900 dark:text-white block py-2 border-b border-slate-100 dark:border-slate-900"
             >
               {link.name}
             </a>

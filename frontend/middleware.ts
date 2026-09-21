@@ -12,7 +12,7 @@ export function middleware(request: NextRequest) {
 
   // Check if it's a protected path
   const isProtectedPath = protectedPaths.some((path) => pathname.startsWith(path));
-  const isAuthPath = authPaths.some((path) => pathname.startsWith(path));
+  // const isAuthPath = authPaths.some((path) => pathname.startsWith(path));
 
   // Get refresh token from HttpOnly cookie
   const refreshToken = request.cookies.get("refresh_token")?.value;
@@ -24,10 +24,10 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // If user is authenticated and trying to access login/register
-  if (isAuthPath && refreshToken) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
-  }
+  // // If user is authenticated and trying to access login/register
+  // if (isAuthPath && refreshToken) {
+  //   return NextResponse.redirect(new URL("/dashboard", request.url));
+  // }
 
   return NextResponse.next();
 }

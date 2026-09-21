@@ -3,30 +3,30 @@
 import { FolderKanban, Store, Send, ShieldCheck, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/_components/ui/button";
-import { useAuth } from "@/providers/AuthProvider";
+import { useAuth } from "@/_providers/AuthProvider";
 
 export default function ClientDashboard() {
     const { user, isLoading } = useAuth();
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-olive-50/50">
-                <div className="h-8 w-8 animate-spin rounded-full border-4 border-olive-200 border-t-teal-600" />
+            <div className="min-h-screen flex items-center justify-center bg-gray-50/50">
+                <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-200 border-t-teal-600" />
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-olive-50/50 p-4 sm:p-6 lg:p-8">
+        <div className="min-h-screen bg-gray-50/50 p-4 sm:p-6 lg:p-8">
             <div className="max-w-[1400px] mx-auto">
 
                 {/* Header */}
                 <div className="mb-8">
-                    <h1 className="text-3xl font-black text-olive-900 tracking-tight mb-2">
+                    <h1 className="text-3xl font-black text-gray-900 tracking-tight mb-2">
                         Welcome Back, {user?.FullName || "User"}!
                     </h1>
 
-                    <p className="text-olive-500">
+                    <p className="text-gray-500">
                         Here's what's happening with your projects today.
                     </p>
                 </div>
@@ -34,12 +34,12 @@ export default function ClientDashboard() {
                 {/* Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
 
-                    <div className="bg-white p-6 rounded-md border border-olive-300 shadow-xs flex items-center justify-between">
+                    <div className="bg-white p-6 rounded-md border border-gray-300 shadow-xs flex items-center justify-between">
                         <div>
-                            <p className="text-sm font-bold text-olive-500 uppercase tracking-wider mb-1">
+                            <p className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1">
                                 Active Projects
                             </p>
-                            <p className="text-3xl font-black text-olive-900">
+                            <p className="text-3xl font-black text-gray-900">
                                 4
                             </p>
                         </div>
@@ -49,13 +49,13 @@ export default function ClientDashboard() {
                         </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-md border border-olive-300 shadow-xs flex items-center justify-between">
+                    <div className="bg-white p-6 rounded-md border border-gray-300 shadow-xs flex items-center justify-between">
                         <div>
-                            <p className="text-sm font-bold text-olive-500 uppercase tracking-wider mb-1">
+                            <p className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1">
                                 Pending Requests
                             </p>
 
-                            <p className="text-3xl font-black text-olive-900">
+                            <p className="text-3xl font-black text-gray-900">
                                 1
                             </p>
                         </div>
@@ -65,13 +65,13 @@ export default function ClientDashboard() {
                         </div>
                     </div>
 
-                    <div className="bg-white p-6 rounded-md border border-olive-300 shadow-xs flex items-center justify-between">
+                    <div className="bg-white p-6 rounded-md border border-gray-300 shadow-xs flex items-center justify-between">
                         <div>
-                            <p className="text-sm font-bold text-olive-500 uppercase tracking-wider mb-1">
+                            <p className="text-sm font-bold text-gray-500 uppercase tracking-wider mb-1">
                                 Total Spent
                             </p>
 
-                            <p className="text-3xl font-black text-olive-900">
+                            <p className="text-3xl font-black text-gray-900">
                                 $24.5k
                             </p>
                         </div>
@@ -87,7 +87,7 @@ export default function ClientDashboard() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
                     {/* Next Action */}
-                    <div className="bg-gradient-to-br from-olive-900 to-olive-800 rounded-md p-8 lg:p-10 text-white relative overflow-hidden shadow-md">
+                    <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-md p-8 lg:p-10 text-white relative overflow-hidden shadow-md">
 
                         <div className="absolute -top-4 -right-10 p-12 opacity-5">
                             <Store className="w-64 h-64" />
@@ -98,7 +98,7 @@ export default function ClientDashboard() {
                                 Ready to build something amazing?
                             </h2>
 
-                            <p className="text-olive-300 mb-8 leading-relaxed">
+                            <p className="text-gray-300 mb-8 leading-relaxed">
                                 Discover top-rated development agencies perfectly
                                 matched for your next project.
                             </p>
@@ -113,9 +113,9 @@ export default function ClientDashboard() {
                     </div>
 
                     {/* Quick Actions */}
-                    <div className="bg-white rounded-md border border-olive-200 shadow-sm p-6 lg:p-8">
+                    <div className="bg-white rounded-md border border-gray-200 shadow-sm p-6 lg:p-8">
 
-                        <h2 className="text-xl font-bold text-olive-900 mb-6">
+                        <h2 className="text-xl font-bold text-gray-900 mb-6">
                             Quick Actions
                         </h2>
 
@@ -123,44 +123,44 @@ export default function ClientDashboard() {
 
                             <Link
                                 href="/dashboard/client/requests"
-                                className="flex items-center p-4 bg-olive-50 rounded-2xl border border-olive-100 hover:border-olive-200 hover:bg-olive-100/50 transition-colors group"
+                                className="flex items-center p-4 bg-gray-50 rounded-2xl border border-gray-100 hover:border-gray-200 hover:bg-gray-100/50 transition-colors group"
                             >
-                                <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center mr-4 text-olive-500 group-hover:text-teal-600 transition-colors">
+                                <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center mr-4 text-gray-500 group-hover:text-teal-600 transition-colors">
                                     <Send className="w-5 h-5" />
                                 </div>
 
                                 <div className="flex-1">
-                                    <h3 className="text-base font-bold text-olive-900">
+                                    <h3 className="text-base font-bold text-gray-900">
                                         Check Request Status
                                     </h3>
 
-                                    <p className="text-sm text-olive-500">
+                                    <p className="text-sm text-gray-500">
                                         You have 1 pending proposal
                                     </p>
                                 </div>
 
-                                <ArrowRight className="w-5 h-5 text-olive-400 group-hover:text-olive-600" />
+                                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600" />
                             </Link>
 
                             <Link
                                 href="/dashboard/client/invoices"
-                                className="flex items-center p-4 bg-olive-50 rounded-2xl border border-olive-100 hover:border-olive-200 hover:bg-olive-100/50 transition-colors group"
+                                className="flex items-center p-4 bg-gray-50 rounded-2xl border border-gray-100 hover:border-gray-200 hover:bg-gray-100/50 transition-colors group"
                             >
-                                <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center mr-4 text-olive-500 group-hover:text-teal-600 transition-colors">
+                                <div className="w-10 h-10 bg-white rounded-xl shadow-sm flex items-center justify-center mr-4 text-gray-500 group-hover:text-teal-600 transition-colors">
                                     <FolderKanban className="w-5 h-5" />
                                 </div>
 
                                 <div className="flex-1">
-                                    <h3 className="text-base font-bold text-olive-900">
+                                    <h3 className="text-base font-bold text-gray-900">
                                         Review Invoices
                                     </h3>
 
-                                    <p className="text-sm text-olive-500">
+                                    <p className="text-sm text-gray-500">
                                         1 invoice due next week
                                     </p>
                                 </div>
 
-                                <ArrowRight className="w-5 h-5 text-olive-400 group-hover:text-olive-600" />
+                                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-gray-600" />
                             </Link>
 
                         </div>

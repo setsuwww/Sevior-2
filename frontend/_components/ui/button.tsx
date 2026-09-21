@@ -9,13 +9,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-olive-800 border-olive-900 text-white hover:bg-olive-700",
+        default: "bg-gray-800 border-gray-900 text-white hover:bg-gray-700",
         outline:
-          "border-olive-200 bg-transparent hover:bg-olive-100 text-olive-500 hover:text-olive-900 aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+          "border-gray-200 bg-transparent hover:bg-gray-100 text-gray-500 hover:text-gray-900 aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         ghost:
-          "bg-muted hover:bg-muted-foreground hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
+          "bg-gray-200 hover:bg-gray-300 aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
         destructive:
           "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40 border-destructive/10 dark:border-destructive/30 hover:border-destructive/20 dark:hover:border-destructive/20",
         link: "text-primary underline-offset-4 hover:underline",

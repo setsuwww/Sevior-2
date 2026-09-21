@@ -23,7 +23,7 @@ function Input({
 
         "aria-invalid:ring-destructive/20 aria-invalid:border-destructive",
 
-        typeSearch && "bg-olive-200/60 border-olive-200/60 shadow-none",
+        typeSearch && "bg-gray-200/60 border-gray-200/60 shadow-none",
 
         className
       )}

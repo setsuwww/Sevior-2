@@ -17,13 +17,7 @@ type DeveloperController struct {
 	Service *adminService.DeveloperService
 }
 
-// ==========================================================
-// GET ALL DEVELOPERS
-// ==========================================================
-
-func (c *DeveloperController) GetDevelopers(
-	ctx *gin.Context,
-) {
+func (c *DeveloperController) GetDevelopers(ctx *gin.Context) {
 
 	currentUser, exists := ctx.Get("currentUser")
 
@@ -64,13 +58,7 @@ func (c *DeveloperController) GetDevelopers(
 	ctx.JSON(http.StatusOK, developers)
 }
 
-// ==========================================================
-// GET DETAIL
-// ==========================================================
-
-func (c *DeveloperController) GetDeveloperByID(
-	ctx *gin.Context,
-) {
+func (c *DeveloperController) GetDeveloperByID(ctx *gin.Context,) {
 
 	currentUser, exists := ctx.Get("currentUser")
 
@@ -135,13 +123,7 @@ func (c *DeveloperController) GetDeveloperByID(
 	ctx.JSON(http.StatusOK, developer)
 }
 
-// ==========================================================
-// CREATE
-// ==========================================================
-
-func (c *DeveloperController) CreateDeveloper(
-	ctx *gin.Context,
-) {
+func (c *DeveloperController) CreateDeveloper(ctx *gin.Context) {
 
 	currentUser, exists := ctx.Get("currentUser")
 
@@ -208,13 +190,7 @@ func (c *DeveloperController) CreateDeveloper(
 	ctx.JSON(http.StatusCreated, developer)
 }
 
-// ==========================================================
-// UPDATE
-// ==========================================================
-
-func (c *DeveloperController) UpdateDeveloper(
-	ctx *gin.Context,
-) {
+func (c *DeveloperController) UpdateDeveloper(ctx *gin.Context) {
 
 	currentUser, exists := ctx.Get("currentUser")
 
@@ -298,13 +274,7 @@ func (c *DeveloperController) UpdateDeveloper(
 	ctx.JSON(http.StatusOK, developer)
 }
 
-// ==========================================================
-// DELETE
-// ==========================================================
-
-func (c *DeveloperController) DeleteDeveloper(
-	ctx *gin.Context,
-) {
+func (c *DeveloperController) DeleteDeveloper(ctx *gin.Context) {
 
 	currentUser, exists := ctx.Get("currentUser")
 

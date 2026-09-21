@@ -8,12 +8,12 @@ export function FooterActions() {
     const router = useRouter();
 
     return (
-        <div className="dark:bg-zinc-900 border-t border-olive-100 dark:border-olive-800 p-8 flex items-center justify-between">
+        <div className="dark:bg-zinc-900 border-t border-gray-100 dark:border-gray-800 p-8 flex items-center justify-between">
             <Button
                 type="button"
                 variant="ghost"
                 onClick={step === 1 ? () => router.push("/register") : previousStep}
-                className="bg-olive-100 hover:bg-olive-200 text-olive-700"
+                className="bg-gray-100 hover:bg-gray-200 text-gray-700"
             >
                 {step === 1 ? "Cancel" : "Back"}
             </Button>
@@ -23,7 +23,7 @@ export function FooterActions() {
                     type="button"
                     onClick={nextStep}
                     disabled={step === 2 && !form.subscription_plan}
-                    className="bg-teal-600 hover:bg-teal-700 text-white font-semibold"
+                    className="bg-teal-600 border border-teal-700 hover:bg-teal-700 text-white font-semibold"
                 >
                     Continue
                 </Button>
@@ -31,7 +31,7 @@ export function FooterActions() {
                 <Button
                     type="button"
                     onClick={submitAgency}
-                    className="bg-teal-600 hover:bg-teal-700 text-white font-semibold"
+                    className="bg-teal-600 border border-teal-700 hover:bg-teal-700 text-white font-semibold"
                 >
                     Create Agency
                 </Button>
