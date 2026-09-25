@@ -78,11 +78,7 @@ export function DeveloperDetailModal({
                                         alt={developer.FullName}
                                         className="h-full w-full object-cover"
                                     />
-                                ) : (
-                                    getInitials(
-                                        developer.FullName
-                                    )
-                                )}
+                                ) : (getInitials(developer.FullName))}
                             </div>
 
                             <div className="min-w-0 space-y-1">
