@@ -1,44 +1,96 @@
 package utils
 
 import (
+	"errors"
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var jwtKey = []byte("supersecretkey")
+func getJWTSecret() ([]byte, error) {
+	secret := os.Getenv("JWT_SECRET")
+
+	if secret == "" {
+		return nil, errors.New("JWT_SECRET is not configured")
+	}
+
+	return []byte(secret), nil
+}
 
 func GenerateToken(userID uint, role string) (string, error) {
+	secret, err := getJWTSecret()
+	if err != nil {
+		return "", err
+	}
+
 	claims := jwt.MapClaims{
 		"user_id": userID,
 		"role":    role,
 		"type":    "access",
-		"exp":     time.Now().Add(time.Minute * 15).Unix(), // 15 minutes
+		"iat":     time.Now().Unix(),
+		"exp":     time.Now().Add(15 * time.Minute).Unix(),
 	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(jwtKey)
+
+	token := jwt.NewWithClaims(
+		jwt.SigningMethodHS256,
+		claims,
+	)
+
+	return token.SignedString(secret)
 }
 
 func GenerateRefreshToken(userID uint, role string) (string, error) {
+	secret, err := getJWTSecret()
+	if err != nil {
+		return "", err
+	}
+
 	claims := jwt.MapClaims{
 		"user_id": userID,
 		"role":    role,
 		"type":    "refresh",
-		"exp":     time.Now().Add(time.Hour * 24 * 7).Unix(), // 7 days
+		"iat":     time.Now().Unix(),
+		"exp":     time.Now().Add(7 * 24 * time.Hour).Unix(),
 	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(jwtKey)
+
+	token := jwt.NewWithClaims(
+		jwt.SigningMethodHS256,
+		claims,
+	)
+
+	return token.SignedString(secret)
 }
 
-func ParseToken(tokenStr string) (map[string]interface{}, error) {
-	token, err := jwt.Parse(tokenStr, func(t *jwt.Token) (interface{}, error) {
-		return jwtKey, nil
-	})
-	if err != nil || !token.Valid {
+func ParseToken(tokenStr string) (jwt.MapClaims, error) {
+	secret, err := getJWTSecret()
+	if err != nil {
 		return nil, err
 	}
-	if claims, ok := token.Claims.(jwt.MapClaims); ok {
-		return claims, nil
+
+	token, err := jwt.Parse(
+		tokenStr,
+		func(token *jwt.Token) (interface{}, error) {
+			if token.Method != jwt.SigningMethodHS256 {
+				return nil, errors.New("unexpected signing method")
+			}
+
+			return secret, nil
+		},
+	)
+
+	if err != nil {
+		return nil, err
 	}
-	return nil, err
+
+	if !token.Valid {
+		return nil, errors.New("invalid token")
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return nil, errors.New("invalid token claims")
+	}
+
+	return claims, nil
 }

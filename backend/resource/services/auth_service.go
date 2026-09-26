@@ -203,6 +203,40 @@ func (s *AuthService) GeneratePasswordResetToken(email string) (string, error) {
 	return token, nil
 }
 
+func (s *AuthService) GetRefreshToken(tokenStr string) (*models.RefreshToken, error) {
+	var token models.RefreshToken
+
+	err := s.db.
+		Where("token = ?", tokenStr).
+		First(&token).
+		Error
+
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.New("refresh token not found")
+		}
+
+		return nil, err
+	}
+
+	if time.Now().After(token.ExpiresAt) {
+		return nil, errors.New("refresh token expired")
+	}
+
+	return &token, nil
+}
+
+func (s *AuthService) GetUserByID(userID uint) (*models.User, error) {
+
+	var user models.User
+
+	if err := s.db.First(&user, userID).Error; err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
 func (s *AuthService) ResetPassword(tokenStr, newPassword string) error {
 	var token models.PasswordResetToken
 	if err := s.db.Where("token = ? AND expires_at > ?", tokenStr, time.Now()).First(&token).Error; err != nil {

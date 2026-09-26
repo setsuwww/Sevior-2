@@ -1,12 +1,17 @@
 package admin
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
+	adminDTO "backend/resource/dto/admin"
+	adminModel "backend/resource/models"
 	adminService "backend/resource/services/admin"
+	adminUtils "backend/resource/utils"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type ProjectController struct {
@@ -14,28 +19,28 @@ type ProjectController struct {
 }
 
 func (c *ProjectController) GetProjects(ctx *gin.Context) {
-	agencyID, err := getAgencyID(ctx)
+	agencyID, err := adminUtils.GetAgencyID(ctx)
 
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
-			"message": "unauthorized",
+			"error": err.Error(),
 		})
 		return
 	}
 
-	projects, err := c.ProjectService.GetProjects(agencyID)
+	projects, err := c.Service.GetProjects(agencyID)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"message": "failed to get projects",
+			"error": err.Error(),
 		})
 		return
 	}
 
-	response := make([]ProjectResponse, 0, len(projects))
+	response := make([]adminDTO.ProjectResponse, 0, len(projects))
 
 	for _, project := range projects {
-		response = append(response, ProjectResponse{
+		response = append(response, adminDTO.ProjectResponse{
 			ID:               project.ID,
 			AgencyID:         agencyID,
 			ProjectRequestID: project.ProjectRequestID,
@@ -59,11 +64,28 @@ func (c *ProjectController) GetProjects(ctx *gin.Context) {
 }
 
 func (c *ProjectController) GetProject(ctx *gin.Context) {
-	agencyID, err := getAgencyID(ctx)
 
-	if err != nil {
+	currentUser, exists := ctx.Get("currentUser")
+
+	if !exists {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
-			"message": "unauthorized",
+			"error": "Unauthorized",
+		})
+		return
+	}
+
+	user, ok := currentUser.(adminModel.User)
+
+	if !ok {
+		ctx.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Invalid user",
+		})
+		return
+	}
+
+	if user.AgencyID == nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": "Agency not found",
 		})
 		return
 	}
@@ -76,52 +98,53 @@ func (c *ProjectController) GetProject(ctx *gin.Context) {
 
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"message": "invalid project id",
+			"error": "Invalid project ID",
 		})
 		return
 	}
 
-	project, err := c.ProjectService.GetProject(
-		agencyID,
+	project, err := c.Service.GetProject(
+		*user.AgencyID,
 		uint(projectID),
 	)
 
 	if err != nil {
-		if err.Error() == "project not found" {
+
+		if errors.Is(err, gorm.ErrRecordNotFound) ||
+			err.Error() == "project not found" {
+
 			ctx.JSON(http.StatusNotFound, gin.H{
-				"message": "project not found",
+				"error": "Project not found",
 			})
 			return
 		}
 
 		ctx.JSON(http.StatusInternalServerError, gin.H{
-			"message": "failed to get project",
+			"error": err.Error(),
 		})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"data": ProjectResponse{
-			ID:               project.ID,
-			AgencyID:         agencyID,
-			ProjectRequestID: project.ProjectRequestID,
-			ClientID:         project.ClientID,
-			Title:            project.Title,
-			Description:      project.Description,
-			Budget:           project.Budget,
-			Progress:         project.Progress,
-			CurrentPhase:     project.CurrentPhase,
-			StartDate:        project.StartDate,
-			EndDate:          project.EndDate,
-			Status:           project.Status,
-			CreatedAt:        project.CreatedAt,
-			UpdatedAt:        project.UpdatedAt,
-		},
+	ctx.JSON(http.StatusOK, adminDTO.ProjectResponse{
+		ID:               project.ID,
+		AgencyID:         *user.AgencyID,
+		ProjectRequestID: project.ProjectRequestID,
+		ClientID:         project.ClientID,
+		Title:            project.Title,
+		Description:      project.Description,
+		Budget:           project.Budget,
+		Progress:         project.Progress,
+		CurrentPhase:     project.CurrentPhase,
+		StartDate:        project.StartDate,
+		EndDate:          project.EndDate,
+		Status:           project.Status,
+		CreatedAt:        project.CreatedAt,
+		UpdatedAt:        project.UpdatedAt,
 	})
 }
 
 func (c *ProjectController) GetProjectDevelopers(ctx *gin.Context) {
-	agencyID, err := getAgencyID(ctx)
+	agencyID, err := adminUtils.GetAgencyID(ctx)
 
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
@@ -143,7 +166,7 @@ func (c *ProjectController) GetProjectDevelopers(ctx *gin.Context) {
 		return
 	}
 
-	developers, err := c.ProjectService.GetProjectDevelopers(
+	developers, err := c.Service.GetProjectDevelopers(
 		agencyID,
 		uint(projectID),
 	)
@@ -162,10 +185,10 @@ func (c *ProjectController) GetProjectDevelopers(ctx *gin.Context) {
 		return
 	}
 
-	response := make([]ProjectDeveloperResponse, 0, len(developers))
+	response := make([]adminDTO.ProjectDeveloperResponse, 0, len(developers))
 
 	for _, developer := range developers {
-		response = append(response, ProjectDeveloperResponse{
+		response = append(response, adminDTO.ProjectDeveloperResponse{
 			ID:           developer.ID,
 			FullName:     developer.FullName,
 			Email:        developer.Email,
@@ -182,7 +205,7 @@ func (c *ProjectController) GetProjectDevelopers(ctx *gin.Context) {
 }
 
 func (c *ProjectController) AssignDeveloper(ctx *gin.Context) {
-	agencyID, err := getAgencyID(ctx)
+	agencyID, err := adminUtils.GetAgencyID(ctx)
 
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
@@ -204,7 +227,7 @@ func (c *ProjectController) AssignDeveloper(ctx *gin.Context) {
 		return
 	}
 
-	var request AssignDeveloperRequest
+	var request adminDTO.AssignDeveloperRequest
 
 	if err := ctx.ShouldBindJSON(&request); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -214,7 +237,7 @@ func (c *ProjectController) AssignDeveloper(ctx *gin.Context) {
 		return
 	}
 
-	err = c.ProjectService.AssignDeveloper(
+	err = c.Service.AssignDeveloper(
 		agencyID,
 		uint(projectID),
 		request.DeveloperID,
@@ -253,7 +276,7 @@ func (c *ProjectController) AssignDeveloper(ctx *gin.Context) {
 }
 
 func (c *ProjectController) RemoveDeveloper(ctx *gin.Context) {
-	agencyID, err := getAgencyID(ctx)
+	agencyID, err := adminUtils.GetAgencyID(ctx)
 
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
@@ -288,7 +311,7 @@ func (c *ProjectController) RemoveDeveloper(ctx *gin.Context) {
 		return
 	}
 
-	err = c.ProjectService.RemoveDeveloper(
+	err = c.Service.RemoveDeveloper(
 		agencyID,
 		uint(projectID),
 		uint(developerID),

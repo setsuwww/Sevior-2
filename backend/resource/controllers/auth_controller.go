@@ -6,6 +6,7 @@ import (
 	"backend/resource/services"
 	"backend/resource/utils"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -21,16 +22,39 @@ func NewAuthController(authService *services.AuthService) *AuthController {
 	}
 }
 
+func (ac *AuthController) isProduction() bool {
+	return os.Getenv("APP_ENV") == "production"
+}
+
 func (ac *AuthController) setTokenCookie(c *gin.Context, token string, expires time.Time) {
-	// Set HttpOnly cookie for Refresh Token
+
+	maxAge := int(time.Until(expires).Seconds())
+
+	if maxAge < 0 {
+		maxAge = 0
+	}
+
 	c.SetCookie(
 		"refresh_token",
 		token,
-		int(time.Until(expires).Seconds()),
+		maxAge,
 		"/",
-		"",    // domain
-		false, // secure (should be true in prod HTTPS)
-		true,  // httpOnly
+		"",
+		ac.isProduction(),
+		true,
+	)
+}
+
+func (ac *AuthController) setSessionCookie(c *gin.Context, token string) {
+
+	c.SetCookie(
+		"refresh_token",
+		token,
+		0,
+		"/",
+		"",
+		ac.isProduction(),
+		true,
 	)
 }
 
@@ -129,36 +153,87 @@ func (ac *AuthController) RegisterAgency(c *gin.Context) {
 }
 
 func (ac *AuthController) Login(c *gin.Context) {
+
 	var input struct {
 		Email      string `json:"email" binding:"required,email"`
 		Password   string `json:"password" binding:"required"`
 		RememberMe bool   `json:"rememberMe"`
 	}
+
 	if err := c.ShouldBindJSON(&input); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
 		return
 	}
 
-	user, err := ac.authService.Login(input.Email, input.Password)
+	user, err := ac.authService.Login(
+		input.Email,
+		input.Password,
+	)
+
 	if err != nil {
+
 		status := http.StatusUnauthorized
+
 		if err.Error() == "your account has been suspended" {
 			status = http.StatusForbidden
 		}
-		c.JSON(status, gin.H{"error": err.Error()})
+
+		c.JSON(status, gin.H{
+			"error": err.Error(),
+		})
+
 		return
 	}
 
-	accessToken, _ := utils.GenerateToken(user.ID, user.Role)
+	accessToken, err := utils.GenerateToken(
+		user.ID,
+		user.Role,
+	)
 
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Failed to generate access token",
+		})
+		return
+	}
+
+	refreshToken, err := utils.GenerateRefreshToken(
+		user.ID,
+		user.Role,
+	)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Failed to generate refresh token",
+		})
+		return
+	}
+
+	if err := ac.authService.StoreRefreshToken(
+		user.ID,
+		refreshToken,
+	); err != nil {
+
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Failed to create session",
+		})
+		return
+	}
+
+	// RememberMe menentukan lifetime cookie.
 	if input.RememberMe {
-		refreshToken, _ := utils.GenerateRefreshToken(user.ID, user.Role)
-		ac.authService.StoreRefreshToken(user.ID, refreshToken)
-		ac.setTokenCookie(c, refreshToken, time.Now().Add(time.Hour*24*7))
+		ac.setTokenCookie(
+			c,
+			refreshToken,
+			time.Now().Add(7*24*time.Hour),
+		)
 	} else {
-		refreshToken, _ := utils.GenerateRefreshToken(user.ID, user.Role)
-		ac.authService.StoreRefreshToken(user.ID, refreshToken)
-		c.SetCookie("refresh_token", refreshToken, 0, "/", "", false, true)
+		ac.setSessionCookie(
+			c,
+			refreshToken,
+		)
 	}
 
 	c.JSON(http.StatusOK, gin.H{
@@ -168,45 +243,48 @@ func (ac *AuthController) Login(c *gin.Context) {
 }
 
 func (ac *AuthController) RefreshToken(c *gin.Context) {
-	// Read from HttpOnly cookie
 	tokenStr, err := c.Cookie("refresh_token")
 	if err != nil || tokenStr == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "No refresh token found"})
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "No refresh token found",
+		})
 		return
 	}
 
 	claims, err := utils.ParseToken(tokenStr)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired refresh token"})
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Invalid or expired refresh token",
+		})
 		return
 	}
 
 	if claims["type"] != "refresh" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token type"})
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Invalid token type",
+		})
 		return
 	}
 
 	userIDFloat, ok := claims["user_id"].(float64)
 	if !ok {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token claims"})
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Invalid token claims",
+		})
 		return
 	}
+
 	userID := uint(userIDFloat)
 
 	role, ok := claims["role"].(string)
 	if !ok {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token claims"})
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Invalid token claims",
+		})
 		return
 	}
 
-	// Generate new access token
 	newAccessToken, _ := utils.GenerateToken(userID, role)
-
-	// Option to rotate refresh token here
-	newRefreshToken, _ := utils.GenerateRefreshToken(userID, role)
-	ac.authService.DeleteRefreshToken(tokenStr)
-	ac.authService.StoreRefreshToken(userID, newRefreshToken)
-	ac.setTokenCookie(c, newRefreshToken, time.Now().Add(time.Hour*24*7))
 
 	c.JSON(http.StatusOK, gin.H{
 		"accessToken": newAccessToken,

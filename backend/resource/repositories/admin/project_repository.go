@@ -1,8 +1,6 @@
 package admin
 
 import (
-	"errors"
-
 	adminModel "backend/resource/models"
 
 	"gorm.io/gorm"

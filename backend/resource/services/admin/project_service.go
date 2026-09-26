@@ -3,7 +3,6 @@ package admin
 import (
 	"errors"
 
-	adminDTO "backend/resource/dto/admin"
 	adminModel "backend/resource/models"
 	adminRepo "backend/resource/repositories/admin"
 
