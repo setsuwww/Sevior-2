@@ -243,7 +243,9 @@ func (ac *AuthController) Login(c *gin.Context) {
 }
 
 func (ac *AuthController) RefreshToken(c *gin.Context) {
+
 	tokenStr, err := c.Cookie("refresh_token")
+
 	if err != nil || tokenStr == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"error": "No refresh token found",
@@ -251,23 +253,36 @@ func (ac *AuthController) RefreshToken(c *gin.Context) {
 		return
 	}
 
+	// 1. Validate JWT
 	claims, err := utils.ParseToken(tokenStr)
+
 	if err != nil {
+		ac.clearTokenCookie(c)
+
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"error": "Invalid or expired refresh token",
 		})
 		return
 	}
 
-	if claims["type"] != "refresh" {
+	// 2. Pastikan token adalah refresh token
+	tokenType, ok := claims["type"].(string)
+
+	if !ok || tokenType != "refresh" {
+		ac.clearTokenCookie(c)
+
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"error": "Invalid token type",
 		})
 		return
 	}
 
+	// 3. Ambil user ID dari JWT
 	userIDFloat, ok := claims["user_id"].(float64)
-	if !ok {
+
+	if !ok || userIDFloat <= 0 {
+		ac.clearTokenCookie(c)
+
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"error": "Invalid token claims",
 		})
@@ -276,15 +291,64 @@ func (ac *AuthController) RefreshToken(c *gin.Context) {
 
 	userID := uint(userIDFloat)
 
-	role, ok := claims["role"].(string)
-	if !ok {
+	// 4. Validasi token terhadap DB
+	refreshToken, err := ac.authService.GetRefreshToken(
+		tokenStr,
+	)
+
+	if err != nil {
+		ac.clearTokenCookie(c)
+
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": "Invalid token claims",
+			"error": "Refresh session is invalid or expired",
 		})
 		return
 	}
 
-	newAccessToken, _ := utils.GenerateToken(userID, role)
+	// 5. Pastikan token DB milik user yang sama
+	if refreshToken.UserID != userID {
+		ac.clearTokenCookie(c)
+
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Invalid refresh session",
+		})
+		return
+	}
+
+	// 6. Load current user dari DB
+	user, err := ac.authService.GetUserByID(userID)
+
+	if err != nil {
+		ac.clearTokenCookie(c)
+
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "User not found",
+		})
+		return
+	}
+
+	// 7. User yang suspended tidak boleh refresh session
+	if user.IsActive != nil && !*user.IsActive {
+		ac.clearTokenCookie(c)
+
+		c.JSON(http.StatusForbidden, gin.H{
+			"error": "Your account has been suspended",
+		})
+		return
+	}
+
+	// 8. Generate access token baru
+	newAccessToken, err := utils.GenerateToken(
+		user.ID,
+		user.Role,
+	)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Failed to generate access token",
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"accessToken": newAccessToken,
