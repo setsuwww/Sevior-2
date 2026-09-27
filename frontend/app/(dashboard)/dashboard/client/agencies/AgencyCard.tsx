@@ -1,25 +1,25 @@
-import {
-    Folder,
-    MailIcon,
-    MapPin,
-    Phone,
-    User,
-} from "lucide-react";
+"use client";
 
-import {
-    PROFILE_THEMES,
-    type ProfileTheme,
-} from "@/_constants/theme/profile";
+import { useState } from "react";
+
+import { Folder, MailIcon, MapPin, Phone, User } from "lucide-react";
+
+import { PROFILE_THEMES, type ProfileTheme } from "@/_constants/theme/profile";
+
 import { getImageUrl } from "@/_lib/helpers/url-image";
 import { Agency } from "@/types/agency";
 import { Button } from "@/_components/ui/button";
 import { getPhoneFormat } from "../../admin/users/developers/logic/adminDeveloperHelpers";
+import { ProjectsModalRequest } from "./components/modals/ProjectsModalRequest";
 
 interface AgencyCardProps {
     agency: Agency;
 }
 
+
 export function AgencyCard({ agency }: AgencyCardProps) {
+    const [requestOpen, setRequestOpen] = useState(false);
+
     const profileTheme: ProfileTheme = "slate-teal";
     const theme = PROFILE_THEMES[profileTheme];
 
@@ -119,10 +119,16 @@ export function AgencyCard({ agency }: AgencyCardProps) {
 
                     <Button
                         type="button"
+                        onClick={() => setRequestOpen(true)}
                     >
                         Request a Project
                     </Button>
                 </div>
+                <ProjectsModalRequest
+                    agency={agency}
+                    open={requestOpen}
+                    onClose={() => setRequestOpen(false)}
+                />
             </div>
         </div>
     );

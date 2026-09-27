@@ -5,6 +5,8 @@ import { Search, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/_components/ui/button";
 import { AgencyCard } from "./AgencyCard";
 import { api } from "@/_lib/axiosInstance";
+import { SectionHeader } from "@/_components/ui/common/SectionHeader";
+import { Input } from "@/_components/ui/input";
 
 interface Agency {
     ID: number;
@@ -47,36 +49,29 @@ export default function AgencyLists() {
             <div className="bg-white border-b border-gray-200">
                 <div className="max-w-[1600px] mx-auto p-6 lg:px-8 lg:py-10">
                     <div className="max-w-2xl">
-                        <h1 className="text-3xl font-black text-gray-900 tracking-tight mb-3">
-                            Browse Agencies
-                        </h1>
-
-                        <p className="text-lg text-gray-500">
-                            Discover and hire top-tier software development
-                            agencies for your next big project.
-                        </p>
+                        <SectionHeader
+                            icon={Search}
+                            title="Browse & Search Agency"
+                            description="Search browse who relevant to Your project requirements."
+                        />
                     </div>
 
                     <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                        <div className="relative flex-1 max-w-xl">
-                            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                                <Search className="w-5 h-5 text-gray-400" />
-                            </div>
-
-                            <input
-                                type="text"
-                                placeholder="Search by agency name, specialty, or keywords..."
-                                className="w-full bg-gray-50 border border-gray-200 text-gray-900 text-base rounded-xl pl-11 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-shadow shadow-sm placeholder:text-gray-400"
-                            />
-                        </div>
-
                         <Button
                             variant="outline"
-                            className="h-12 px-6 border-gray-200 text-gray-700 bg-white hover:bg-gray-50 shadow-sm rounded-xl"
+                            className="h-9 px-2"
                         >
                             <SlidersHorizontal className="w-5 h-5 mr-2" />
                             Filters
                         </Button>
+
+                        <div className="relative flex-1 max-w-xl">
+                            <Input
+                                type="text" typeSearch
+                                placeholder="Search by agency name, specialty, or keywords..."
+                                className="w-full bg-gray-50 border border-gray-200 text-gray-900 text-base px-4 py-3 placeholder:text-gray-400"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,15 +1,14 @@
 package client
 
 import (
-	clientRepository "backend/resource/repositories/client"
-
-	"backend/resource/models"
+	clientModel "backend/resource/models"
+	clientRepo "backend/resource/repositories/client"
 )
 
 type AgencyService struct {
-	Repo *clientRepository.AgencyRepository
+	Repo *clientRepo.AgencyRepository
 }
 
-func (s *AgencyService) GetAgencies() ([]models.Agency, error) {
+func (s *AgencyService) GetAgencies() ([]clientModel.Agency, error) {
 	return s.Repo.GetAllAgencies()
 }

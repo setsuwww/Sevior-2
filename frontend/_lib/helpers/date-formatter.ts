@@ -1,4 +1,4 @@
-export function formatDate(date: string) {
+export function formatDate(date: string | null | undefined) {
     if (!date) {
         return "-";
     }
@@ -9,11 +9,11 @@ export function formatDate(date: string) {
         return date;
     }
 
-    return parsedDate.toLocaleDateString("en-GB", {
+    return new Intl.DateTimeFormat("id-ID", {
         day: "2-digit",
         month: "long",
         year: "numeric",
-    });
+    }).format(parsedDate);
 }
 
 export function formatDateShort(date: string) {

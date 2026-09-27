@@ -1,67 +1,80 @@
 "use client";
 
 import { useState } from "react";
-import {
-    LayoutGrid,
-    List,
-} from "lucide-react";
+import { Folders, LayoutGrid, List } from "lucide-react";
+
+import { ButtonGroup } from "@/_components/ui/button-group"
+
+import { Button } from "@/_components/ui/button"
 
 import type { Project } from "@/_lib/services/admin/project.service";
-import { ProjectsTable } from "./components/ProjectsTable";
 import { ProjectsGrid } from "./components/ProjectsGrid";
+import { SectionHeader } from "@/_components/ui/common/SectionHeader";
+
+import { ProjectsTable } from "./components/ProjectsTable";
 
 interface ProjectsViewProps {
     projects: Project[];
 }
 
-export default function ProjectsView({projects}: ProjectsViewProps) {
+export default function ProjectsView({ projects }: ProjectsViewProps) {
     const [view, setView] = useState<"table" | "grid">("table");
 
     return (
-        <div className="space-y-6">
+        <div className="p-6 space-y-6">
             {/* Header */}
             <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-2xl font-semibold">
-                        Projects
-                    </h1>
-
-                    <p className="text-sm text-muted-foreground">
-                        Manage projects for your agency.
-                    </p>
-                </div>
+                <SectionHeader
+                    icon={Folders}
+                    title="Projects"
+                    description="Manage agency Project, and assigns task for Developers."
+                />
 
                 {/* View Toggle */}
-                <div className="flex items-center rounded-lg border p-1">
-                    <button
+                <ButtonGroup>
+                    <Button
                         type="button"
                         onClick={() => setView("table")}
-                        className={`rounded-md p-2 ${view === "table"
-                                ? "bg-muted"
-                                : "text-muted-foreground"
-                            }`}
+                        variant="outline"
+                        className={`p-2 ${view === "table" ? "bg-muted text-accent-foreground" : "text-muted-foreground"}`}
                     >
                         <List className="size-4" />
-                    </button>
+                    </Button>
 
-                    <button
+                    <Button
                         type="button"
                         onClick={() => setView("grid")}
-                        className={`rounded-md p-2 ${view === "grid"
-                                ? "bg-muted"
-                                : "text-muted-foreground"
-                            }`}
+                        variant="outline"
+                        className={`p-2 ${view === "grid" ? "bg-muted text-accent-foreground" : "text-muted-foreground"}`}
                     >
                         <LayoutGrid className="size-4" />
-                    </button>
-                </div>
+                    </Button>
+                </ButtonGroup>
             </div>
 
             {/* Content */}
             {view === "table" ? (
-                <ProjectsTable projects={projects} />
+                <div className="overflow-hidden rounded-sm border border-gray-200 bg-white">
+                    <ProjectsTable
+                        projects={projects}
+                        handleOpenDetail={(project) => {
+                            console.log("Detail:", project);
+                        }}
+                        handleOpenEdit={(project) => {
+                            console.log("Edit:", project);
+                        }}
+                        handleOpenAssignDevelopers={(project) => {
+                            console.log("Assign developers:", project);
+                        }}
+                        handleOpenDelete={(project) => {
+                            console.log("Delete:", project);
+                        }}
+                    />
+                </div>
             ) : (
-                <ProjectsGrid projects={projects} />
+                <div className="overflow-hidden rounded-sm border border-gray-200 bg-white">
+                    <ProjectsGrid projects={projects} />
+                </div>
             )}
         </div>
     );

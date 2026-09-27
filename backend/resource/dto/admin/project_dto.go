@@ -35,11 +35,11 @@ type AssignDeveloperRequest struct {
 }
 
 type ProjectListResponse struct {
-	Data       []ProjectResponse `json:"data"`
-	Total      int64             `json:"total"`
+	Data  []ProjectResponse `json:"data"`
+	Total int64             `json:"total"`
 }
 
 type ProjectDetailResponse struct {
-	Project    ProjectResponse           `json:"project"`
+	Project    ProjectResponse            `json:"project"`
 	Developers []ProjectDeveloperResponse `json:"developers"`
 }

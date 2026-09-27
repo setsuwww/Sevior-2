@@ -1,10 +1,7 @@
+import { formatDate } from "@/_lib/helpers/date-formatter";
 import { Project } from "@/_lib/services/admin/project.service";
 
-export function ProjectsGrid({
-    projects,
-}: {
-    projects: Project[];
-}) {
+export function ProjectsGrid({ projects }: { projects: Project[] }) {
     return (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
             {projects.map((project) => (

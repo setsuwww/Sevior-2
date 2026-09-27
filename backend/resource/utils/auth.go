@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	adminModel "backend/resource/models"
+	"backend/resource/models"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,7 +22,7 @@ func RequireAgency() gin.HandlerFunc {
 			return
 		}
 
-		user, ok := userIface.(adminModel.User)
+		user, ok := userIface.(models.User)
 
 		if !ok {
 			c.JSON(http.StatusUnauthorized, gin.H{
@@ -33,7 +33,7 @@ func RequireAgency() gin.HandlerFunc {
 		}
 
 		// SUPER_ADMIN tidak wajib memiliki AgencyID.
-		if user.Role != adminModel.RoleSuperAdmin &&
+		if user.Role != models.RoleSuperAdmin &&
 			user.AgencyID == nil {
 
 			c.JSON(http.StatusForbidden, gin.H{
@@ -54,7 +54,7 @@ func GetAgencyID(ctx *gin.Context) (uint, error) {
 		return 0, errors.New("unauthorized")
 	}
 
-	user, ok := currentUser.(adminModel.User)
+	user, ok := currentUser.(models.User)
 
 	if !ok {
 		return 0, errors.New("invalid user")
