@@ -3,7 +3,7 @@ import { Table } from "@/_components/ui/table";
 import { ProjectsTableHeader } from "./ProjectsTableHeader";
 import { ProjectsTableBody } from "./ProjectsTableBody";
 
-import type { Project } from "@/_lib/services/admin-service/project.service";
+import { Project } from "@/types/project";
 
 interface ProjectsTableProps {
     projects: Project[];

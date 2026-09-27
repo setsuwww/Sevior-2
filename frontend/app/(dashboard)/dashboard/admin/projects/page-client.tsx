@@ -7,18 +7,22 @@ import { ButtonGroup } from "@/_components/ui/button-group"
 
 import { Button } from "@/_components/ui/button"
 
-import type { Project } from "@/_lib/services/admin-service/project.service";
 import { ProjectsGrid } from "./components/ProjectsGrid";
 import { SectionHeader } from "@/_components/ui/common/SectionHeader";
 
 import { ProjectsTable } from "./components/ProjectsTable";
+import { useRouter } from "next/navigation";
+
+import { Project } from "@/types/project";
 
 interface ProjectsViewProps {
     projects: Project[];
+    projectCount: number;
 }
 
-export default function ProjectsView({ projects }: ProjectsViewProps) {
+export default function ProjectsView({ projects, projectCount }: ProjectsViewProps) {
     const [view, setView] = useState<"table" | "grid">("table");
+    const router = useRouter()
 
     return (
         <div className="p-6 space-y-6">
@@ -31,25 +35,36 @@ export default function ProjectsView({ projects }: ProjectsViewProps) {
                 />
 
                 {/* View Toggle */}
-                <ButtonGroup>
-                    <Button
-                        type="button"
-                        onClick={() => setView("table")}
-                        variant="outline"
-                        className={`p-2 ${view === "table" ? "bg-muted text-accent-foreground" : "text-muted-foreground"}`}
-                    >
-                        <List className="size-4" />
+                <div className="flex items-center justify-between gap-2">
+                    <Button type="button" variant="outline" onClick={() => router.push("/dashboard/admin/projects/requests")}>
+                        Requested Project
+                        {projectCount !== 0 && (
+                            <span className="ml-1 inline-flex min-w-4 items-center justify-center rounded-xs bg-red-500 px-1.5 py-0.5 text-xs font-semibold leading-none text-white">
+                                {projectCount}
+                            </span>
+                        )}
                     </Button>
 
-                    <Button
-                        type="button"
-                        onClick={() => setView("grid")}
-                        variant="outline"
-                        className={`p-2 ${view === "grid" ? "bg-muted text-accent-foreground" : "text-muted-foreground"}`}
-                    >
-                        <LayoutGrid className="size-4" />
-                    </Button>
-                </ButtonGroup>
+                    <ButtonGroup>
+                        <Button
+                            type="button"
+                            onClick={() => setView("table")}
+                            variant="outline"
+                            className={`p-2 ${view === "table" ? "bg-muted text-accent-foreground" : "text-muted-foreground"}`}
+                        >
+                            <List className="size-4" />
+                        </Button>
+
+                        <Button
+                            type="button"
+                            onClick={() => setView("grid")}
+                            variant="outline"
+                            className={`p-2 ${view === "grid" ? "bg-muted text-accent-foreground" : "text-muted-foreground"}`}
+                        >
+                            <LayoutGrid className="size-4" />
+                        </Button>
+                    </ButtonGroup>
+                </div>
             </div>
 
             {/* Content */}

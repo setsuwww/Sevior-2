@@ -12,6 +12,24 @@ import (
 	"gorm.io/gorm"
 )
 
+func GetAgencyID(c *gin.Context) (uint, error) {
+	userIface, exists := c.Get("currentUser")
+	if !exists {
+		return 0, errors.New("authenticated user not found")
+	}
+
+	user, ok := userIface.(models.User)
+	if !ok {
+		return 0, errors.New("invalid authenticated user")
+	}
+
+	if user.AgencyID == nil {
+		return 0, errors.New("agency ID not found")
+	}
+
+	return *user.AgencyID, nil
+}
+
 func AuthMiddleware(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 

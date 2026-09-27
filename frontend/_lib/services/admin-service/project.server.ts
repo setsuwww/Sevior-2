@@ -1,22 +1,6 @@
 import { api } from "@/_lib/axiosInstance";
 import { serverFetch } from "@/_lib/serverFetch";
-
-export interface Project {
-    id: number;
-    agencyId: number;
-    projectRequestId: number | null;
-    clientId: number | null;
-    title: string;
-    description: string;
-    budget: number | null;
-    progress: number | null;
-    currentPhase: string;
-    startDate: string | null;
-    endDate: string | null;
-    status: string;
-    createdAt: string;
-    updatedAt: string;
-}
+import { Project } from "@/types/project";
 
 interface ProjectResponse {
     data: Project[];

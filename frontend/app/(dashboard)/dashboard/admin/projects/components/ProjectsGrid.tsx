@@ -1,5 +1,6 @@
 import { formatDate } from "@/_lib/helpers/date-formatter";
-import { Project } from "@/_lib/services/admin-service/project.service";
+
+import { Project } from "@/types/project";
 
 export function ProjectsGrid({ projects }: { projects: Project[] }) {
     return (

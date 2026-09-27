@@ -1,18 +1,3 @@
-export interface ProjectRequest {
-    id: number;
-    agencyId: number;
-    clientId: number;
-    title: string;
-    description: string;
-    category: string;
-    budgetMin: number | null;
-    budgetMax: number | null;
-    deadline: string | null;
-    attachmentUrl: string;
-    status: string;
-    createdAt: string;
-}
-
 export interface Project {
     id: number;
     agencyId: number;
@@ -28,4 +13,50 @@ export interface Project {
     status: string;
     createdAt: string;
     updatedAt: string;
+}
+
+export interface ProjectRequest {
+    id: number;
+    clientId: number;
+    clientName: string;
+    clientEmail: string;
+    clientPhone: string;
+    clientImage: string;
+    title: string;
+    description: string;
+    category: string;
+    budgetMin: number | null;
+    budgetMax: number | null;
+    deadline: string | null;
+    attachmentUrl: string;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface ProjectRequestListResponse {
+    data: ProjectRequest[];
+}
+
+export interface ProjectRequestDetail {
+    id: number;
+    clientId: number;
+    clientName: string;
+    clientEmail: string;
+    clientPhone: string;
+    clientImage: string;
+    title: string;
+    description: string;
+    category: string;
+    budgetMin: number | null;
+    budgetMax: number | null;
+    deadline: string | null;
+    attachmentUrl: string;
+    status: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface ProjectRequestCountResponse {
+    count: number;
 }

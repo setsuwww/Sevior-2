@@ -24,6 +24,10 @@ func AgencyAdminRoutes(r *gin.Engine, db *gorm.DB) {
 	developerService := &adminService.DeveloperService{Repo: developerRepo}
 	developerController := &adminCtrl.DeveloperController{Service: developerService}
 
+	projectRequestRepo := &adminRepo.ProjectRequestRepository{DB: db}
+	projectRequestService := &adminService.ProjectRequestService{Repo: projectRequestRepo}
+	projectRequestController := &adminCtrl.ProjectRequestController{Service: projectRequestService}
+
 	projectRepo := &adminRepo.ProjectRepository{DB: db}
 	projectService := &adminService.ProjectService{Repo: projectRepo}
 	projectController := &adminCtrl.ProjectController{Service: projectService}
@@ -54,6 +58,12 @@ func AgencyAdminRoutes(r *gin.Engine, db *gorm.DB) {
 		adminGroup.POST("/developers", developerController.CreateDeveloper)
 		adminGroup.PATCH("/developers/:id", developerController.UpdateDeveloper)
 		adminGroup.DELETE("/developers/:id", developerController.DeleteDeveloper)
+
+		adminGroup.GET("/project-requests/count", projectRequestController.GetPendingProjectRequestCount)
+		adminGroup.GET("/project-requests", projectRequestController.GetProjectRequests)
+		adminGroup.GET("/project-requests/:id", projectRequestController.GetProjectRequest)
+		adminGroup.PATCH("/project-requests/:id/approve", projectRequestController.ApproveProjectRequest)
+		adminGroup.PATCH("/project-requests/:id/reject", projectRequestController.RejectProjectRequest)
 
 		adminGroup.GET("/projects", projectController.GetProjects)
 		adminGroup.GET("/projects/:id", projectController.GetProject)
