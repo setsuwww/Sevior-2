@@ -30,6 +30,9 @@ func ClientRouter(r *gin.Engine, db *gorm.DB) {
 
 	{
 		clientGroup.GET("/agencies", agencyController.GetAgencies)
+
 		clientGroup.POST("/project-requests", projectController.CreateProjectRequest)
+		clientGroup.GET("/project-requests", projectController.GetMyProjectRequests)
+		clientGroup.GET("/projects", projectController.GetMyProjects)
 	}
 }

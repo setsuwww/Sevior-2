@@ -1,43 +1,30 @@
-import { api } from "@/_lib/axiosInstance";
+import "server-only";
 
-export interface CreateProjectRequestPayload {
-    agencyId: number;
-    title: string;
-    description: string;
-    category?: string;
-    budgetMin?: number;
-    budgetMax?: number;
-    deadline?: string;
-    attachmentUrl?: string;
+import { serverFetch } from "@/_lib/serverFetch";
+import type { Project, ProjectRequest } from "@/types/project";
+
+interface ProjectRequestListResponse {
+    data: ProjectRequest[];
 }
 
-export interface ProjectRequest {
-    id: number;
-    agencyId: number;
-    clientId: number;
-    title: string;
-    description: string;
-    category: string;
-    budgetMin: number | null;
-    budgetMax: number | null;
-    deadline: string | null;
-    attachmentUrl: string;
-    status: string;
-    createdAt: string;
+interface ProjectListResponse {
+    data: Project[];
 }
 
-interface ProjectRequestResponse {
-    message: string;
-    data: ProjectRequest;
+export async function getMyProjectRequests(view: "pending" | "history" = "pending"): Promise<ProjectRequest[]> {
+    const response =
+        await serverFetch<ProjectRequestListResponse>(
+            `/api/v1/client/project-requests?view=${view}`
+        );
+
+    return response.data;
 }
 
-export async function createProjectRequest(
-    payload: CreateProjectRequestPayload
-): Promise<ProjectRequest> {
-    const response = await api.post<ProjectRequestResponse>(
-        "/api/v1/client/project-requests",
-        payload
-    );
+export async function getMyProjects(): Promise<Project[]> {
+    const response =
+        await serverFetch<ProjectListResponse>(
+            "/api/v1/client/projects"
+        );
 
-    return response.data.data;
+    return response.data;
 }

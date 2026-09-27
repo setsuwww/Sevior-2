@@ -1,5 +1,5 @@
-import AgencyLists from "./AgencyLists";
+import AgenciesList from "./components/AgenciesList";
 
 export default function Page() {
-    return <AgencyLists />;
+    return <AgenciesList />;
 }

@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Search, SlidersHorizontal } from "lucide-react";
-import { Button } from "@/_components/ui/button";
+import { Building2 } from "lucide-react";
 import { AgencyCard } from "./AgencyCard";
 import { api } from "@/_lib/axiosInstance";
-import { SectionHeader } from "@/_components/ui/common/SectionHeader";
-import { Input } from "@/_components/ui/input";
+import { AgenciesFilterSearch } from "./AgenciesFilterSearch";
 
 interface Agency {
     ID: number;
@@ -23,7 +21,7 @@ interface Agency {
     SubscriptionStatus: string;
 }
 
-export default function AgencyLists() {
+export default function AgenciesList() {
     const [agencies, setAgencies] = useState<Agency[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -37,8 +35,8 @@ export default function AgencyLists() {
 
                 setAgencies(response.data.agencies ?? []);
             }
-            catch (error) { setError("Failed to load agencies."); }
-            finally { setLoading(false); }
+            catch (error) { setError("Failed to load agencies.") }
+            finally { setLoading(false) }
         };
 
         fetchAgencies();
@@ -46,38 +44,9 @@ export default function AgencyLists() {
 
     return (
         <div className="min-h-screen bg-gray-50/50">
-            <div className="bg-white border-b border-gray-200">
-                <div className="max-w-[1600px] mx-auto p-6 lg:px-8 lg:py-10">
-                    <div className="max-w-2xl">
-                        <SectionHeader
-                            icon={Search}
-                            title="Browse & Search Agency"
-                            description="Search browse who relevant to Your project requirements."
-                        />
-                    </div>
-
-                    <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                        <Button
-                            variant="outline"
-                            className="h-9 px-2"
-                        >
-                            <SlidersHorizontal className="w-5 h-5 mr-2" />
-                            Filters
-                        </Button>
-
-                        <div className="relative flex-1 max-w-xl">
-                            <Input
-                                type="text" typeSearch
-                                placeholder="Search by agency name, specialty, or keywords..."
-                                className="w-full bg-gray-50 border border-gray-200 text-gray-900 text-base px-4 py-3 placeholder:text-gray-400"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <AgenciesFilterSearch />
 
             <div className="max-w-[1600px] mx-auto p-6 lg:p-8">
-
                 {loading ? (
                     <div className="py-20 text-center">
                         <div className="mx-auto w-8 h-8 border-4 border-gray-200 border-t-teal-500 rounded-full animate-spin" />
@@ -99,9 +68,11 @@ export default function AgencyLists() {
                 ) : (
                     <>
                         <div className="mb-6 flex justify-between items-center">
-                            <h2 className="text-sm font-bold text-gray-500 uppercase tracking-widest">
-                                {agencies.length} Agencies Found
-                            </h2>
+                                    <h3 className="flex items-center gap-2 text-sm text-gray-500">
+                                        <Building2 className="h-4 w-4" />
+                                        <span>:</span>
+                                        <span>{agencies.length} Agencies Found</span>
+                                    </h3>
 
                             <select className="bg-transparent text-sm font-semibold text-gray-700 focus:outline-none cursor-pointer">
                                 <option>Sort by: Recommended</option>
