@@ -3,7 +3,7 @@ import { Table } from "@/_components/ui/table";
 import { DevelopersTableHeader } from "./DevelopersTableHeader";
 import { DevelopersTableBody } from "./DevelopersTableBody";
 
-import type { Developer } from "@/_lib/services/admin/users/developer.service";
+import type { Developer } from "@/_lib/services/admin-service/users/developer.service";
 
 interface DevelopersTableProps {
     developers: Developer[];

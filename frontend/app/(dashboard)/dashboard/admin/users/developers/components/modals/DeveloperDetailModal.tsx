@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 
-import type { Developer } from "@/_lib/services/admin/users/developer.service";
+import type { Developer } from "@/_lib/services/admin-service/users/developer.service";
 
 import { getInitials, getPhoneFormat } from "../../logic/adminDeveloperHelpers";
 import { DetailItem } from "../DetailItem";

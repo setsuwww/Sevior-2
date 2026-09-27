@@ -1,7 +1,7 @@
 import { Loader2, Trash2, X } from "lucide-react";
 
 import { Button } from "@/_components/ui/button";
-import type { Developer } from "@/_lib/services/admin/users/developer.service";
+import type { Developer } from "@/_lib/services/admin-service/users/developer.service";
 
 interface DeveloperDeleteModalProps {
     developer: Developer | null;

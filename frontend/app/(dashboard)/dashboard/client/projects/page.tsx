@@ -1,7 +1,7 @@
 import {
     getMyProjectRequests,
     getMyProjects,
-} from "@/_lib/services/client/project.service";
+} from "@/_lib/services/client-service/project.server";
 
 import ProjectsPageClient from "./page-client";
 

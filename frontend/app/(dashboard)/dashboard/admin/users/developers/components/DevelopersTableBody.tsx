@@ -4,7 +4,7 @@ import { Button } from "@/_components/ui/button";
 import { TableBody, TableCell, TableRow } from "@/_components/ui/table";
 import { getInitials, getPhoneFormat } from "../logic/adminDeveloperHelpers";
 
-import type { Developer } from "@/_lib/services/admin/users/developer.service";
+import type { Developer } from "@/_lib/services/admin-service/users/developer.service";
 import { StatusBadge } from "./StatusBadge";
 import { formatDate } from "@/_lib/helpers/date-formatter";
 

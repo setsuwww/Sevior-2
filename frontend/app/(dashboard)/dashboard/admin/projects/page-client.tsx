@@ -7,7 +7,7 @@ import { ButtonGroup } from "@/_components/ui/button-group"
 
 import { Button } from "@/_components/ui/button"
 
-import type { Project } from "@/_lib/services/admin/project.service";
+import type { Project } from "@/_lib/services/admin-service/project.service";
 import { ProjectsGrid } from "./components/ProjectsGrid";
 import { SectionHeader } from "@/_components/ui/common/SectionHeader";
 

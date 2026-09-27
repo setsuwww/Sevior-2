@@ -15,7 +15,7 @@ import {
     fetchDevelopers,
     updateDeveloper,
     type Developer,
-} from "@/_lib/services/admin/users/developer.service";
+} from "@/_lib/services/admin-service/users/developer.service";
 import { getErrorMessage } from "./adminDeveloperHelpers";
 
 export type DeveloperForm = {

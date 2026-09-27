@@ -7,7 +7,7 @@ import { Button } from "@/_components/ui/button";
 import { Input } from "@/_components/ui/input";
 import { Textarea } from "@/_components/ui/textarea";
 
-import { createProjectRequest } from "@/_lib/services/client/project.client";
+import { createProjectRequest } from "@/_lib/services/client-service/project.client";
 import type { Agency } from "@/types/agency";
 
 interface ProjectsModalRequestProps {

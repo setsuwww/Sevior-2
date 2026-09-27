@@ -5,7 +5,7 @@ import { Button } from "@/_components/ui/button";
 
 import { formatDate } from "@/_lib/helpers/date-formatter";
 
-import type { Project } from "@/_lib/services/admin/project.service";
+import type { Project } from "@/_lib/services/admin-service/project.service";
 
 interface ProjectsTableBodyProps {
     projects: Project[];

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Developer, DeveloperStats } from "../types/developer";
-import { developerService } from "../_lib/services/admin/developer.service";
+import { developerService } from "../_lib/services/admin-service/developer.service";
 import { toast } from "sonner";
 
 export function useDevelopers() {
