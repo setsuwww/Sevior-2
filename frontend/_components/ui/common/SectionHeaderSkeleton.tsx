@@ -18,8 +18,8 @@ export function SectionHeaderSkeleton({
 
             {/* TITLE */}
             <div className="space-y-2">
-                <Skeleton className="h-7 w-32 rounded-sm" />
-                <Skeleton className="h-4 w-52 rounded-sm" />
+                <Skeleton className="h-7 w-32 rounded-sm bg-olive-100" />
+                <Skeleton className="h-4 w-52 rounded-sm bg-olive-100" />
             </div>
         </div>
     );

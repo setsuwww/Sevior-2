@@ -32,9 +32,7 @@ const INITIAL_FORM: DeveloperForm = {
     is_active: true,
 };
 
-export function useDeveloperForm(
-    developer?: Developer | null
-) {
+export function useDeveloperForm(developer?: Developer | null) {
     const router = useRouter();
 
     const [form, setForm] = useState<DeveloperForm>(() => {
