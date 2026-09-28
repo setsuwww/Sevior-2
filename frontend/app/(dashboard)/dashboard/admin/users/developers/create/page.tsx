@@ -4,7 +4,7 @@ import { Code2 } from "lucide-react";
 
 import { SectionHeader } from "@/_components/ui/common/SectionHeader";
 
-import { useAdminDeveloper } from "../logic/useAdminDeveloper";
+import { useDeveloperForm } from "../logic/useDeveloperForm";
 import { DeveloperCreateForm } from "./DeveloperCreateForm";
 
 export default function DeveloperCreatePage() {
@@ -12,10 +12,9 @@ export default function DeveloperCreatePage() {
         form,
         formError,
         submitting,
-
         handleFormChange,
         handleSubmit,
-    } = useAdminDeveloper();
+    } = useDeveloperForm();
 
     return (
         <div className="p-6">

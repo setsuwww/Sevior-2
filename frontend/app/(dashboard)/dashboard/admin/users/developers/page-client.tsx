@@ -99,7 +99,7 @@ export default function DevelopersPageClient({initialDevelopers}: DevelopersPage
                 <DevelopersTable
                     developers={filteredDevelopers}
                     copiedField={copiedField}
-                    // handleCopy={handleCopy}
+                    //handleCopy={handleCopy}
                     handleOpenEdit={handleOpenEdit}
                     handleOpenDetail={handleOpenDetail}
                     handleOpenDelete={handleOpenDelete}

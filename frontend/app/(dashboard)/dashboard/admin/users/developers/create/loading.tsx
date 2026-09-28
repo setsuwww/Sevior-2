@@ -1,6 +1,7 @@
-import { SectionHeaderSkeleton } from "@/_components/ui/common/SectionHeaderSkeleton";
-import { Skeleton } from "@/_components/ui/skeleton";
 import { Code2 } from "lucide-react";
+
+import { Skeleton } from "@/_components/ui/skeleton";
+import { SectionHeaderSkeleton } from "@/_components/ui/common/SectionHeaderSkeleton";
 
 export default function Loading() {
     return (
@@ -9,11 +10,9 @@ export default function Loading() {
             <div className="mb-6 flex items-center justify-between">
                 <SectionHeaderSkeleton icon={Code2} />
 
-                {/* ADD BUTTON */}
                 <Skeleton className="h-10 w-36 rounded-sm" />
             </div>
 
-            {/* SEARCH */}
             <div className="mb-4 flex items-center justify-between gap-4">
                 <Skeleton className="h-10 w-full max-w-md rounded-sm" />
 
@@ -21,9 +20,9 @@ export default function Loading() {
             </div>
 
             {/* TABLE */}
-            <div className="overflow-hidden rounded-sm border border-gray-200 bg-white">
+            <div className="overflow-hidden rounded-sm border border-border bg-card">
                 {/* TABLE HEADER */}
-                <div className="border-b border-gray-200 px-6 py-4">
+                <div className="border-b border-border px-6 py-4">
                     <div className="grid grid-cols-5 gap-4">
                         <Skeleton className="h-4 w-24 rounded-sm" />
                         <Skeleton className="h-4 w-28 rounded-sm" />
@@ -33,14 +32,12 @@ export default function Loading() {
                     </div>
                 </div>
 
-                {/* TABLE ROWS */}
-                <div className="divide-y divide-gray-100">
+                <div className="divide-y divide-border">
                     {Array.from({ length: 6 }).map((_, index) => (
                         <div
                             key={index}
                             className="grid grid-cols-5 items-center gap-4 px-6 py-4"
                         >
-                            {/* DEVELOPER */}
                             <div className="flex items-center gap-3">
                                 <Skeleton className="h-9 w-9 shrink-0 rounded-full" />
 
@@ -50,16 +47,12 @@ export default function Loading() {
                                 </div>
                             </div>
 
-                            {/* EMAIL */}
-                            <Skeleton className="h-4 w-40 rounded-sm" />
+                            <Skeleton className="h-4 w-32 rounded-sm" />
 
-                            {/* PHONE */}
                             <Skeleton className="h-4 w-28 rounded-sm" />
 
-                            {/* STATUS */}
                             <Skeleton className="h-6 w-16 rounded-full" />
 
-                            {/* ACTIONS */}
                             <div className="ml-auto flex items-center gap-2">
                                 <Skeleton className="h-8 w-8 rounded-sm" />
                                 <Skeleton className="h-8 w-8 rounded-sm" />
