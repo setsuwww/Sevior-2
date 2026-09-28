@@ -2,7 +2,7 @@ import { Loader2, X } from "lucide-react";
 
 import { Button } from "@/_components/ui/button";
 import { Input } from "@/_components/ui/input";
-import type { Developer } from "@/_lib/services/admin-service/users/developer.service";
+import type { Developer } from "@/_lib/services/admin-service/users/developer.server";
 
 interface DeveloperForm {
     full_name: string;

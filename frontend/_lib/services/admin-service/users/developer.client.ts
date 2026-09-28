@@ -1,20 +1,7 @@
-import { api } from "@/_lib/axiosInstance";
+"use client";
 
-export interface Developer {
-    ID: number;
-    AgencyID: number | null;
-    FullName: string;
-    Email: string;
-    Phone: string;
-    ProfileImage: string;
-    Biography: string;
-    ProfileTheme: string;
-    Role: "DEVELOPER";
-    IsActive: boolean;
-    LastLogin: string | null;
-    CreatedAt: string;
-    UpdatedAt: string;
-}
+import { api } from "@/_lib/axiosInstance";
+import { Developer } from "./developer.server";
 
 export interface CreateDeveloperPayload {
     full_name: string;
@@ -30,24 +17,6 @@ export interface UpdateDeveloperPayload {
     phone: string;
     biography: string;
     is_active: boolean;
-}
-
-export async function fetchDevelopers(): Promise<Developer[]> {
-    const response = await api.get<Developer[]>(
-        "/api/v1/agency-admin/developers"
-    );
-
-    return response.data;
-}
-
-export async function fetchDeveloperById(
-    id: number
-): Promise<Developer> {
-    const response = await api.get<Developer>(
-        `/api/v1/agency-admin/developers/${id}`
-    );
-
-    return response.data;
 }
 
 export async function createDeveloper(

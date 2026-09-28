@@ -1,3 +1,5 @@
+"use client"
+
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";

@@ -4,7 +4,7 @@ import { Button } from "@/_components/ui/button";
 import { TableBody, TableCell, TableRow } from "@/_components/ui/table";
 import { getInitials, getPhoneFormat } from "../logic/adminDeveloperHelpers";
 
-import type { Developer } from "@/_lib/services/admin-service/users/developer.service";
+import type { Developer } from "@/_lib/services/admin-service/users/developer.server";
 import { StatusBadge } from "./StatusBadge";
 import { formatDate } from "@/_lib/helpers/date-formatter";
 
@@ -12,7 +12,7 @@ interface DevelopersTableBodyProps {
     developers: Developer[];
     copiedField: string | null;
 
-    handleCopy: (value: string, field: string) => void;
+    // handleCopy: (value: string, field: string) => void;
 
     handleOpenDetail: (developer: Developer) => void;
     handleOpenEdit: (developer: Developer) => void;
@@ -22,7 +22,7 @@ interface DevelopersTableBodyProps {
 export function DevelopersTableBody({
     developers,
     copiedField,
-    handleCopy,
+    // handleCopy,
     handleOpenDetail,
     handleOpenEdit,
     handleOpenDelete,
@@ -80,7 +80,7 @@ export function DevelopersTableBody({
                                     {developer.Email}
                                 </span>
 
-                                <Button type="button" size="icon" variant="ghost"
+                                {/* <Button type="button" size="icon" variant="ghost"
                                     onClick={() => handleCopy(developer.Email, `email-${developer.ID}`)}
                                     className="h-5 w-5 shrink-0 opacity-0 transition group-hover:opacity-100 hover:bg-gray-100 hover:text-gray-700"
                                 >
@@ -88,7 +88,7 @@ export function DevelopersTableBody({
                                         ? (<Check className="h-3 w-3" />)
                                         : (<Copy className="h-3 w-3" />)
                                     }
-                                </Button>
+                                </Button> */}
                             </div>
 
                             {/* PHONE */}
@@ -99,7 +99,7 @@ export function DevelopersTableBody({
                                     {getPhoneFormat(developer.Phone)}
                                 </span>
 
-                                {developer.Phone && (
+                                {/* {developer.Phone && (
                                     <Button type="button" size="icon" variant="ghost"
                                         onClick={() => handleCopy(developer.Phone, `phone-${developer.ID}`)}
                                         className="h-5 w-5 shrink-0 opacity-0 transition group-hover:opacity-100 hover:bg-gray-100 hover:text-gray-700"
@@ -109,7 +109,7 @@ export function DevelopersTableBody({
                                             : (<Copy className="h-3 w-3" />)
                                         }
                                     </Button>
-                                )}
+                                )} */}
                             </div>
 
                         </div>

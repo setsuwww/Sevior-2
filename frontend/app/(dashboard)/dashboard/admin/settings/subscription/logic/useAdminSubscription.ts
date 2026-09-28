@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 
-import {
-    fetchSubscription,
+import type {
     SubscriptionResponse,
-} from "@/_lib/services/admin-service/settings/subscription.service";
+} from "@/_lib/services/admin-service/settings/subscription.server";
 
 export function formatCurrency(value: number) {
     return new Intl.NumberFormat("id-ID", {
@@ -46,69 +45,35 @@ export function getStatusClass(status: string) {
     }
 }
 
-export function useAdminSubscription() {
-    const [data, setData] = useState<SubscriptionResponse | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const loadSubscription = async () => {
-            try {
-                setIsLoading(true);
-                setError(null);
-
-                const result = await fetchSubscription();
-
-                setData(result);
-            } catch (err) {
-                console.error(
-                    "Failed to fetch subscription:",
-                    err,
-                );
-
-                setError(
-                    "Gagal mengambil data subscription. Silakan coba lagi.",
-                );
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        loadSubscription();
-    }, []);
-
-    const subscription = data?.subscription ?? null;
+export function useAdminSubscription(
+    data: SubscriptionResponse
+) {
+    const subscription = data.subscription;
 
     const isExpired =
-        subscription?.status.toLowerCase() === "expired" ||
-        (subscription?.days_remaining ?? 0) <= 0;
+        subscription.status.toLowerCase() === "expired" ||
+        subscription.days_remaining <= 0;
 
     const recentPayments = useMemo(() => {
-        if (!data?.payments) {
-            return [];
-        }
-
         return [...data.payments]
             .sort((a, b) => {
                 const dateA = new Date(
-                    a.payment_date ?? a.created_at,
+                    a.payment_date ?? a.created_at
                 ).getTime();
 
                 const dateB = new Date(
-                    b.payment_date ?? b.created_at,
+                    b.payment_date ?? b.created_at
                 ).getTime();
 
                 return dateB - dateA;
             })
             .slice(0, 5);
-    }, [data?.payments]);
+    }, [data.payments]);
 
     return {
         data,
         subscription,
         recentPayments,
         isExpired,
-        isLoading,
-        error,
     };
 }

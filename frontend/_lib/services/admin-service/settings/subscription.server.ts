@@ -1,4 +1,4 @@
-import { api } from "@/_lib/axiosInstance";
+import { serverFetch } from "@/_lib/serverFetch";
 import { SubscriptionPlan } from "@/app/(auth)/register/agency/types";
 
 export interface SubscriptionSummary {
@@ -31,10 +31,8 @@ export interface SubscriptionResponse {
     payments: PaymentSummary[];
 }
 
-export async function fetchSubscription(): Promise<SubscriptionResponse> {
-    const response = await api.get<SubscriptionResponse>(
+export async function getSubscription(): Promise<SubscriptionResponse> {
+    return serverFetch<SubscriptionResponse>(
         "/api/v1/agency-admin/subscription"
     );
-
-    return response.data;
 }

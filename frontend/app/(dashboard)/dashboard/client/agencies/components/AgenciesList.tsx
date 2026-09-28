@@ -68,11 +68,11 @@ export default function AgenciesList() {
                 ) : (
                     <>
                         <div className="mb-6 flex justify-between items-center">
-                                    <h3 className="flex items-center gap-2 text-sm text-gray-500">
-                                        <Building2 className="h-4 w-4" />
-                                        <span>:</span>
-                                        <span>{agencies.length} Agencies Found</span>
-                                    </h3>
+                            <h3 className="flex items-center gap-2 text-sm text-gray-500">
+                                <Building2 className="h-4 w-4" />
+                                <span>:</span>
+                                <span>{agencies.length} Agencies Found</span>
+                            </h3>
 
                             <select className="bg-transparent text-sm font-semibold text-gray-700 focus:outline-none cursor-pointer">
                                 <option>Sort by: Recommended</option>

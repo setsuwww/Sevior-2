@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 
-import type { Developer } from "@/_lib/services/admin-service/users/developer.service";
+import type { Developer } from "@/_lib/services/admin-service/users/developer.server";
 
 import { getInitials, getPhoneFormat } from "../../logic/adminDeveloperHelpers";
 import { DetailItem } from "../DetailItem";
@@ -10,7 +10,7 @@ import { formatDateLongTime } from "@/_lib/helpers/date-formatter";
 
 interface DeveloperDetailModalProps {
     developer: Developer | null;
-    loading: boolean;
+    loading?: boolean;
     onClose: () => void;
 }
 

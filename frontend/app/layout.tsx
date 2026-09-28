@@ -10,6 +10,7 @@ import { TooltipProvider } from "@/_components/ui/tooltip";
 import { AuthProvider } from "@/_providers/AuthProvider";
 import { Geist } from "next/font/google";
 import { cn } from "@/_lib/utils";
+import { Toaster } from "@/_components/ui/sonner";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -19,7 +20,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className="antialiased">
         <AuthProvider>
-          <TooltipProvider>{children}</TooltipProvider>
+          <TooltipProvider><Toaster/>{children}</TooltipProvider>
         </AuthProvider>
       </body>
     </html>

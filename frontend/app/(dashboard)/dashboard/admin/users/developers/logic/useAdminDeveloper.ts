@@ -1,22 +1,13 @@
 "use client";
 
-import {
-    useCallback,
-    useEffect,
-    useMemo,
-    useState,
-    type FormEvent,
-} from "react";
+import { useCallback, useMemo, useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
+import { createDeveloper, deleteDeveloper, updateDeveloper } from "@/_lib/services/admin-service/users/developer.client";
 
-import {
-    createDeveloper,
-    deleteDeveloper,
-    fetchDeveloperById,
-    fetchDevelopers,
-    updateDeveloper,
-    type Developer,
-} from "@/_lib/services/admin-service/users/developer.service";
 import { getErrorMessage } from "./adminDeveloperHelpers";
+import { Developer } from "@/_lib/services/admin-service/users/developer.server";
+
+import { customToast } from "@/_components/ui/sonner";
 
 export type DeveloperForm = {
     full_name: string;
@@ -36,89 +27,48 @@ const INITIAL_FORM: DeveloperForm = {
     is_active: true,
 };
 
-export function useAdminDeveloper() {
-    // ==========================================================
-    // STATE
-    // ==========================================================
-
-    const [developers, setDevelopers] = useState<Developer[]>([]);
-
-    const [loading, setLoading] = useState(true);
+export function useAdminDeveloper(initialDevelopers: Developer[]) {
     const [submitting, setSubmitting] = useState(false);
     const [deleting, setDeleting] = useState(false);
 
     const [search, setSearch] = useState("");
 
     const [showForm, setShowForm] = useState(false);
-    const [editingDeveloper, setEditingDeveloper] = useState<Developer | null>(null);
+    const [editTarget, setEditTarget] = useState<Developer | null>(null);
     const [selectedDeveloper, setSelectedDeveloper] = useState<Developer | null>(null);
-    const [detailLoading, setDetailLoading] = useState(false);
-
     const [deleteTarget, setDeleteTarget] = useState<Developer | null>(null);
     const [form, setForm] = useState<DeveloperForm>(INITIAL_FORM);
-
-    const [error, setError] = useState("");
     const [formError, setFormError] = useState("");
+    const [error, setError] = useState("");
 
     const [copiedField, setCopiedField] = useState<string | null>(null);
 
-    // ==========================================================
-    // LOAD DEVELOPERS
-    // ==========================================================
-
-    const loadDevelopers = useCallback(async () => {
-        try {
-            setLoading(true);
-            setError("");
-
-            const data = await fetchDevelopers();
-
-            setDevelopers(data);
-        }
-        catch (err) {
-            setError(getErrorMessage(err, "Failed to load developers."));
-        }
-        finally { setLoading(false) }
-    }, []);
-
-    useEffect(() => {
-        loadDevelopers();
-    }, [loadDevelopers]);
-
-    // ==========================================================
-    // SEARCH
-    // ==========================================================
+    const router = useRouter();
 
     const filteredDevelopers = useMemo(() => {
         const keyword = search.trim().toLowerCase();
 
         if (!keyword) {
-            return developers;
+            return initialDevelopers;
         }
 
-        return developers.filter((developer) =>
+        return initialDevelopers.filter((developer) =>
             developer.FullName.toLowerCase().includes(keyword)
         );
-    }, [developers, search]);
+    }, [initialDevelopers, search]);
 
-    // ==========================================================
-    // OPEN CREATE
-    // ==========================================================
 
     const handleOpenCreate = useCallback(() => {
-        setEditingDeveloper(null);
+        setEditTarget(null);
         setForm(INITIAL_FORM);
         setFormError("");
         setShowForm(true);
     }, []);
 
-    // ==========================================================
-    // OPEN EDIT
-    // ==========================================================
 
     const handleOpenEdit = useCallback(
         (developer: Developer) => {
-            setEditingDeveloper(developer);
+            setEditTarget(developer);
 
             setForm({
                 full_name: developer.FullName,
@@ -135,9 +85,6 @@ export function useAdminDeveloper() {
         []
     );
 
-    // ==========================================================
-    // CLOSE FORM
-    // ==========================================================
 
     const handleCloseForm = useCallback(() => {
         if (submitting) {
@@ -145,20 +92,14 @@ export function useAdminDeveloper() {
         }
 
         setShowForm(false);
-        setEditingDeveloper(null);
+        setEditTarget(null);
         setForm(INITIAL_FORM);
         setFormError("");
     }, [submitting]);
 
-    // ==========================================================
-    // FORM CHANGE
-    // ==========================================================
 
     const handleFormChange = useCallback(
-        (
-            field: keyof DeveloperForm,
-            value: string | boolean
-        ) => {
+        (field: keyof DeveloperForm, value: string | boolean) => {
             setForm((current) => ({
                 ...current,
                 [field]: value,
@@ -167,9 +108,6 @@ export function useAdminDeveloper() {
         []
     );
 
-    // ==========================================================
-    // CREATE / UPDATE
-    // ==========================================================
 
     const handleSubmit = useCallback(
         async (event: FormEvent<HTMLFormElement>) => {
@@ -184,192 +122,167 @@ export function useAdminDeveloper() {
 
             if (!fullName) {
                 setFormError("Full name is required.");
+
+                customToast.warning(
+                    "Incomplete form",
+                    "Please enter the developer's full name."
+                );
+
                 return;
             }
 
             if (!email) {
                 setFormError("Email is required.");
+
+                customToast.warning(
+                    "Incomplete form",
+                    "Please enter the developer's valid email."
+                );
+
                 return;
             }
 
             try {
                 setSubmitting(true);
 
-                // ==================================================
-                // UPDATE
-                // ==================================================
-
-                if (editingDeveloper) {
+                if (editTarget) {
                     await updateDeveloper(
-                        editingDeveloper.ID,
+                        editTarget.ID,
                         {
                             full_name: fullName,
-                            email: email,
-                            phone: phone,
-                            biography: biography,
+                            email,
+                            phone,
+                            biography,
                             is_active: form.is_active,
                         }
                     );
+                    customToast.success(
+                        "Developer updated",
+                        `${fullName}'s profile has been updated successfully.`
+                    );
                 }
-
-                // ==================================================
-                // CREATE
-                // ==================================================
-
                 else {
                     await createDeveloper({
-                        full_name: form.full_name.trim(),
-                        email: form.email.trim(),
-                        phone: form.phone.trim(),
+                        full_name: fullName,
+                        email,
+                        phone,
                         password: form.password,
-                        biography: form.biography.trim(),
+                        biography,
                     });
-
+                    customToast.success(
+                        "Developer created",
+                        `${fullName}'s profile has been created successfully.`
+                    );
                 }
 
-                await loadDevelopers();
-
                 setShowForm(false);
-                setEditingDeveloper(null);
+                setEditTarget(null);
                 setForm(INITIAL_FORM);
                 setFormError("");
-            } catch (err) {
-                console.error(err);
 
-                setFormError(
-                    getErrorMessage(
-                        err,
-                        editingDeveloper
-                            ? "Failed to update developer."
-                            : "Failed to create developer."
-                    )
+                router.push("/dashboard/admin/users/developers");
+            }
+            catch (err) {
+                const message = getErrorMessage(
+                    err, editTarget ? "Failed to update developer." : "Failed to create developer."
+                );
+
+                setFormError(message);
+
+                customToast.error(
+                    "Failed to update developer",
+                    message
                 );
             } finally {
                 setSubmitting(false);
             }
         },
-        [
-            editingDeveloper,
-            form,
-            loadDevelopers,
-        ]
+        [editTarget, form, router]
     );
 
-    // ==========================================================
-    // OPEN DETAIL
-    // ==========================================================
 
     const handleOpenDetail = useCallback(
-        async (developer: Developer) => {
-            try {
-                setDetailLoading(true);
-                setSelectedDeveloper(null);
-                setError("");
-
-                const detail = await fetchDeveloperById(
-                    developer.ID
-                );
-
-                setSelectedDeveloper(detail);
-            } catch (err) {
-                console.error(err);
-
-                setError(
-                    getErrorMessage(
-                        err,
-                        "Failed to load developer detail."
-                    )
-                );
-            } finally {
-                setDetailLoading(false);
-            }
+        (developer: Developer) => {
+            setSelectedDeveloper(developer);
         },
         []
     );
-
-    // ==========================================================
-    // CLOSE DETAIL
-    // ==========================================================
 
     const handleCloseDetail = useCallback(() => {
-        if (detailLoading) {
-            return;
-        }
-
         setSelectedDeveloper(null);
-    }, [detailLoading]);
+    }, []);
 
-    // ==========================================================
-    // OPEN DELETE
-    // ==========================================================
 
     const handleOpenDelete = useCallback(
-        (developer: Developer) => {
-            setDeleteTarget(developer);
-        },
-        []
+        (developer: Developer) => {setDeleteTarget(developer)}, []
     );
 
-    // ==========================================================
-    // CLOSE DELETE
-    // ==========================================================
 
     const handleCloseDelete = useCallback(() => {
-        if (deleting) {
-            return;
-        }
-
+        if (deleting) {return}
         setDeleteTarget(null);
     }, [deleting]);
 
-    // ==========================================================
-    // DELETE
-    // ==========================================================
 
-    const handleDelete = useCallback(async () => {
-        if (!deleteTarget) {
-            return;
-        }
+    const handleDelete = useCallback(
+        async () => {
+            if (!deleteTarget) {
+                return;
+            }
 
-        try {
-            setDeleting(true);
-            setError("");
+            const developerName = deleteTarget.FullName;
 
-            await deleteDeveloper(deleteTarget.ID);
+            try {
+                setDeleting(true);
+                setError("");
 
-            setDeleteTarget(null);
+                await deleteDeveloper(deleteTarget.ID);
 
-            await loadDevelopers();
-        } catch (err) {
-            console.error(err);
+                setDeleteTarget(null);
 
-            setError(
-                getErrorMessage(
-                    err,
-                    "Failed to delete developer."
-                )
-            );
-        } finally {
-            setDeleting(false);
-        }
-    }, [deleteTarget, loadDevelopers]);
+                customToast.success(
+                    "Developer deleted",
+                    `${developerName}'s profile has been deleted.`
+                );
 
-    // ==========================================================
-    // CLEAR ERROR
-    // ==========================================================
+                router.push("/dashboard/admin/users/developers");
+            }
+            catch (err) {
+                const message = getErrorMessage(
+                    err, "Failed to delete developer."
+                );
+
+                setError(message);
+
+                customToast.error(
+                    "Failed",
+                    message
+                );
+            }
+            finally {setDeleting(false)}
+        },
+        [deleteTarget,router]
+    );
+
 
     const handleClearError = useCallback(() => {
         setError("");
     }, []);
 
+
     const handleCopy = useCallback(
-        async (value: string, field: string) => {
+        async (
+            value: string,
+            field: string
+        ) => {
             if (!value) {
                 return;
             }
 
             try {
-                await navigator.clipboard.writeText(value);
+                await navigator.clipboard.writeText(
+                    value
+                );
 
                 setCopiedField(field);
 
@@ -377,52 +290,40 @@ export function useAdminDeveloper() {
                     setCopiedField(null);
                 }, 1500);
             } catch (err) {
-                console.error("Failed to copy:", err);
+                console.error(
+                    "Failed to copy:",
+                    err
+                );
             }
         },
         []
     );
 
-    // ==========================================================
-    // RETURN
-    // ==========================================================
 
     return {
-        // Data
-        developers,
+        initialDevelopers,
         filteredDevelopers,
 
-        // Loading
-        loading,
+        form,
+        formError,
+        editTarget,
+        showForm,
+
+        selectedDeveloper,
+
+        deleteTarget,
+
         submitting,
         deleting,
-        detailLoading,
 
-        // Search
         search,
         setSearch,
 
-        // Form
-        form,
-        formError,
-        editingDeveloper,
-        showForm,
-
-        // Detail
-        selectedDeveloper,
-
-        // Delete
-        deleteTarget,
-
-        // General error
         error,
 
-        // Copy
         copiedField,
         handleCopy,
 
-        // Actions
-        loadDevelopers,
         handleOpenCreate,
         handleOpenEdit,
         handleCloseForm,
