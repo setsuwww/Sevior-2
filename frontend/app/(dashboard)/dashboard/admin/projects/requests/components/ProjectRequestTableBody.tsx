@@ -3,13 +3,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/_components/ui/avatar";
 import { Button } from "@/_components/ui/button";
 import { ButtonGroup } from "@/_components/ui/button-group";
 
-import { Check, ChevronDown, Eye, X } from "lucide-react";
+import { CircleCheck, CircleX, Eye, ChevronDown } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/_components/ui/dropdown-menu";
 import { TableBody, TableCell, TableRow } from "@/_components/ui/table";
 
 import { formatDate } from "@/_lib/helpers/date-formatter";
 
 import { ProjectRequest } from "@/types/project";
+import { PROJECT_STATUS_COLORS } from "@/_constants/theme/project";
 
 interface ProjectRequestsTableBodyProps {
     requests: ProjectRequest[];
@@ -29,6 +30,7 @@ export function ProjectRequestTableBody({
     handleOpenDetail,
     handleStatusChange,
 }: ProjectRequestsTableBodyProps) {
+
     if (requests.length === 0) {
         return (
             <TableBody>
@@ -133,14 +135,7 @@ export function ProjectRequestTableBody({
                         {/* STATUS */}
                         <TableCell className="px-4 py-4">
                             <span
-                                className={`inline-flex items-center rounded-md px-2.5 py-1 text-xs font-medium ${request.status === "PENDING"
-                                        ? "bg-amber-100 text-amber-700"
-                                        : request.status === "APPROVED"
-                                            ? "bg-emerald-100 text-emerald-700"
-                                            : request.status === "REJECTED"
-                                                ? "bg-red-100 text-red-700"
-                                                : "bg-muted text-muted-foreground"
-                                    }`}
+                                className={`inline-flex items-center rounded-sm px-2.5 py-1 text-xs font-medium ${PROJECT_STATUS_COLORS[request.status]}`}
                             >
                                 {request.status}
                             </span>
@@ -181,20 +176,12 @@ export function ProjectRequestTableBody({
 
                                             <DropdownMenuContent align="start" className="w-40">
                                                 <DropdownMenuItem onClick={() => handleStatusChange(request, "APPROVED")}>
-                                                    <Check className="h-4 w-4 text-emerald-600" />
+                                                    <CircleCheck className="h-4 w-4 text-emerald-600" />
                                                     Approved
                                                 </DropdownMenuItem>
 
-                                                <DropdownMenuItem
-                                                    variant="destructive"
-                                                    onClick={() =>
-                                                        handleStatusChange(
-                                                            request,
-                                                            "REJECTED"
-                                                        )
-                                                    }
-                                                >
-                                                    <X className="h-4 w-4" />
+                                                <DropdownMenuItem onClick={() => handleStatusChange(request, "REJECTED")}>
+                                                    <CircleX className="h-4 w-4 text-red-600" />
                                                     Rejected
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>

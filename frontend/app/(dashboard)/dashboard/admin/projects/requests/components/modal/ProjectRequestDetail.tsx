@@ -5,6 +5,7 @@ import { Badge } from "@/_components/ui/badge";
 
 import { ProjectRequest } from "@/types/project";
 import { Calendar, DollarSign, FolderArchive, Paperclip, TagIcon } from "lucide-react";
+import { PROJECT_STATUS_COLORS } from "@/_constants/theme/project";
 
 interface ProjectRequestDetailProps {
     request: ProjectRequest | null;
@@ -134,7 +135,7 @@ export function ProjectRequestDetail({
                             <Badge variant={request.status === "APPROVED"
                                 ? "default" : request.status === "REJECTED" ? "destructive"
                                     : "secondary"
-                            } className="mt-3 text-xs rounded-xs"
+                            } className={`rounded-sm mt-3 ${PROJECT_STATUS_COLORS[request.status]}`}
                             >
                                 {request.status}
                             </Badge>
@@ -152,7 +153,7 @@ export function ProjectRequestDetail({
                             </div>
 
                             <div>
-                                <p className="text-xs font-medium uppercase tracking-wide text-foreground">
+                                <p className="text-[10px] font-medium uppercase tracking-wide text-foreground">
                                     Description
                                 </p>
 
@@ -163,11 +164,11 @@ export function ProjectRequestDetail({
 
                             <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
                                 <div className="flex items-center space-x-2">
-                                    <div className="flex items-center justify-center w-8 h-8 rounded-full text-sky-600 bg-sky-100">
+                                    <div className="flex items-center justify-center w-8 h-8 rounded-full text-sky-600 bg-sky-50">
                                         <TagIcon className="w-4 h-4" />
                                     </div>
                                     <div>
-                                        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                        <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
                                             Category
                                         </p>
 
@@ -178,11 +179,11 @@ export function ProjectRequestDetail({
                                 </div>
 
                                 <div className="flex items-center space-x-2">
-                                    <div className="flex items-center justify-center w-8 h-8 rounded-full text-lime-600 bg-lime-100">
+                                    <div className="flex items-center justify-center w-8 h-8 rounded-full text-lime-600 bg-lime-50">
                                         <DollarSign className="w-4 h-4" />
                                     </div>
                                     <div>
-                                        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                        <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
                                             Budget Minimum
                                         </p>
 
@@ -195,11 +196,11 @@ export function ProjectRequestDetail({
                                 </div>
 
                                 <div className="flex items-center space-x-2">
-                                    <div className="flex items-center justify-center w-8 h-8 rounded-full text-lime-600 bg-lime-100">
+                                    <div className="flex items-center justify-center w-8 h-8 rounded-full text-lime-600 bg-lime-50">
                                         <DollarSign className="w-4 h-4" />
                                     </div>
                                     <div>
-                                        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                        <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
                                             Budget Maximal
                                         </p>
 
@@ -214,11 +215,11 @@ export function ProjectRequestDetail({
 
                             <div className="grid grid-cols-1 gap-5 border-t pt-5 sm:grid-cols-3">
                                 <div className="flex items-center space-x-2">
-                                    <div className="flex items-center justify-center w-8 h-8 rounded-full text-red-600 bg-red-100">
+                                    <div className="flex items-center justify-center w-8 h-8 rounded-full text-red-600 bg-red-50">
                                         <Calendar className="w-4 h-4" />
                                     </div>
                                     <div>
-                                        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                        <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
                                             Deadline
                                         </p>
 
@@ -231,11 +232,11 @@ export function ProjectRequestDetail({
                                 </div>
 
                                 <div className="flex items-center space-x-2">
-                                    <div className="flex items-center justify-center w-8 h-8 rounded-full text-olive-600 bg-olive-100">
+                                    <div className="flex items-center justify-center w-8 h-8 rounded-full text-olive-600 bg-olive-50">
                                         <Paperclip className="w-4 h-4" />
                                     </div>
                                     <div>
-                                        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                                        <p className="text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
                                             Attachment
                                         </p>
 
@@ -252,9 +253,9 @@ export function ProjectRequestDetail({
                                                     View Attachment
                                                 </a>
                                             ) : (
-                                                <p className="mt-1 text-sm text-muted-foreground">
+                                                <span className="mt-1 text-sm text-muted-foreground">
                                                     No attachment
-                                                </p>
+                                                </span>
                                             )}
                                         </p>
                                     </div>
